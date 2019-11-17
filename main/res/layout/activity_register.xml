@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.register">
+
+    <ImageButton
+            android:id="@+id/backbutton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:background="@drawable/ic_arrow_back_black"
+            android:layout_width="45dp"
+            android:layout_height="45dp"/>
+
+    <TextView
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="회원가입"
+            app:layout_constraintBottom_toBottomOf="@+id/view"/>
+    <View
+            android:background="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/backbutton"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp" android:id="@+id/view"/>
+
+    <TextView
+            android:id="@+id/Email"
+            android:textSize="18dp"
+            android:text="이메일(아이디)"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            app:layout_constraintTop_toBottomOf="@+id/view"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    <EditText
+            android:id="@+id/Emailinput"
+            android:hint="이메일 주소"
+            android:textSize="16dp"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            app:layout_constraintTop_toBottomOf="@+id/Email"
+            app:layout_constraintStart_toStartOf="@id/Email"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"/>
+
+    <Button
+            android:background="@drawable/button1"
+            android:text="중복확인"
+            android:textColor="@color/button1color"
+            app:layout_constraintTop_toTopOf="@+id/Emailinput"
+            app:layout_constraintStart_toEndOf="@id/Emailinput"
+            android:layout_width="wrap_content" android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/Emailinput" android:id="@+id/Emailoverlap"/>
+
+    <TextView
+            android:id="@+id/password"
+            android:textSize="18dp"
+            android:text="비밀번호"
+            android:layout_marginTop="15dp"
+            app:layout_constraintTop_toBottomOf="@+id/Emailinput"
+            app:layout_constraintStart_toStartOf="@+id/Emailinput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    <EditText
+            android:id="@+id/passwordinput"
+            android:hint="비밀번호"
+            android:textSize="16dp"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:inputType="textPassword"
+            app:layout_constraintTop_toBottomOf="@+id/password"
+            app:layout_constraintStart_toStartOf="@id/password"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" app:layout_constraintEnd_toEndOf="@+id/Emailoverlap"/>
+
+    <TextView
+            android:id="@+id/passwordok"
+            android:textSize="18dp"
+            android:text="비밀번호 확인"
+            android:layout_marginTop="15dp"
+            app:layout_constraintTop_toBottomOf="@+id/passwordinput"
+            app:layout_constraintStart_toStartOf="@+id/passwordinput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    <EditText
+            android:id="@+id/passwordokinput"
+            android:hint="비밀번호 확인"
+            android:textSize="16dp"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:inputType="textPassword"
+            app:layout_constraintTop_toBottomOf="@+id/passwordok"
+            app:layout_constraintStart_toStartOf="@id/passwordok"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" app:layout_constraintEnd_toEndOf="@+id/passwordinput"/>
+
+    <TextView
+            android:id="@+id/nickname"
+            android:textSize="18dp"
+            android:text="닉네임"
+            android:layout_marginTop="15dp"
+            app:layout_constraintTop_toBottomOf="@+id/passwordokinput"
+            app:layout_constraintStart_toStartOf="@+id/passwordokinput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    <EditText
+            android:id="@+id/nicknameinput"
+            android:hint="닉네임을 입력하세요"
+            android:textSize="16dp"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            app:layout_constraintTop_toBottomOf="@+id/nickname"
+            app:layout_constraintStart_toStartOf="@id/nickname"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" app:layout_constraintEnd_toEndOf="@+id/Emailinput"/>
+
+    <Button
+            android:background="@drawable/button1"
+            android:text="중복확인"
+            android:textColor="@color/button1color"
+            app:layout_constraintTop_toTopOf="@+id/nicknameinput"
+            app:layout_constraintStart_toEndOf="@id/nicknameinput"
+            android:layout_width="wrap_content" android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/nicknameinput" android:id="@+id/nicknameoverlap"/>
+
+
+    <TextView
+            android:id="@+id/phone"
+            android:textSize="18dp"
+            android:text="휴대폰 번호"
+            android:layout_marginTop="15dp"
+            app:layout_constraintTop_toBottomOf="@+id/nicknameinput"
+            app:layout_constraintStart_toStartOf="@+id/nicknameinput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    <EditText
+            android:id="@+id/phoneinput"
+            android:hint="'-' 구분없이 입력"
+            android:textSize="16dp"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            app:layout_constraintTop_toBottomOf="@+id/phone"
+            app:layout_constraintStart_toStartOf="@id/phone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" app:layout_constraintEnd_toEndOf="@+id/Emailinput"/>
+
+    <Button
+            android:background="@drawable/button1"
+            android:text="인증번호 전송"
+            android:textColor="@color/button1color"
+            app:layout_constraintTop_toTopOf="@+id/phoneinput"
+            app:layout_constraintStart_toEndOf="@id/phoneinput"
+            android:layout_width="wrap_content" android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/phoneinput" android:id="@+id/phonecheck"/>
+
+    <TextView
+            android:id="@+id/phoneok"
+            android:textSize="18dp"
+            android:text="인증번호"
+            android:layout_marginTop="15dp"
+            app:layout_constraintTop_toBottomOf="@+id/phoneinput"
+            app:layout_constraintStart_toStartOf="@+id/phoneinput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    <EditText
+            android:id="@+id/phoneokinput"
+            android:hint="인증번호 입력"
+            android:textSize="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/phoneok"
+            app:layout_constraintStart_toStartOf="@id/phoneok"
+            android:layout_width="0dp"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:layout_height="wrap_content" app:layout_constraintEnd_toEndOf="@+id/Emailinput"/>
+
+    <Button
+            android:background="@drawable/button1"
+            android:text="인증번호 확인"
+            android:textColor="@color/button1color"
+            app:layout_constraintTop_toTopOf="@+id/phoneokinput"
+            app:layout_constraintStart_toEndOf="@id/phoneinput"
+            android:layout_width="wrap_content" android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/phoneokinput" android:id="@+id/phoneokcheck"/>
+
+    <Button
+            android:textColor="@color/button2color"
+            android:background="@drawable/button2"
+            android:text="가입 완료"
+            android:textSize="30dp"
+            android:layout_width="250dp" android:layout_height="wrap_content"
+            android:id="@+id/registerOK"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@+id/phoneokinput"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+    <ProgressBar
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/registerprogressBar"/>
+
+</android.support.constraint.ConstraintLayout>
