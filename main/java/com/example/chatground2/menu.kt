@@ -34,7 +34,7 @@ class menu : AppCompatActivity() {
     private lateinit var CurrentStatepref: SharedPreferences
     private lateinit var CurrentStateeditor: SharedPreferences.Editor
 
-    private lateinit var mSocket: Socket
+    private var mSocket: Socket = socket.mSocket
     private val opts:IO.Options = socket.opts
 
     var forumsFragment = forums()
@@ -49,6 +49,10 @@ class menu : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+
+        mSocket.off(Socket.EVENT_CONNECT, onConnect)
+        mSocket.off("verifyResponse", ontokenReceived)
+        mSocket.off("makeroom", makeroom)
 
         CurrentStateeditor.clear()
         CurrentStateeditor.commit()
@@ -86,10 +90,9 @@ class menu : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
 
-        mSocket = socket.mSocket
         System.out.println("메뉴 크리에이트")
         try {
-                mSocket.once(Socket.EVENT_CONNECT, onConnect)
+                mSocket.on(Socket.EVENT_CONNECT, onConnect)
                 mSocket.on("verifyResponse", ontokenReceived)
                 mSocket.on("makeroom", makeroom)
                 if(!mSocket.connected())

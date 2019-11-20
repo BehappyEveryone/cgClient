@@ -35,6 +35,12 @@ class gameready : Fragment() {
     private lateinit var CurrentStatepref: SharedPreferences
     private lateinit var CurrentStateeditor: SharedPreferences.Editor
 
+    override fun onDestroy() {
+        super.onDestroy()
+
+        mSocket.off("makeroom", makeroom)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mSocket= socket.mSocket
 

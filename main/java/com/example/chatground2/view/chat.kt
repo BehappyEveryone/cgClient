@@ -39,7 +39,7 @@ import java.util.*
 
 
 class chat : AppCompatActivity() {
-    private lateinit var mSocket: Socket
+    private var mSocket: Socket = socket.mSocket
     private lateinit var pref: SharedPreferences
     private lateinit var authUserEmail: String
     private lateinit var authUserNickname: String
@@ -48,6 +48,8 @@ class chat : AppCompatActivity() {
     private lateinit var r: Runnable
     private val OPEN_GALLERY = 1
     private val OPEN_VIDEOGALLERY = 2
+
+    private lateinit var offersubjectthread:Job
 
     private lateinit var editor: SharedPreferences.Editor
 
@@ -69,6 +71,15 @@ class chat : AppCompatActivity() {
         val intent:Intent = Intent()
         setResult(Activity.RESULT_OK,intent)
         System.out.println("chat Destroy")
+
+        mSocket.off("OfferSubject",OfferSubject)
+        mSocket.off("VoteComplete", VoteComplete)
+        mSocket.off("OpinionAgreeResult", OpinionAgreeResult)
+        mSocket.off("talk",talk)
+        mSocket.off("silent",silent)
+        mSocket.off("verifyResponse", ontokenReceived)
+        mSocket.off("ServerMessage", ServerMessage)
+        mSocket.off("ServerVideoMessage", ServerVideoMessage)
     }
 
     override fun onResume() {
@@ -79,7 +90,6 @@ class chat : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
 
-        mSocket = socket.mSocket
         System.out.println("chat Create 채팅방 만듬")
 
         pref = this.getSharedPreferences("chatgroundlogin", Context.MODE_PRIVATE)
@@ -96,14 +106,14 @@ class chat : AppCompatActivity() {
 
         try {
             mSocket.on("OfferSubject",OfferSubject)
+            mSocket.on("VoteComplete", VoteComplete)
+            mSocket.on("OpinionAgreeResult", OpinionAgreeResult)
             mSocket.on("talk",talk)
             mSocket.on("silent",silent)
             mSocket.on("verifyResponse", ontokenReceived)
             mSocket.on("ServerMessage", ServerMessage)
             mSocket.on("ServerVideoMessage", ServerVideoMessage)
-            GlobalScope.launch(Dispatchers.IO) {
-                mSocket.emit("joinroomsucces")
-            }
+            mSocket.emit("joinroomsucces")
         } catch (e: URISyntaxException) {
             e.printStackTrace()
         }
@@ -203,6 +213,57 @@ class chat : AppCompatActivity() {
         }
     }
 
+    private val OpinionAgreeResult:Emitter.Listener = Emitter.Listener { args ->
+        lateinit var time:String
+        lateinit var opinionobject:JSONObject
+
+        val getData:Job = CoroutineScope(Dispatchers.IO).launch {
+            val receivedData = args[0] as JSONObject
+
+            time = receivedData.get("time").toString()
+            opinionobject = receivedData.getJSONObject("result")
+        }
+
+        CoroutineScope(Dispatchers.Main).launch {
+            getData.join()
+
+            if(opinionobject.get(pref.getString("UserEmail", "Logout")) == "agree")
+            {
+                chatinputMessage.isEnabled = true
+                chatsendMessage.isEnabled = true
+                chatplus.isEnabled = true
+            }
+
+            for(i:Int in time.toInt()/1000 downTo 0)
+            {
+                var sec:Int = (time.toInt()/1000)%60
+                var min:Int = (time.toInt()/1000)/60
+                when {
+                    min == 0 -> when {
+                        sec == 0//0분 0초
+                        -> {
+                            chatinputMessage.isEnabled = false
+                            chatsendMessage.isEnabled = false
+                            chatplus.isEnabled = false
+                            mSocket.emit("AgreeOpinionComplete")
+                        }
+                        sec < 10 -> chatTime?.text = "00:0$sec"
+                        else -> chatTime?.text = "00:$sec"
+                    }
+                    min < 10 -> when {
+                        sec < 10 -> chatTime?.text = "0$min:0$sec"
+                        else -> chatTime?.text = "0$min:$sec"
+                    }
+                    else -> when {
+                        sec < 10 -> chatTime?.text = "$min:0$sec"
+                        else -> chatTime?.text = "$min:$sec"
+                    }
+                }
+                delay(1000)
+            }
+        }
+    }
+
     private val talk:Emitter.Listener = Emitter.Listener { args ->
         chatinputMessage.isEnabled = true
         chatsendMessage.isEnabled = true
@@ -215,12 +276,22 @@ class chat : AppCompatActivity() {
         chatplus.isEnabled = false
     }
 
+    private val VoteComplete:Emitter.Listener = Emitter.Listener { args ->
+        if(offersubjectthread.isActive)
+        {
+            offersubjectthread.cancel()
+            CoroutineScope(Dispatchers.Main).launch {
+                chatTime?.text = "00:00"
+                chatinputMessage.isEnabled = true
+                chatsendMessage.isEnabled = true
+                chatplus.isEnabled = true
+            }
+        }
+    }
+
     private val OfferSubject = Emitter.Listener { args ->
         // 전달받은 데이터는 아래와 같이 추출할 수 있습니다.
         // your code...
-
-        System.out.println("오퍼섭젴")
-
         lateinit var subject:String
         lateinit var time:String
 
@@ -231,7 +302,7 @@ class chat : AppCompatActivity() {
             time = receivedData.get("time").toString()
         }
 
-        CoroutineScope(Dispatchers.Main).launch {
+        offersubjectthread = CoroutineScope(Dispatchers.Main).launch {
             getData.join()
 
             chatinputMessage.isEnabled = false
@@ -266,10 +337,6 @@ class chat : AppCompatActivity() {
                 }
                 delay(1000)
             }
-
-            chatinputMessage.isEnabled = true
-            chatsendMessage.isEnabled = true
-            chatplus.isEnabled = true
         }
     }
 

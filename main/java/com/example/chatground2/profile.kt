@@ -75,6 +75,12 @@ class profile : Fragment(),CoroutineScope {
         retainInstance = true
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+
+        mSocket.off("returnUser", returnUser)
+        mSocket.off("SaveProfile", SaveProfile)
+    }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         var view: View = inflater.inflate(R.layout.fragment_profile, container, false)
