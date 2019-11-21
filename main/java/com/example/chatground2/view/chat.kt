@@ -50,6 +50,7 @@ class chat : AppCompatActivity() {
     private val OPEN_VIDEOGALLERY = 2
 
     private lateinit var offersubjectthread:Job
+    private lateinit var presentationthread:Job
 
     private lateinit var editor: SharedPreferences.Editor
 
@@ -74,12 +75,23 @@ class chat : AppCompatActivity() {
 
         mSocket.off("OfferSubject",OfferSubject)
         mSocket.off("VoteComplete", VoteComplete)
-        mSocket.off("OpinionAgreeResult", OpinionAgreeResult)
+        mSocket.off("PresentationOrder", PresentationOrder)
+        mSocket.off("StrategicTime", StrategicTime)
         mSocket.off("talk",talk)
         mSocket.off("silent",silent)
         mSocket.off("verifyResponse", ontokenReceived)
         mSocket.off("ServerMessage", ServerMessage)
         mSocket.off("ServerVideoMessage", ServerVideoMessage)
+
+        if(offersubjectthread.isActive)
+        {
+            offersubjectthread.cancel()
+        }
+
+        if(presentationthread.isActive)
+        {
+            presentationthread.cancel()
+        }
     }
 
     override fun onResume() {
@@ -97,7 +109,10 @@ class chat : AppCompatActivity() {
 
         val mAdapter = chatAdapter(this, items, pref)
 
-        r = Runnable { mAdapter.notifyDataSetChanged() }
+        r = Runnable {
+            mAdapter.notifyDataSetChanged()
+            chatRecycle.scrollToPosition(items.size - 1);
+        }
 
         val lm = LinearLayoutManager(this)
         chatRecycle.adapter = mAdapter
@@ -107,7 +122,8 @@ class chat : AppCompatActivity() {
         try {
             mSocket.on("OfferSubject",OfferSubject)
             mSocket.on("VoteComplete", VoteComplete)
-            mSocket.on("OpinionAgreeResult", OpinionAgreeResult)
+            mSocket.on("PresentationOrder", PresentationOrder)
+            mSocket.on("StrategicTime", StrategicTime)
             mSocket.on("talk",talk)
             mSocket.on("silent",silent)
             mSocket.on("verifyResponse", ontokenReceived)
@@ -119,10 +135,28 @@ class chat : AppCompatActivity() {
         }
 
         chatsendMessage.setOnClickListener {
+            System.out.println("chatsendmessage")
             if (chatinputMessage.text.toString().replace(" ", "") != "") {
                 var content = chatinputMessage.text.toString()
 
                 var data: JSONObject = JSONObject().put("type", "Client").put("data", "text").put("content", content)
+                    .put("email", pref.getString("UserEmail", "Logout"))
+                    .put("nickname", pref.getString("UserNickname", "Logout"))
+                mSocket.emit("ClientMessage", data)
+
+                chatinputMessage.setText("")
+            } else {
+                Toast.makeText(this@chat, "내용을 입력해주세요!", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        chatsendMessage_Strategic.setOnClickListener {
+            System.out.println("chatsendmessage_Strategic")
+
+            if (chatinputMessage.text.toString().replace(" ", "") != "") {
+                var content = chatinputMessage.text.toString()
+
+                var data: JSONObject = JSONObject().put("type", "Client").put("data", "Strategictext").put("content", content)
                     .put("email", pref.getString("UserEmail", "Logout"))
                     .put("nickname", pref.getString("UserNickname", "Logout"))
                 mSocket.emit("ClientMessage", data)
@@ -213,40 +247,74 @@ class chat : AppCompatActivity() {
         }
     }
 
-    private val OpinionAgreeResult:Emitter.Listener = Emitter.Listener { args ->
+    private val StrategicTime:Emitter.Listener = Emitter.Listener { args ->
+        CoroutineScope(Dispatchers.Main).launch {
+            chatsendMessage.visibility = View.INVISIBLE
+            chatsendMessage_Strategic.visibility = View.VISIBLE
+        }
+    }
+
+    private val PresentationOrder:Emitter.Listener = Emitter.Listener { args ->
         lateinit var time:String
         lateinit var opinionobject:JSONObject
+        lateinit var order:String
+        lateinit var speaking:String
 
         val getData:Job = CoroutineScope(Dispatchers.IO).launch {
             val receivedData = args[0] as JSONObject
 
             time = receivedData.get("time").toString()
             opinionobject = receivedData.getJSONObject("result")
+            order = receivedData.get("order").toString()
+            speaking = receivedData.get("speaking").toString()
         }
 
-        CoroutineScope(Dispatchers.Main).launch {
+        presentationthread = CoroutineScope(Dispatchers.Main).launch {
             getData.join()
 
-            if(opinionobject.get(pref.getString("UserEmail", "Logout")) == "agree")
-            {
-                chatinputMessage.isEnabled = true
-                chatsendMessage.isEnabled = true
-                chatplus.isEnabled = true
+            when (speaking) {
+                "all" -> {
+                    chatinputMessage.isEnabled = true
+                    chatsendMessage.isEnabled = true
+                    chatplus.isEnabled = true
+                }
+                opinionobject.getJSONObject(pref.getString("UserEmail", "Logout")).get("Opinion") -> {
+                    chatinputMessage.isEnabled = true
+                    chatsendMessage.isEnabled = true
+                    chatplus.isEnabled = true
+                }
+                else -> {
+                    chatinputMessage.isEnabled = false
+                    chatsendMessage.isEnabled = false
+                    chatplus.isEnabled = false
+                }
             }
 
             for(i:Int in time.toInt()/1000 downTo 0)
             {
-                var sec:Int = (time.toInt()/1000)%60
-                var min:Int = (time.toInt()/1000)/60
+                var sec:Int = i%60
+                var min:Int = i/60
                 when {
-                    min == 0 -> when {
-                        sec == 0//0분 0초
-                        -> {
-                            chatinputMessage.isEnabled = false
-                            chatsendMessage.isEnabled = false
-                            chatplus.isEnabled = false
-                            mSocket.emit("AgreeOpinionComplete")
+                    min == 0 && sec == 0 -> {
+                        chatinputMessage.isEnabled = false
+                        chatsendMessage.isEnabled = false
+                        chatplus.isEnabled = false
+                        chatTime?.text = "00:00"
+
+                        when (order) {
+                            "AgreeOpinionComplete"//찬성 측 주장
+                            -> mSocket.emit("AgreeOpinionComplete")
+                            "OpposeOpinionComplete"//반대 측 주장
+                            -> mSocket.emit("OpposeOpinionComplete")
+                            "OpposeCounterComplete"//반대 측 반론
+                            -> mSocket.emit("OpposeCounterComplete")
+                            "AgreeCounterComplete"//찬성 측 반론
+                            -> mSocket.emit("AgreeCounterComplete")
+                            "StrategicTimeComplete"//작전타임
+                            -> mSocket.emit("StrategicTimeComplete")
                         }
+                    }
+                    min == 0 -> when {
                         sec < 10 -> chatTime?.text = "00:0$sec"
                         else -> chatTime?.text = "00:$sec"
                     }
@@ -259,7 +327,7 @@ class chat : AppCompatActivity() {
                         else -> chatTime?.text = "$min:$sec"
                     }
                 }
-                delay(1000)
+                delay(50)
             }
         }
     }
@@ -282,9 +350,6 @@ class chat : AppCompatActivity() {
             offersubjectthread.cancel()
             CoroutineScope(Dispatchers.Main).launch {
                 chatTime?.text = "00:00"
-                chatinputMessage.isEnabled = true
-                chatsendMessage.isEnabled = true
-                chatplus.isEnabled = true
             }
         }
     }
@@ -335,7 +400,7 @@ class chat : AppCompatActivity() {
                 {
                     chatTime?.text = "00:$i"
                 }
-                delay(1000)
+                delay(1000)//1000
             }
         }
     }

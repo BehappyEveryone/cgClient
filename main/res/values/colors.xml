@@ -11,4 +11,7 @@
     <color name="backgroundwhite">#fff3f3f3</color>
     <color name="sky">#E6FFFF</color>
     <color name="violet">#8B00FF</color>
+    <color name="Blue">#1E90FF</color>
+    <color name="Red">#FF0000</color>
+    <color name="giveupcolor">#808080</color>
 </resources>

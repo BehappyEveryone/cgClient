@@ -156,5 +156,15 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
+    <ImageButton
+            android:visibility="gone"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/sendicon"
+            android:id="@+id/chatsendMessage_Strategic"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
 
 </android.support.constraint.ConstraintLayout>

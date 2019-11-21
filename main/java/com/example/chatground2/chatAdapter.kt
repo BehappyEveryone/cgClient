@@ -25,6 +25,7 @@ import android.media.MediaPlayer
 import android.support.v4.content.ContextCompat.startActivity
 import android.content.Intent
 import android.net.Uri
+import android.support.v4.content.ContextCompat
 import android.support.v4.content.ContextCompat.startActivity
 import android.support.v4.content.FileProvider
 import java.io.File
@@ -41,6 +42,9 @@ class chatAdapter(val context: Context,List: ArrayList<chatitemdata>,sharedPrefe
             items[position].data == "text" -> 0
             items[position].data == "image" -> 1
             items[position].data == "video" -> 2
+            items[position].data == "Strategictext_a" -> 3
+            items[position].data == "Strategictext_o" -> 4
+            items[position].data == "Strategictext_g" -> 5
             else -> 100
         }
     }
@@ -59,6 +63,18 @@ class chatAdapter(val context: Context,List: ArrayList<chatitemdata>,sharedPrefe
             2 -> {
                 view = LayoutInflater.from(parent.context).inflate(R.layout.activity_chatvideoitem, parent, false)
                 VideoTypeViewHolder(view)
+            }
+            3 -> {
+                view = LayoutInflater.from(parent.context).inflate(R.layout.activity_chattextitem, parent, false)
+                TextTypeViewHolder(view)
+            }
+            4 -> {
+                view = LayoutInflater.from(parent.context).inflate(R.layout.activity_chattextitem, parent, false)
+                TextTypeViewHolder(view)
+            }
+            5 -> {
+                view = LayoutInflater.from(parent.context).inflate(R.layout.activity_chattextitem, parent, false)
+                TextTypeViewHolder(view)
             }
 
             else -> throw RuntimeException("알 수 없는 뷰 타입 에러")
@@ -106,6 +122,111 @@ class chatAdapter(val context: Context,List: ArrayList<chatitemdata>,sharedPrefe
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = items[position]
         when (item.data) {
+            "Strategictext_a" ->{
+                (holder as TextTypeViewHolder)
+                if(item.type == "System")
+                {
+                    holder.TCsystembox.visibility = View.VISIBLE
+                    holder.TCleftitem.visibility = View.GONE
+                    holder.TCrightitem.visibility = View.GONE
+
+                    holder.TCsystembox.text = item.content
+                    holder.TCsystembox.setTextColor(ContextCompat.getColor(context,R.color.Blue))
+                }
+                else if(item.type == "Client")
+                {
+                    if(item.email == pref.getString("UserEmail","Logout"))
+                    {
+                        holder.TCsystembox.visibility = View.GONE
+                        holder.TCleftitem.visibility = View.GONE
+                        holder.TCrightitem.visibility = View.VISIBLE
+                        holder.TCRdate.text = item.date
+                        holder.TCRoutbox.text = item.content
+                        holder.TCRoutbox.setTextColor(ContextCompat.getColor(context,R.color.Blue))
+                    }
+                    else
+                    {
+                        holder.TCsystembox.visibility = View.GONE
+                        holder.TCleftitem.visibility = View.VISIBLE
+                        holder.TCrightitem.visibility = View.GONE
+
+                        holder.TCLnickname.text = item.nickname
+                        holder.TCLinbox.text = item.content
+                        holder.TCLdate.text = item.date
+                        holder.TCLinbox.setTextColor(ContextCompat.getColor(context,R.color.Blue))
+                    }
+                }
+            }
+            "Strategictext_o" ->{
+                (holder as TextTypeViewHolder)
+                if(item.type == "System")
+                {
+                    holder.TCsystembox.visibility = View.VISIBLE
+                    holder.TCleftitem.visibility = View.GONE
+                    holder.TCrightitem.visibility = View.GONE
+
+                    holder.TCsystembox.text = item.content
+                    holder.TCsystembox.setTextColor(ContextCompat.getColor(context,R.color.Red))
+                }
+                else if(item.type == "Client")
+                {
+                    if(item.email == pref.getString("UserEmail","Logout"))
+                    {
+                        holder.TCsystembox.visibility = View.GONE
+                        holder.TCleftitem.visibility = View.GONE
+                        holder.TCrightitem.visibility = View.VISIBLE
+                        holder.TCRdate.text = item.date
+                        holder.TCRoutbox.text = item.content
+                        holder.TCRoutbox.setTextColor(ContextCompat.getColor(context,R.color.Red))
+                    }
+                    else
+                    {
+                        holder.TCsystembox.visibility = View.GONE
+                        holder.TCleftitem.visibility = View.VISIBLE
+                        holder.TCrightitem.visibility = View.GONE
+
+                        holder.TCLnickname.text = item.nickname
+                        holder.TCLinbox.text = item.content
+                        holder.TCLdate.text = item.date
+                        holder.TCLinbox.setTextColor(ContextCompat.getColor(context,R.color.Red))
+                    }
+                }
+            }
+            "Strategictext_g" ->{
+                (holder as TextTypeViewHolder)
+                if(item.type == "System")
+                {
+                    holder.TCsystembox.visibility = View.VISIBLE
+                    holder.TCleftitem.visibility = View.GONE
+                    holder.TCrightitem.visibility = View.GONE
+
+                    holder.TCsystembox.text = item.content
+                    holder.TCsystembox.setTextColor(ContextCompat.getColor(context,R.color.giveupcolor))
+                }
+                else if(item.type == "Client")
+                {
+                    if(item.email == pref.getString("UserEmail","Logout"))
+                    {
+                        holder.TCsystembox.visibility = View.GONE
+                        holder.TCleftitem.visibility = View.GONE
+                        holder.TCrightitem.visibility = View.VISIBLE
+                        holder.TCRdate.text = item.date
+                        holder.TCRoutbox.text = item.content
+                        holder.TCRoutbox.setTextColor(ContextCompat.getColor(context,R.color.giveupcolor))
+                    }
+                    else
+                    {
+                        holder.TCsystembox.visibility = View.GONE
+                        holder.TCleftitem.visibility = View.VISIBLE
+                        holder.TCrightitem.visibility = View.GONE
+
+                        holder.TCLnickname.text = item.nickname
+                        holder.TCLinbox.text = item.content
+                        holder.TCLdate.text = item.date
+                        holder.TCLinbox.setTextColor(ContextCompat.getColor(context,R.color.giveupcolor))
+                    }
+                }
+            }
             "text" -> {
                 (holder as TextTypeViewHolder)
                 if(item.type.equals("System"))
