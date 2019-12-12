@@ -35,10 +35,18 @@ class gameready : Fragment() {
     private lateinit var CurrentStatepref: SharedPreferences
     private lateinit var CurrentStateeditor: SharedPreferences.Editor
 
-    override fun onDestroy() {
-        super.onDestroy()
-
+    override fun onDestroyView() {
+        super.onDestroyView()
         mSocket.off("makeroom", makeroom)
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+        System.out.println("게임준비onStop")
+        state = false
+        FG_startbutton.background = ContextCompat.getDrawable(activity!!, R.drawable.button3)
+        FG_startbutton.text = "게임 시작"
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -105,16 +113,5 @@ class gameready : Fragment() {
                 FG_startbutton.text = "게임 시작"
             }
         }
-        else
-        {
-            System.out.println("안돌아옴")
-        }
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-
-        CurrentStateeditor.putBoolean(pref.getString("UserEmail","Logout") + "gameready",false).commit()
-        mSocket.emit("findroomcancel","findroomcancel")
     }
 }

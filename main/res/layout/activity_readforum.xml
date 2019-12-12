@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <ImageButton
+            android:id="@+id/backbutton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:background="@drawable/ic_arrow_back_black"
+            android:layout_width="45dp"
+            android:layout_height="45dp"/>
+
+    <ImageButton
+            android:visibility="gone"
+            android:id="@+id/RF_deleteButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/ic_delete_black_24dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"/>
+
+    <ImageButton
+            android:visibility="gone"
+            android:id="@+id/RF_editButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/RF_deleteButton"
+            android:background="@drawable/ic_edit_black_24dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"/>
+
+    <TextView
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:textColor="@color/Blue"
+            android:text="주제"
+            app:layout_constraintBottom_toBottomOf="@+id/view" android:id="@+id/RF_subject"/>
+
+    <View
+            android:layout_marginTop="45dp"
+            android:background="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp" android:id="@+id/view"/>
+
+    <android.support.v4.widget.NestedScrollView
+            app:layout_constraintTop_toBottomOf="@+id/view"
+            app:layout_constraintBottom_toTopOf="@+id/RF_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+
+        <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                     xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                     xmlns:tools="http://schemas.android.com/tools"
+                                                     android:layout_width="match_parent"
+                                                     android:descendantFocusability="blocksDescendants"
+                                                     android:layout_height="match_parent">
+
+            <View
+                    android:layout_marginTop="45dp"
+                    android:background="@color/black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@+id/RF_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp" android:id="@+id/view2"/>
+
+            <ImageView
+                    android:background="@drawable/profiletedury"
+                    android:src="@drawable/profileicon"
+                    android:id="@+id/RF_pofile"
+                    android:scaleType="fitXY"
+                    android:layout_margin="10dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/RF_title"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"/>
+
+            <TextView
+                    android:id="@+id/RF_nickname"
+                    android:text="닉네임"
+                    android:layout_marginLeft="5dp"
+                    android:textSize="15dp"
+                    app:layout_constraintTop_toTopOf="@id/RF_pofile"
+                    app:layout_constraintStart_toEndOf="@id/RF_pofile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            <TextView
+                    android:id="@+id/RF_commentNum"
+                    android:text="댓글 : 0개"
+                    android:layout_marginLeft="5dp"
+                    android:textSize="12dp"
+                    app:layout_constraintBottom_toBottomOf="@id/RF_pofile"
+                    app:layout_constraintStart_toEndOf="@id/RF_pofile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            <TextView
+                    android:id="@+id/RF_recommendNum"
+                    android:text="추천 : 0개"
+                    android:layout_marginLeft="5dp"
+                    android:textSize="12dp"
+                    app:layout_constraintBottom_toBottomOf="@id/RF_pofile"
+                    app:layout_constraintStart_toEndOf="@id/view4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            <TextView
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="0.5dp"
+                    android:id="@+id/RF_date"
+                    android:text="2019년 12월 05일 오전 12시 10분"
+                    android:layout_marginLeft="5dp"
+                    android:textSize="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/view2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            <View
+                    android:layout_marginLeft="5dp"
+                    android:background="#B7B7B7"
+                    app:layout_constraintBottom_toBottomOf="@id/RF_commentNum"
+                    app:layout_constraintTop_toTopOf="@id/RF_commentNum"
+                    app:layout_constraintStart_toEndOf="@id/RF_commentNum"
+                    android:layout_width="1dp"
+                    android:layout_height="0dp" android:id="@+id/view4"/>
+
+            <View
+                    android:id="@+id/view5"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#B7B7B7"
+                    app:layout_constraintStart_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/RF_pofile"/>
+
+            <TextView
+                    android:id="@+id/RF_title"
+                    android:padding="10dp"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:textSize="18dp"
+                    android:text="제목입니다"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            <TextView
+                    android:id="@+id/RF_content"
+                    android:paddingHorizontal="5dp"
+                    android:gravity="center|start"
+                    android:paddingVertical="20dp"
+                    app:layout_constraintTop_toBottomOf="@id/view5"
+                    android:textSize="15dp"
+                    android:text="내용 입니다"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/RF_image0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/RF_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+            <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/RF_image1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/RF_image0"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+            <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/RF_image2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/RF_image1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+            <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/RF_image3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/RF_image2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+            <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/RF_image4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/RF_image3"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+            <View
+                    android:id="@+id/view6"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:background="@color/sky"
+                    app:layout_constraintStart_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/RF_image4"/>
+
+            <android.support.v7.widget.RecyclerView
+                    android:id="@+id/RF_Recy"
+                    android:scrollbars="none"
+                    app:layout_constraintTop_toBottomOf="@+id/view6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" tools:layout_editor_absoluteX="0dp"
+                    app:layout_constraintVertical_bias="0.0">
+            </android.support.v7.widget.RecyclerView>
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+    <android.support.constraint.ConstraintLayout
+            android:id="@+id/RF_bottom"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <ImageButton
+                android:scaleType="fitXY"
+                android:id="@+id/RF_camera"
+                android:background="@drawable/writeforum_camera_icon"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+        <EditText
+                android:id="@+id/RF_commentmessage"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:maxHeight="130dp"
+                android:scrollbars="vertical"
+                app:layout_constraintEnd_toStartOf="@id/RF_commentsend"
+                app:layout_constraintStart_toEndOf="@id/RF_camera"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:textSize="18dp"/>
+
+        <ImageButton
+                android:layout_marginRight="5dp"
+                android:background="@drawable/sendicon"
+                android:id="@+id/RF_commentsend"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.constraint.ConstraintLayout>

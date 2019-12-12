@@ -28,6 +28,7 @@ import com.example.chatground2.view.MainActivity
 import com.google.gson.JsonObject
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
+import kotlinx.android.synthetic.main.fragment_gameready.*
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.fragment_profile.view.*
 import kotlinx.coroutines.*
@@ -47,7 +48,7 @@ import kotlin.coroutines.CoroutineContext
 class profile : Fragment(),CoroutineScope {
     private var mSocket: Socket = socket.mSocket
 
-    private val OPEN_GALLERY = 1
+    private val OPEN_GALLERY = 40
     private lateinit var loginpref: SharedPreferences
     private lateinit var loginedit: SharedPreferences.Editor
     private lateinit var profilepref: SharedPreferences
@@ -75,8 +76,8 @@ class profile : Fragment(),CoroutineScope {
         retainInstance = true
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
 
         mSocket.off("returnUser", returnUser)
         mSocket.off("SaveProfile", SaveProfile)
@@ -372,14 +373,12 @@ class profile : Fragment(),CoroutineScope {
     private fun openGallery() {
         val intent: Intent = Intent(Intent.ACTION_PICK)
         intent.type = android.provider.MediaStore.Images.Media.CONTENT_TYPE
-        startActivityForResult(intent, OPEN_GALLERY)
+        activity!!.startActivityForResult(intent, OPEN_GALLERY)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == OPEN_GALLERY) {
+        if (requestCode == OPEN_GALLERY) {
+            if (resultCode == Activity.RESULT_OK) {
                 var currentImageUrl: Uri? = data?.data
                 var path = getPath(currentImageUrl!!)
 
@@ -388,8 +387,9 @@ class profile : Fragment(),CoroutineScope {
 
                 setImage(P_image, path)
             }
-        } else {
-            Toast.makeText(context, "취소 되었습니다.", Toast.LENGTH_LONG).show();
+            else {
+                Toast.makeText(context, "취소 되었습니다.", Toast.LENGTH_LONG).show();
+            }
         }
     }
 

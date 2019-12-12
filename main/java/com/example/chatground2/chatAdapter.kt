@@ -45,6 +45,7 @@ class chatAdapter(val context: Context,List: ArrayList<chatitemdata>,sharedPrefe
             items[position].data == "Strategictext_a" -> 3
             items[position].data == "Strategictext_o" -> 4
             items[position].data == "Strategictext_g" -> 5
+
             else -> 100
         }
     }

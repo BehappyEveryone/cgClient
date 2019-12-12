@@ -18,10 +18,7 @@ import io.socket.client.Socket
 import io.socket.emitter.Emitter
 import kotlinx.android.synthetic.main.activity_menu.*
 import kotlinx.android.synthetic.main.fragment_gameready.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import org.json.JSONObject
 import java.net.URISyntaxException
 
@@ -44,6 +41,9 @@ class menu : AppCompatActivity() {
     override fun onStop() {
         super.onStop()
 
+        mSocket.emit("findroomcancel","findroomcancel")
+        CurrentStateeditor.clear()
+        CurrentStateeditor.commit()
         System.out.println("스탑")
     }
 
@@ -54,11 +54,8 @@ class menu : AppCompatActivity() {
         mSocket.off("verifyResponse", ontokenReceived)
         mSocket.off("makeroom", makeroom)
 
-        CurrentStateeditor.clear()
-        CurrentStateeditor.commit()
         mSocket.disconnect()
         System.out.println("디스트로이")
-
     }
 
     override fun onPause() {
@@ -180,6 +177,8 @@ class menu : AppCompatActivity() {
         val builder: AlertDialog.Builder = AlertDialog.Builder(this)
         builder.setMessage("종료하시겠습니까?")
             .setPositiveButton("예") { _, which ->
+                mSocket.emit("findroomcancel","findroomcancel")
+
                 CurrentStateeditor.clear()
                 CurrentStateeditor.commit()
                 finish()
@@ -194,5 +193,7 @@ class menu : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         gamereadyFragment.onActivityResult(requestCode,resultCode,data)
+        profileFragment.onActivityResult(requestCode,resultCode,data)
+        forumsFragment.onActivityResult(requestCode,resultCode,data)
     }
 }

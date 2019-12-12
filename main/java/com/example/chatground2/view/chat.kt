@@ -168,7 +168,6 @@ class chat : AppCompatActivity() {
         }
 
         chatplus.setOnClickListener {
-
             val items = arrayOf("이미지", "동영상")
 
             var dialog = AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Light_Dialog_Alert)
@@ -306,12 +305,24 @@ class chat : AppCompatActivity() {
                             -> mSocket.emit("AgreeOpinionComplete")
                             "OpposeOpinionComplete"//반대 측 주장
                             -> mSocket.emit("OpposeOpinionComplete")
-                            "OpposeCounterComplete"//반대 측 반론
-                            -> mSocket.emit("OpposeCounterComplete")
                             "AgreeCounterComplete"//찬성 측 반론
                             -> mSocket.emit("AgreeCounterComplete")
+                            "OpposeCounterComplete"//반대 측 반론
+                            -> mSocket.emit("OpposeCounterComplete")
                             "StrategicTimeComplete"//작전타임
                             -> mSocket.emit("StrategicTimeComplete")
+                            "AgreeCounterComplete2"//찬성 측 반론2
+                            -> mSocket.emit("AgreeCounterComplete2")
+                            "OpposeCounterComplete2"//반대 측 반론2
+                            -> mSocket.emit("OpposeCounterComplete2")
+                            "StrategicTimeComplete2"//작전타임2
+                            -> mSocket.emit("StrategicTimeComplete2")
+                            "FreeTalkTimeComplete"//자유논박
+                            -> mSocket.emit("FreeTalkTimeComplete")
+                            "AgreeSummarizeComplete"//찬성 측 의견요약
+                            -> mSocket.emit("AgreeSummarizeComplete")
+                            "OpposeSummarizeComplete"//반대 측 의견요약
+                            -> mSocket.emit("OpposeSummarizeComplete")
                         }
                     }
                     min == 0 -> when {
