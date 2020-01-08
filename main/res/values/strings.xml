@@ -22,4 +22,14 @@
         <item>연애</item>
         <item>음악</item>
     </string-array>
+
+    <string-array name="data_search">
+
+        <item>제목</item>
+
+        <item>내용</item>
+
+        <item>제목+내용</item>
+
+    </string-array>
 </resources>

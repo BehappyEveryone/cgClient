@@ -1,6 +1,6 @@
 package com.example.chatground2.model
 
-import com.example.chatground2.api.registerClient
+import com.example.chatground2.api.ApiClient
 import com.example.chatground2.contract.registerContract
 import retrofit2.Call
 import retrofit2.Callback
@@ -15,7 +15,7 @@ class registerModel {
     }
 
     fun signup(Email: String, Password: String, Nickname: String, PhoneNum: String) {
-        registerClient.instance.createuser(Email,Password,Nickname,PhoneNum)
+        ApiClient.instance.createuser(Email,Password,Nickname,PhoneNum)
             .enqueue(object: Callback<DefaultResponse> {
                 override fun onResponse(call: Call<DefaultResponse>, response: Response<DefaultResponse>) {
                     if(response.body()!!.type)

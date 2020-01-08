@@ -1,7 +1,6 @@
 package com.example.chatground2.model
 
-import com.example.chatground2.api.loginClient
-import com.example.chatground2.api.registerClient
+import com.example.chatground2.api.ApiClient
 import com.example.chatground2.contract.loginContract
 import com.example.chatground2.contract.registerContract
 import retrofit2.Call
@@ -17,7 +16,7 @@ class loginModel {
     }
 
     fun login(Email: String, Password: String) {
-        loginClient.instance.loginuser(Email,Password)
+        ApiClient.instance.loginuser(Email,Password)
             .enqueue(object: Callback<loginResponse> {
                 override fun onResponse(call: Call<loginResponse>, response: Response<loginResponse>) {
                     System.out.println("로그인 응답 : " + response.body())

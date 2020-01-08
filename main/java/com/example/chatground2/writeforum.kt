@@ -21,9 +21,7 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.ImageButton
 import android.widget.Toast
-import com.example.chatground2.api.forumApi
-import com.example.chatground2.api.forumClient
-import com.example.chatground2.api.imageClient
+import com.example.chatground2.api.ApiClient
 import com.example.chatground2.api.socket
 import com.example.chatground2.model.DefaultResponse
 import io.socket.client.Socket
@@ -73,7 +71,7 @@ class writeforum : AppCompatActivity() {
                 val ImageNum: Int = imagepathArrayList.size
                 when (ImageNum) {
                     0 -> {
-                        forumClient.instance.uploadforum(
+                        ApiClient.instance.uploadforum(
                             Email,
                             Nickname,
                             Title,
@@ -113,7 +111,7 @@ class writeforum : AppCompatActivity() {
                         var part1: MultipartBody.Part =
                             MultipartBody.Part.createFormData("upload", file1.name, fileReqBody1)
 
-                        forumClient.instance.uploadforum(
+                        ApiClient.instance.uploadforum(
                             Email,
                             Nickname,
                             Title,
@@ -158,7 +156,7 @@ class writeforum : AppCompatActivity() {
                         var part2: MultipartBody.Part =
                             MultipartBody.Part.createFormData("upload", file2.name, fileReqBody2)
 
-                        forumClient.instance.uploadforum(
+                        ApiClient.instance.uploadforum(
                             Email,
                             Nickname,
                             Title,
@@ -208,7 +206,7 @@ class writeforum : AppCompatActivity() {
                         var part3: MultipartBody.Part =
                             MultipartBody.Part.createFormData("upload", file3.name, fileReqBody3)
 
-                        forumClient.instance.uploadforum(
+                        ApiClient.instance.uploadforum(
                             Email,
                             Nickname,
                             Title,
@@ -263,7 +261,7 @@ class writeforum : AppCompatActivity() {
                         var part4: MultipartBody.Part =
                             MultipartBody.Part.createFormData("upload", file4.name, fileReqBody4)
 
-                        forumClient.instance.uploadforum(
+                        ApiClient.instance.uploadforum(
                             Email,
                             Nickname,
                             Title,
@@ -323,7 +321,7 @@ class writeforum : AppCompatActivity() {
                         var part5: MultipartBody.Part =
                             MultipartBody.Part.createFormData("upload", file5.name, fileReqBody5)
 
-                        forumClient.instance.uploadforum(
+                        ApiClient.instance.uploadforum(
                             Email,
                             Nickname,
                             Title,

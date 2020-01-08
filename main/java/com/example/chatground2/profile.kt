@@ -21,7 +21,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import com.example.chatground2.api.imageClient
+import com.example.chatground2.api.ApiClient
 import com.example.chatground2.api.socket
 import com.example.chatground2.model.DefaultResponse
 import com.example.chatground2.view.MainActivity
@@ -404,7 +404,7 @@ class profile : Fragment(),CoroutineScope {
 
         System.out.println("이미지 실행")
 
-        imageClient.instance.uploadprofile(loginpref.getString("UserEmail", "Logout"), part)
+        ApiClient.instance.uploadprofile(loginpref.getString("UserEmail", "Logout"), part)
             .enqueue(object : Callback<DefaultResponse> {
                 override fun onResponse(call: Call<DefaultResponse>, response: Response<DefaultResponse>) {
                     if (response.body()!!.type) {

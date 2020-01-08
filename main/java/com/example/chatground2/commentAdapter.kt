@@ -4,9 +4,6 @@ import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.support.v7.widget.RecyclerView
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
@@ -16,10 +13,12 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v4.content.ContextCompat.getSystemService
 import android.support.v7.app.AlertDialog
-import android.view.MotionEvent
+import android.support.v7.widget.CardView
+import android.util.Log
+import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import com.example.chatground2.api.commentClient
+import com.example.chatground2.api.ApiClient
 import com.example.chatground2.model.DefaultResponse
 import com.example.chatground2.model.commentitemdata
 import com.example.chatground2.model.forumitemdata
@@ -42,9 +41,15 @@ import java.net.Socket
 import java.net.URL
 
 
-class commentAdapter(val context: Context, List: ArrayList<commentitemdata>, val pref: SharedPreferences, val F_idx:Int, val mSocket:io.socket.client.Socket) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class commentAdapter(
+    val context: Context,
+    List: ArrayList<commentitemdata>,
+    val pref: SharedPreferences,
+    val F_idx: Int,
+    val mSocket: io.socket.client.Socket
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var items:ArrayList<commentitemdata> = List
+    var items: ArrayList<commentitemdata> = List
     private val REOPEN_GALLERY = 42
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -71,7 +76,45 @@ class commentAdapter(val context: Context, List: ArrayList<commentitemdata>, val
         }
     }
 
-    inner class commentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class commentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
+        View.OnCreateContextMenuListener {
+        override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {
+            val edit: MenuItem = menu!!.add(Menu.NONE, 1001, 1, "수정")
+            val delete: MenuItem = menu.add(Menu.NONE, 1002, 2, "삭제")
+            edit.setOnMenuItemClickListener(onMenu)
+            delete.setOnMenuItemClickListener(onMenu)
+        }
+
+        // 4. 컨텍스트 메뉴에서 항목 클릭시 동작을 설정합니다.
+        val onMenu = MenuItem.OnMenuItemClickListener { i ->
+            when (i.itemId) {
+                1001  // 5. 편집 항목을 선택시
+                -> {
+                    val intent:Intent = Intent(context, commentedit::class.java)
+                    val EDITFORUM = 300
+                    intent.putExtra("idx",F_idx)
+                    intent.putExtra("type",items[adapterPosition].type)
+                    intent.putExtra("uid",items[adapterPosition].uid)
+                    intent.putExtra("recommentuid",items[adapterPosition].recommentuid)
+                    intent.putExtra("content",items[adapterPosition].content)
+                    intent.putExtra("IsImage",items[adapterPosition].IsImage)
+                    intent.putExtra("Imagepath",items[adapterPosition].Imagepath)
+
+                    (context as Activity).startActivityForResult(intent,EDITFORUM)
+                }
+
+                1002 -> {
+                    Toast.makeText(context, items[adapterPosition].content, Toast.LENGTH_LONG).show()
+                }
+            }
+            true
+        }
+
+        init {
+            val CI_card2: CardView = itemView.CI_card
+            CI_card2.setOnCreateContextMenuListener(this)
+        }
+
         val CI_content = itemView.CI_content
         val CI_date = itemView.CI_date
         val CI_nickname = itemView.CI_nickname
@@ -85,7 +128,46 @@ class commentAdapter(val context: Context, List: ArrayList<commentitemdata>, val
         val CI_recommentcamera = itemView.CI_recommentcamera
     }
 
-    inner class recommentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class recommentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
+        View.OnCreateContextMenuListener {
+
+        override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {
+            val edit: MenuItem = menu!!.add(Menu.NONE, 1001, 1, "수정")
+            val delete: MenuItem = menu.add(Menu.NONE, 1002, 2, "삭제")
+            edit.setOnMenuItemClickListener(onMenu)
+            delete.setOnMenuItemClickListener(onMenu)
+        }
+
+        // 4. 컨텍스트 메뉴에서 항목 클릭시 동작을 설정합니다.
+        val onMenu = MenuItem.OnMenuItemClickListener { i ->
+            when (i.itemId) {
+                1001  // 5. 편집 항목을 선택시
+                -> {
+                    val intent:Intent = Intent(context, commentedit::class.java)
+                    val EDITFORUM = 300
+                    intent.putExtra("idx",F_idx)
+                    intent.putExtra("type",items[adapterPosition].type)
+                    intent.putExtra("uid",items[adapterPosition].uid)
+                    intent.putExtra("recommentuid",items[adapterPosition].recommentuid)
+                    intent.putExtra("content",items[adapterPosition].content)
+                    intent.putExtra("IsImage",items[adapterPosition].IsImage)
+                    intent.putExtra("Imagepath",items[adapterPosition].Imagepath)
+
+                    (context as Activity).startActivityForResult(intent,EDITFORUM)
+                }
+
+                1002 -> {
+                    Toast.makeText(context, items[adapterPosition].content, Toast.LENGTH_LONG).show()
+                }
+            }
+            true
+        }
+
+        init {
+            val RCI_card: CardView = itemView.RCI_card
+            RCI_card.setOnCreateContextMenuListener(this)
+        }
+
         val RCI_content = itemView.RCI_content
         val RCI_date = itemView.RCI_date
         val RCI_nickname = itemView.RCI_nickname
@@ -95,9 +177,9 @@ class commentAdapter(val context: Context, List: ArrayList<commentitemdata>, val
 
     override fun getItemCount(): Int = items.size
 
-    var IsImage:Boolean = false
-    var file:File? = null
-    var bitmap:Bitmap? = null
+    var IsImage: Boolean = false
+    var file: File? = null
+    var bitmap: Bitmap? = null
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = items[position]
@@ -110,18 +192,14 @@ class commentAdapter(val context: Context, List: ArrayList<commentitemdata>, val
                 holder.CI_nickname.text = item.nickname
                 holder.CI_profile.setImageBitmap(connectprofile("uploads/" + item.Email + "_profile.jpg"))
 
-                if(IsImage)
-                {
+                if (IsImage) {
                     holder.CI_recommentcamera.setImageBitmap(bitmap)
-                }
-                else
-                {
+                } else {
                     holder.CI_recommentcamera.setImageResource(R.drawable.writeforum_camera_icon)
                 }
 
                 holder.CI_recommentcamera.setOnClickListener {
-                    if(IsImage)
-                    {
+                    if (IsImage) {
                         val builder = AlertDialog.Builder(context)
                         builder.setTitle("알림")
                         builder.setMessage("이미지를 지우시겠습니까?")
@@ -132,11 +210,10 @@ class commentAdapter(val context: Context, List: ArrayList<commentitemdata>, val
                             holder.CI_recommentcamera.setImageResource(R.drawable.writeforum_camera_icon)
                         }
                         builder.show()
-                    }
-                    else
-                    {
+                    } else {
                         val items = arrayOf("이미지")
-                        var dialog = AlertDialog.Builder(context, android.R.style.Theme_DeviceDefault_Light_Dialog_Alert)
+                        var dialog =
+                            AlertDialog.Builder(context, android.R.style.Theme_DeviceDefault_Light_Dialog_Alert)
                         dialog.setTitle("이미지 첨부")
                             .setItems(items) { _, which ->
                                 val selected: String = items[which]
@@ -176,11 +253,15 @@ class commentAdapter(val context: Context, List: ArrayList<commentitemdata>, val
 
                 holder.CI_recommentsend.setOnClickListener {
                     if (holder.CI_recommentmessage.text.toString().replace(" ", "") != "") {
+                        item.recommentstate = false
+                        notifyItemChanged(position)
+                        (context as Activity).RF_bottom.visibility = View.VISIBLE
+
                         var commentuid = item.uid
                         var content = holder.CI_recommentmessage.text.toString()
                         var email = pref.getString("UserEmail", "Logout")
                         var nickname = pref.getString("UserNickname", "Logout")
-                        writerecomment(commentuid,email,content,nickname)
+                        writerecomment(commentuid, email, content, nickname)
 
                         holder.CI_recommentmessage.setText("")
                     } else {
@@ -188,54 +269,39 @@ class commentAdapter(val context: Context, List: ArrayList<commentitemdata>, val
                     }
                 }
 
-                if(item.IsImage)
-                {
+                if (item.IsImage) {
                     holder.CI_image.visibility = View.VISIBLE
                     holder.CI_image.setImageBitmap(connectimage(item.Imagepath!!))
-                }
-                else
-                {
+                } else {
                     holder.CI_image.visibility = View.GONE
                 }
 
-                if(item.recommentstate)
-                {
-                    holder.CI_writerecomment.background = ContextCompat.getDrawable(context,R.drawable.tedury3)
+                if (item.recommentstate) {
+                    holder.CI_writerecomment.background = ContextCompat.getDrawable(context, R.drawable.tedury3)
                     holder.CI_bottom.visibility = View.VISIBLE
-                }
-                else
-                {
-                    holder.CI_writerecomment.background = ContextCompat.getDrawable(context,R.drawable.tedury2)
+                } else {
+                    holder.CI_writerecomment.background = ContextCompat.getDrawable(context, R.drawable.tedury2)
                     holder.CI_bottom.visibility = View.GONE
                 }
 
                 holder.CI_writerecomment.setOnClickListener {
-                    for(i in 0 until itemCount)
-                    {
-                        if(item.recommentstate)
-                        {
-                            continue
-                        }
-                        items[i].recommentstate = false
-                    }
-
-                    if(item.recommentstate)
-                    {
+                    if (item.recommentstate) {
                         (context as Activity).RF_bottom.visibility = View.VISIBLE
                         item.recommentstate = false
-                        (context as Activity).RF_commentmessage.requestFocus()
-                    }
-                    else
-                    {
+                        notifyItemChanged(position)
+                    } else {
                         (context as Activity).RF_bottom.visibility = View.GONE
-                        item.recommentstate = true
-                        (context as Activity).RF_commentmessage.clearFocus()
-
-                        CoroutineScope(Dispatchers.Main).launch {
-                            holder.CI_recommentmessage.requestFocus()
+                        for (i in 0 until itemCount) {
+                            if (items[i].recommentstate) {
+                                items[i].recommentstate = false
+                                notifyItemChanged(i)
+                                continue
+                            }
+                            items[i].recommentstate = false
                         }
+                        item.recommentstate = true
+                        notifyItemChanged(position)
                     }
-                    notifyDataSetChanged()
                 }
             }
             "recomment" -> {
@@ -245,86 +311,72 @@ class commentAdapter(val context: Context, List: ArrayList<commentitemdata>, val
                 holder.RCI_nickname.text = item.nickname
                 holder.RCI_profile.setImageBitmap(connectprofile("uploads/" + item.Email + "_profile.jpg"))
 
-                if(item.IsImage)
-                {
+                if (item.IsImage) {
                     holder.RCI_image.visibility = View.VISIBLE
                     holder.RCI_image.setImageBitmap(connectimage(item.Imagepath!!))
-                }
-                else
-                {
+                } else {
                     holder.RCI_image.visibility = View.GONE
                 }
             }
         }
     }
 
-    private fun writerecomment(commentuid:String, email:String,content:String,nickname:String)
-    {
-        if(IsImage)
-        {
-//            this.IsImage = false
-//            this.file = null
-//            notifyDataSetChanged()
+    private fun writerecomment(commentuid: String, email: String, content: String, nickname: String) {
+        if (IsImage) {
 
             var fileReqBody: RequestBody = RequestBody.create(MediaType.parse("image/*"), file)
             var part: MultipartBody.Part = MultipartBody.Part.createFormData("upload", file!!.name, fileReqBody)
 
-            commentClient.instance.uploadrecomment(F_idx,commentuid,email,nickname,content,IsImage,part).enqueue(object :
-                Callback<DefaultResponse> {
-                override fun onResponse(
-                    call: Call<DefaultResponse>,
-                    response: Response<DefaultResponse>
-                ) {
-                    if(response.body()!!.type)
-                    {
-                        Toast.makeText(context, "댓글이 작성되었습니다!", Toast.LENGTH_SHORT).show()
-                        items.clear()
-                        mSocket.emit("ReturnForum", F_idx)
+            ApiClient.instance.uploadrecomment(F_idx, commentuid, email, nickname, content, IsImage, part)
+                .enqueue(object :
+                    Callback<DefaultResponse> {
+                    override fun onResponse(
+                        call: Call<DefaultResponse>,
+                        response: Response<DefaultResponse>
+                    ) {
+                        if (response.body()!!.type) {
+                            Toast.makeText(context, "댓글이 작성되었습니다!", Toast.LENGTH_SHORT).show()
+                            items.clear()
+                            mSocket.emit("ReturnForum", F_idx)
+                        } else {
+                            System.out.println("DB저장 에러 : ${response.body()!!.data}")
+                            Toast.makeText(context, "댓글 작성이 실패했습니다!", Toast.LENGTH_SHORT).show()
+                        }
                     }
-                    else
-                    {
-                        System.out.println("DB저장 에러 : ${response.body()!!.data}")
+
+                    override fun onFailure(call: Call<DefaultResponse>, t: Throwable) {
+                        Toast.makeText(context, "댓글 작성이 실패했습니다!", Toast.LENGTH_SHORT).show()
+                        System.out.println("에러 : $t")
+                    }
+                })
+        } else {
+            ApiClient.instance.uploadrecomment(F_idx, commentuid, email, nickname, content, IsImage, null)
+                .enqueue(object :
+                    Callback<DefaultResponse> {
+                    override fun onResponse(
+                        call: Call<DefaultResponse>,
+                        response: Response<DefaultResponse>
+                    ) {
+                        if (response.body()!!.type) {
+                            Toast.makeText(context, "댓글이 작성되었습니다!", Toast.LENGTH_SHORT).show()
+                            items.clear()
+                            mSocket.emit("ReturnForum", F_idx)
+                        } else {
+                            System.out.println("DB저장 에러 : ${response.body()!!.data}")
+                            Toast.makeText(context, "댓글 작성이 실패했습니다!", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
+                    override fun onFailure(call: Call<DefaultResponse>, t: Throwable) {
+                        System.out.println("에러 : $t")
                         Toast.makeText(context, "댓글 작성이 실패했습니다!", Toast.LENGTH_SHORT).show()
                     }
-                }
-
-                override fun onFailure(call: Call<DefaultResponse>, t: Throwable) {
-                    Toast.makeText(context, "댓글 작성이 실패했습니다!", Toast.LENGTH_SHORT).show()
-                    System.out.println("에러 : $t")
-                }
-            })
-        }
-        else
-        {
-            commentClient.instance.uploadrecomment(F_idx,commentuid,email,nickname,content,IsImage,null).enqueue(object :
-                Callback<DefaultResponse> {
-                override fun onResponse(
-                    call: Call<DefaultResponse>,
-                    response: Response<DefaultResponse>
-                ) {
-                    if(response.body()!!.type)
-                    {
-                        Toast.makeText(context, "댓글이 작성되었습니다!", Toast.LENGTH_SHORT).show()
-                        items.clear()
-                        mSocket.emit("ReturnForum", F_idx)
-                    }
-                    else
-                    {
-                        System.out.println("DB저장 에러 : ${response.body()!!.data}")
-                        Toast.makeText(context, "댓글 작성이 실패했습니다!", Toast.LENGTH_SHORT).show()
-                    }
-                }
-
-                override fun onFailure(call: Call<DefaultResponse>, t: Throwable) {
-                    System.out.println("에러 : $t")
-                    Toast.makeText(context, "댓글 작성이 실패했습니다!", Toast.LENGTH_SHORT).show()
-                }
-            })
+                })
         }
     }
 
     private fun connectimage(imagpath: String): Bitmap {
-        lateinit var bitmap:Bitmap
+        lateinit var bitmap: Bitmap
         try {
             runBlocking {
                 launch {
@@ -340,16 +392,15 @@ class commentAdapter(val context: Context, List: ArrayList<commentitemdata>, val
                     }
                 }
             }
-        }catch (e:FileNotFoundException)
-        {
-            bitmap = BitmapFactory.decodeResource(context.resources,R.drawable.noimage)
+        } catch (e: FileNotFoundException) {
+            bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.noimage)
         }
         return bitmap
     }
 
-    fun openGallery(position:Int) {
+    fun openGallery(position: Int) {
         val intent: Intent = Intent(Intent.ACTION_PICK)
-        intent.putExtra("position",position)
+        intent.putExtra("position", position)
         intent.type = android.provider.MediaStore.Images.Media.CONTENT_TYPE
         (context as Activity).startActivityForResult(intent, REOPEN_GALLERY)
     }
@@ -371,9 +422,8 @@ class commentAdapter(val context: Context, List: ArrayList<commentitemdata>, val
                     }
                 }
             }
-        }catch (e: FileNotFoundException)
-        {
-            bitmap = BitmapFactory.decodeResource(context.resources,R.drawable.defaultprofile)
+        } catch (e: FileNotFoundException) {
+            bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.defaultprofile)
         }
         return bitmap
     }

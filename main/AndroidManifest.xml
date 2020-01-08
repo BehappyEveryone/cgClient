@@ -14,6 +14,10 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true">
+        <activity android:name=".commentedit"
+                  android:theme="@android:style/Theme.Dialog"/>
+        <activity android:name=".modifyforum">
+        </activity>
         <activity android:name=".readforum">
         </activity>
         <activity android:name=".writeforum">
