@@ -23,7 +23,6 @@ import android.util.Base64
 import android.view.View
 import android.widget.Toast
 import com.example.chatground2.R
-import com.example.chatground2.Api.socket
 import com.example.chatground2.chatAdapter
 import com.example.chatground2.Model.chatitemdata
 import com.example.chatground2.view.mainActivity.MainActivity

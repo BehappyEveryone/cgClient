@@ -1,47 +1,11 @@
 package com.example.chatground2.view.Profile
 
-import android.Manifest
-import android.app.Activity
-import android.content.Context
-import android.content.Intent
-import android.content.SharedPreferences
-import android.content.pm.PackageManager
-import android.database.Cursor
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
-import androidx.core.content.ContextCompat
-import androidx.appcompat.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
-import com.example.chatground2.Api.socket
-import com.example.chatground2.Model.DefaultResponse
 import com.example.chatground2.R
-import com.example.chatground2.view.mainActivity.MainActivity
-import com.example.chatground2.ipadress
-import io.socket.client.Socket
-import io.socket.emitter.Emitter
-import kotlinx.android.synthetic.main.fragment_profile.*
-import kotlinx.android.synthetic.main.fragment_profile.view.*
-import kotlinx.coroutines.*
-import okhttp3.MediaType
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import org.json.JSONException
-import org.json.JSONObject
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.io.*
-import java.net.HttpURLConnection
-import java.net.URL
-import kotlin.coroutines.CoroutineContext
 
 class ProfileFragment : Fragment()
 //    ,CoroutineScope
