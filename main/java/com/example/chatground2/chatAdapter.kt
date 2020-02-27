@@ -5,29 +5,21 @@ import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.chatground2.model.chatitemdata
+import com.example.chatground2.Model.chatitemdata
 import kotlinx.android.synthetic.main.activity_chatimageitem.view.*
 import kotlinx.android.synthetic.main.activity_chattextitem.view.*
 import kotlinx.android.synthetic.main.activity_chatvideoitem.view.*
 import android.provider.MediaStore
 import android.media.ThumbnailUtils
-import android.R.attr.bitmap
-import android.content.res.Resources
-import android.graphics.drawable.Drawable
-import android.R.attr.start
-import android.app.Activity
-import android.media.MediaPlayer
-import android.support.v4.content.ContextCompat.startActivity
 import android.content.Intent
 import android.net.Uri
-import android.support.v4.content.ContextCompat
-import android.support.v4.content.ContextCompat.startActivity
-import android.support.v4.content.FileProvider
+import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import java.io.File
 
 

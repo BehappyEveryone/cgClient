@@ -4,24 +4,16 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AlertDialog
+import androidx.fragment.app.Fragment
+import androidx.core.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.chatground2.api.socket
+import com.example.chatground2.Api.socket
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
 import kotlinx.android.synthetic.main.fragment_gameready.*
 import kotlinx.android.synthetic.main.fragment_gameready.view.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import android.widget.Toast
-import com.example.chatground2.view.MainActivity
-import android.R.attr.data
 import android.app.Activity.RESULT_OK
 
 

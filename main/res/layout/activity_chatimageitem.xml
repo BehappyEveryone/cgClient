@@ -17,7 +17,7 @@
             android:background="@drawable/datebg"
             android:textSize="10dp"/>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/ImageCleftitem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -67,9 +67,9 @@
             android:layout_marginLeft="10dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ImageCLimage" />
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/ImageCrightitem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -96,6 +96,6 @@
             android:textSize="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ImageCRimage" />
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

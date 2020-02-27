@@ -17,7 +17,7 @@
             android:background="@drawable/datebg"
             android:textSize="10dp"/>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/TextCleftitem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -65,9 +65,9 @@
             android:layout_marginLeft="10dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/TextCLinbox" />
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/TextCrightitem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -93,6 +93,6 @@
             android:textSize="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/TextCRoutbox" />
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

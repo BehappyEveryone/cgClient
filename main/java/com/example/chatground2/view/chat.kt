@@ -10,22 +10,23 @@ import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.provider.DocumentsContract
 import android.provider.MediaStore
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AlertDialog
-import android.support.v7.widget.LinearLayoutManager
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.util.Base64
 import android.view.View
 import android.widget.Toast
 import com.example.chatground2.R
-import com.example.chatground2.api.socket
+import com.example.chatground2.Api.socket
 import com.example.chatground2.chatAdapter
-import com.example.chatground2.model.chatitemdata
+import com.example.chatground2.Model.chatitemdata
+import com.example.chatground2.view.mainActivity.MainActivity
 import io.socket.client.Socket
 import java.net.URISyntaxException
 import io.socket.emitter.Emitter
@@ -34,7 +35,6 @@ import kotlinx.coroutines.*
 import org.json.JSONObject
 import org.json.JSONException
 import java.io.*
-import java.nio.ByteBuffer
 import java.util.*
 
 

@@ -1,15 +1,38 @@
-package com.example.chatground2.api
+package com.example.chatground2.Api
 
-import com.example.chatground2.model.DefaultResponse
-import com.example.chatground2.model.DefaultResponse2
-import com.example.chatground2.model.loginResponse
+import com.example.chatground2.Model.DTO.UserDto
+import com.example.chatground2.Model.DefaultResponse
+import com.example.chatground2.Model.DefaultResponse2
+import com.example.chatground2.Model.loginResponse
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
 
 interface Api {
+    @FormUrlEncoded
+    @POST(IpAddress.Router.signIn)
+    fun signIn(
+        @FieldMap hashMap: HashMap<String,Any>
+    ): Call<UserDto>
+
+    @FormUrlEncoded
+    @POST(IpAddress.Router.signUp)
+    fun signUp(
+        @FieldMap hashMap: HashMap<String,Any>
+    ): Call<UserDto>
+
+    @FormUrlEncoded
+    @POST(IpAddress.Router.emailOverlap)
+    fun emailOverlap(
+        @FieldMap hashMap: HashMap<String,Any>
+    ): Call<DefaultResponse>
+
+    @FormUrlEncoded
+    @POST(IpAddress.Router.nicknameOverlap)
+    fun nicknameOverlap(
+        @FieldMap hashMap: HashMap<String,Any>
+    ): Call<DefaultResponse>
+
     @FormUrlEncoded
     @POST("/signup")
     fun createuser(

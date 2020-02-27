@@ -1,4 +1,4 @@
-package com.example.chatground2.model
+package com.example.chatground2.Model
 
 import com.google.gson.annotations.SerializedName
 

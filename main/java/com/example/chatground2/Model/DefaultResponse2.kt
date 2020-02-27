@@ -1,11 +1,6 @@
-package com.example.chatground2.model
+package com.example.chatground2.Model
 
-import android.os.AsyncTask
-import android.os.Message
 import com.google.gson.annotations.SerializedName
-import org.json.JSONArray
-import org.json.JSONObject
-import java.io.*
 
 data class DefaultResponse2(
     @SerializedName("type")
