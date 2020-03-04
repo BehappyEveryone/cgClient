@@ -14,15 +14,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".view.SignUp.SignUpActivity"></activity>
-        <activity android:name=".view.Login.LoginActivity" />
-        <activity
-            android:name=".commentedit"
-            android:theme="@android:style/Theme.Dialog" />
-<!--        <activity android:name=".modifyforum" />-->
-<!--        <activity android:name=".readforum" />&ndash;&gt;-->
-<!--        <activity android:name=".writeforum" />-->
+        <activity android:name=".view.detailForum.DetailForumActivity"></activity>
+        <activity android:name=".view.writeForum.WriteForumActivity" />
+        <activity android:name=".view.SignUp.SignUpActivity" />
+        <activity android:name=".view.login.LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+<!--        <activity-->
+<!--            android:name=".commentedit"-->
+<!--            android:theme="@android:style/Theme.Dialog" /> &lt;!&ndash; <activity android:name=".modifyforum" /> &ndash;&gt;-->
+        <!-- <activity android:name=".readforum" />&ndash;&gt; -->
+        <!-- <activity android:name=".writeforum" /> -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.chatground2.fileprovider"
@@ -31,23 +37,14 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
-        </provider>
+        </provider> <!-- <activity android:name=".menu" /> -->
+<!--        <activity android:name=".view.chat" /> &lt;!&ndash; <activity &ndash;&gt;-->
+        <!-- android:name=".view.register" -->
+        <!-- android:label="@string/title_activity_register" -->
+        <!-- android:theme="@style/AppTheme.NoActionBar" /> -->
+        <activity android:name=".view.mainActivity.MainActivity"/>
 
-<!--        <activity android:name=".menu" />-->
-        <activity android:name=".view.chat" />
-<!--        <activity-->
-<!--            android:name=".view.register"-->
-<!--            android:label="@string/title_activity_register"-->
-<!--            android:theme="@style/AppTheme.NoActionBar" />-->
-        <activity android:name=".view.mainActivity.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <service
-            android:name=".service.SocketService" />
+        <service android:name=".service.SocketService" />
     </application>
 
 </manifest>

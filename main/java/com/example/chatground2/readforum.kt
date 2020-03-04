@@ -124,7 +124,7 @@ package com.example.chatground2
 //                    mSocket.emit("CancelForumRecommend", data)
 //
 //                    RF_recommend.text = (RF_recommend.text.toString().toInt() - 1).toString()
-//                    RF_recommend.background = ContextCompat.getDrawable(this@readforum, R.drawable.recommendbuttonfit)
+//                    RF_recommend.background = ContextCompat.getDrawable(this@readforum, R.drawable.recommend_button_fit)
 //
 //                    RF_recommendNum.text = "추천 : ${(RF_recommend.text.toString().toInt() - 1)} 개"
 //
@@ -161,7 +161,7 @@ package com.example.chatground2
 //                    IsImage = false
 //                    file = null
 //                    RF_camera.setImageBitmap(null)
-//                    RF_camera.background = ContextCompat.getDrawable(this@readforum, R.drawable.writeforum_camera_icon)
+//                    RF_camera.background = ContextCompat.getDrawable(this@readforum, R.drawable.write_forum_camera_icon)
 //                }
 //                builder.show()
 //            } else {
@@ -334,7 +334,7 @@ package com.example.chatground2
 //
 //            for (i: Int in 0 until F_CommentNum) {
 //                var C_Objectid: String =
-//                    receivedData.getJSONObject("data").getJSONArray("Comments").getJSONObject(i).getString("_id")
+//                    receivedData.getJSONObject("data").getJSONArray("Comments").getJSONObject(i).getString("idx")
 //                var C_Email: String =
 //                    receivedData.getJSONObject("data").getJSONArray("Comments").getJSONObject(i).getString("Email")
 //                var C_Nickname: String =
@@ -375,7 +375,7 @@ package com.example.chatground2
 //                        receivedData.getJSONObject("data").getJSONArray("Comments").getJSONObject(i)
 //                            .getJSONArray("ReComments").getJSONObject(j)
 //                    var RC_commentUid = ReCommentpath.getString("commentUid")
-//                    var RC_recommentUid = ReCommentpath.getString("_id")
+//                    var RC_recommentUid = ReCommentpath.getString("idx")
 //                    var RC_Email = ReCommentpath.getString("Email")
 //                    var RC_content = ReCommentpath.getString("recomment_Content")
 //                    var RC_Nickname = ReCommentpath.getString("Nickname")
@@ -604,7 +604,7 @@ package com.example.chatground2
 //                }
 //            }
 //        } catch (e: FileNotFoundException) {
-//            bitmap = BitmapFactory.decodeResource(this.resources, R.drawable.profileicon)
+//            bitmap = BitmapFactory.decodeResource(this.resources, R.drawable.profile_icon)
 //        }
 //        return bitmap
 //    }
@@ -619,7 +619,7 @@ package com.example.chatground2
 //    ) {
 //        if (isimage) {
 //            RF_camera.setImageBitmap(null)
-//            RF_camera.background = ContextCompat.getDrawable(this@readforum, R.drawable.writeforum_camera_icon)
+//            RF_camera.background = ContextCompat.getDrawable(this@readforum, R.drawable.write_forum_camera_icon)
 //            var fileReqBody: RequestBody = RequestBody.create(MediaType.parse("image/*"), file)
 //            var part: MultipartBody.Part = MultipartBody.Part.createFormData("upload", file!!.name, fileReqBody)
 //

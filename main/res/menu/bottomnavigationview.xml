@@ -11,6 +11,6 @@
             android:title="게시판" />
     <item
             android:id="@+id/profileItem"
-            android:icon="@drawable/profileicon"
+            android:icon="@drawable/profile_icon"
             android:title="프로필" />
 </menu>

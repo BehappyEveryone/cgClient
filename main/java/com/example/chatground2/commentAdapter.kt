@@ -17,9 +17,8 @@ import android.view.*
 import android.widget.Toast
 import com.example.chatground2.Model.DefaultResponse
 import com.example.chatground2.Model.commentitemdata
-import kotlinx.android.synthetic.main.activity_readforum.*
-import kotlinx.android.synthetic.main.commentitem.view.*
-import kotlinx.android.synthetic.main.recommentitem.view.*
+import kotlinx.android.synthetic.main.comment_item.view.*
+import kotlinx.android.synthetic.main.reply_item.view.*
 import kotlinx.coroutines.*
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -49,11 +48,11 @@ class commentAdapter()
 //        val view: View?
 //        return when (viewType) {
 //            0 -> {
-//                view = LayoutInflater.from(context).inflate(R.layout.commentitem, parent, false)
+//                view = LayoutInflater.from(context).inflate(R.layout.comment_item, parent, false)
 //                commentViewHolder(view)
 //            }
 //            1 -> {
-//                view = LayoutInflater.from(parent.context).inflate(R.layout.recommentitem, parent, false)
+//                view = LayoutInflater.from(parent.context).inflate(R.layout.reply_item, parent, false)
 //                recommentViewHolder(view)
 //            }
 //            else -> throw RuntimeException("알 수 없는 뷰 타입 에러")
@@ -188,7 +187,7 @@ class commentAdapter()
 //                if (IsImage) {
 //                    holder.CI_recommentcamera.setImageBitmap(bitmap)
 //                } else {
-//                    holder.CI_recommentcamera.setImageResource(R.drawable.writeforum_camera_icon)
+//                    holder.CI_recommentcamera.setImageResource(R.drawable.write_forum_camera_icon)
 //                }
 //
 //                holder.CI_recommentcamera.setOnClickListener {
@@ -200,7 +199,7 @@ class commentAdapter()
 //                        builder.setPositiveButton("삭제") { dialogInterface, i ->
 //                            IsImage = false
 //                            file = null
-//                            holder.CI_recommentcamera.setImageResource(R.drawable.writeforum_camera_icon)
+//                            holder.CI_recommentcamera.setImageResource(R.drawable.write_forum_camera_icon)
 //                        }
 //                        builder.show()
 //                    } else {

@@ -18,18 +18,18 @@
 
         <TextView
                 android:layout_marginTop="20dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
                 android:id="@+id/FI_subject"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="[주제]"
-                android:textSize="17dp"
+                android:textSize="17sp"
                 android:textColor="@color/Blue"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"/>
 
         <TextView
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:id="@+id/FI_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -37,20 +37,20 @@
                 android:gravity="start"
                 android:maxLines="2"
                 android:text="제목"
-                android:textSize="16dp"
-                android:layout_marginRight="20dp"
-                app:layout_constraintEnd_toStartOf="@id/FI_comment"
+                android:textSize="16sp"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintEnd_toStartOf="@id/FI_commentNum"
                 app:layout_constraintTop_toTopOf="@+id/FI_subject"
                 app:layout_constraintStart_toEndOf="@+id/FI_subject"/>
 
         <TextView
-                android:id="@+id/FI_comment"
+                android:id="@+id/FI_commentNum"
                 android:background="@drawable/forumsitem_comment_icon"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 android:gravity="center"
                 android:paddingBottom="5dp"
                 android:text="5"
-                android:layout_marginRight="5dp"
+                android:layout_marginEnd="5dp"
                 android:layout_marginBottom="15dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -61,9 +61,9 @@
         <TextView
                 android:id="@+id/FI_nickname"
                 android:text="닉네임"
-                android:textSize="12dp"
+                android:textSize="12sp"
                 android:layout_marginTop="5dp"
-                android:layout_marginRight="50dp"
+                android:layout_marginEnd="50dp"
                 app:layout_constraintStart_toStartOf="@id/FI_subject"
                 app:layout_constraintEnd_toStartOf="@id/FI_recommendicon"
                 app:layout_constraintTop_toBottomOf="@id/FI_title"
@@ -74,7 +74,7 @@
         <ImageView
                 android:id="@+id/FI_dateicon"
                 android:background="@drawable/forumsitem_date"
-                app:layout_constraintEnd_toStartOf="@id/FI_datetext"
+                app:layout_constraintEnd_toStartOf="@id/FI_dateText"
                 app:layout_constraintTop_toTopOf="@id/FI_nickname"
                 app:layout_constraintBottom_toBottomOf="@id/FI_nickname"
                 android:layout_width="15dp"
@@ -82,9 +82,9 @@
 
         <TextView
                 android:text="2019년 10월 25일"
-                android:id="@+id/FI_datetext"
-                android:textSize="10dp"
-                android:layout_marginRight="10dp"
+                android:id="@+id/FI_dateText"
+                android:textSize="12sp"
+                android:layout_marginEnd="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/FI_dateicon"
                 app:layout_constraintBottom_toBottomOf="@id/FI_dateicon"
@@ -92,7 +92,7 @@
                 android:layout_height="wrap_content"/>
 
         <View
-                android:layout_marginRight="3dp"
+                android:layout_marginEnd="3dp"
                 android:background="@color/black"
                 app:layout_constraintBottom_toBottomOf="@+id/FI_dateicon"
                 app:layout_constraintTop_toTopOf="@id/FI_dateicon"
@@ -111,8 +111,8 @@
 
         <ImageView
                 android:visibility="gone"
-                android:id="@+id/FI_Image"
-                android:layout_marginRight="10dp"
+                android:id="@+id/FI_image"
+                android:layout_marginEnd="10dp"
                 android:background="@drawable/forumsitem_image"
                 app:layout_constraintTop_toTopOf="@id/FI_recommendicon"
                 app:layout_constraintBottom_toBottomOf="@id/FI_recommendicon"
@@ -123,8 +123,8 @@
         <TextView
                 android:text="1개"
                 android:id="@+id/FI_recommendtext"
-                android:textSize="10dp"
-                android:layout_marginRight="3dp"
+                android:textSize="12sp"
+                android:layout_marginEnd="3dp"
                 app:layout_constraintEnd_toStartOf="@id/view"
                 app:layout_constraintTop_toTopOf="@id/FI_dateicon"
                 app:layout_constraintBottom_toBottomOf="@id/FI_dateicon"

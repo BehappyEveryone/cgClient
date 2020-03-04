@@ -1,4 +1,4 @@
-package com.example.chatground2.view.Login
+package com.example.chatground2.view.login
 
 import com.example.chatground2.Model.DTO.UserDto
 
@@ -16,11 +16,16 @@ interface LoginContract {
         fun getPasswordText():String
         fun enterMainActivity()
         fun enterSignUpActivity()
+        fun setEmailText(text: String)
+        fun setPasswordText(text: String)
+        fun setEmailFocus()
+        fun setPasswordFocus()
     }
 
     interface Listener
     {
-        fun onSuccess(userDto: UserDto)
+        fun onLoginSuccess(userDto: UserDto)
+        fun onLoginFailure()
         fun onFailure()
     }
 }

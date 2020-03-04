@@ -1,14 +1,49 @@
 package com.example.chatground2.Api
 
+import com.example.chatground2.Model.DTO.ForumDto
 import com.example.chatground2.Model.DTO.UserDto
 import com.example.chatground2.Model.DefaultResponse
 import com.example.chatground2.Model.DefaultResponse2
 import com.example.chatground2.Model.loginResponse
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.*
 
 interface Api {
+
+    @FormUrlEncoded
+    @POST(IpAddress.Router.deleteForum)
+    fun deleteForum(
+        @FieldMap hashMap: HashMap<String,Any>
+    ): Call<DefaultResponse?>
+
+    @Multipart
+    @POST(IpAddress.Router.writeComment)
+    fun writeComment(
+        @PartMap hashMap: HashMap<String, Any>,
+        @Part file: MultipartBody.Part?
+    ):Call<DefaultResponse>
+
+    @Multipart
+    @POST(IpAddress.Router.writeForum)
+    fun writeForum(
+        @PartMap hashMap: HashMap<String, RequestBody>,
+        @Part imagePart: Array<MultipartBody.Part?>
+    ):Call<DefaultResponse>
+
+    @FormUrlEncoded
+    @POST(IpAddress.Router.callForums)
+    fun callForums(
+        @FieldMap hashMap: HashMap<String,Any>
+    ): Call<ArrayList<ForumDto>?>
+
+    @FormUrlEncoded
+    @POST(IpAddress.Router.detailForum)
+    fun detailForum(
+        @FieldMap hashMap: HashMap<String,Any>
+    ): Call<ForumDto?>
+
     @FormUrlEncoded
     @POST(IpAddress.Router.signIn)
     fun signIn(

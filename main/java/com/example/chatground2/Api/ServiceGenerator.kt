@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 
 class ServiceGenerator(val context: Context) {
-    private val BASE_URL = IpAddress.BaseURL
+    private val baseURL = IpAddress.BaseURL
 
     private val okHttpClient = OkHttpClient.Builder()
         .addInterceptor { chain ->
@@ -28,7 +28,7 @@ class ServiceGenerator(val context: Context) {
 
     val instance: Api by lazy {
         val retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(baseURL)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .client(okHttpClient)
             .build()

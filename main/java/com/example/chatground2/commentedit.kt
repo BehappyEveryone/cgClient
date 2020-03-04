@@ -68,7 +68,7 @@ class commentedit
 //                builder.setPositiveButton("삭제") { dialogInterface, i ->
 //                    IsImage = false
 //                    Imagepath = null
-//                    editcamera.background = ContextCompat.getDrawable(this, R.drawable.writeforum_camera_icon)
+//                    editcamera.background = ContextCompat.getDrawable(this, R.drawable.write_forum_camera_icon)
 //                    editcamera.setImageBitmap(null)
 //                }
 //                builder.show()

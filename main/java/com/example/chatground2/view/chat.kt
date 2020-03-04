@@ -534,9 +534,9 @@ class chat
 //    }
 //
 //    private fun getvideoPath(uri: Uri): String {
-//        var id: String = DocumentsContract.getDocumentId(uri).split(":")[1]
+//        var idx: String = DocumentsContract.getDocumentId(uri).split(":")[1]
 //        var proj: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
-//        var selection: String = MediaStore.Files.FileColumns._ID + " = " + id
+//        var selection: String = MediaStore.Files.FileColumns._ID + " = " + idx
 //        var c: Cursor = contentResolver.query(MediaStore.Files.getContentUri("external"), proj, selection, null, null)
 //        var index = c.getColumnIndexOrThrow(proj[0])
 //        c.moveToFirst()

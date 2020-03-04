@@ -15,7 +15,6 @@ class SocketService:Service() {
 
     var mBinder:IBinder = SocketBinder()
 
-
     class SocketBinder:Binder(){
         fun getService() : SocketService{ // 서비스 객체를 리턴
             return SocketService()
@@ -44,7 +43,7 @@ class SocketService:Service() {
 
     fun connectSocket()
     {
-        println("소켓연결함")
+        println("소켓연결시도")
         try {
             if(!SocketIo.mSocket.connected())
             {
@@ -56,7 +55,7 @@ class SocketService:Service() {
     }
     fun disconnectSocket()
     {
-        println("소켓연결해제함")
+        println("소켓연결해제시도")
         SocketIo.mSocket.disconnect()
     }
 

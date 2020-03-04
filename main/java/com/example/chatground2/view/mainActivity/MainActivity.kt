@@ -6,7 +6,7 @@ import android.view.View
 import com.example.chatground2.R
 import kotlinx.android.synthetic.main.activity_main.*
 import androidx.fragment.app.Fragment
-import com.example.chatground2.view.Forums.ForumsFragment
+import com.example.chatground2.view.forums.ForumsFragment
 import com.example.chatground2.view.gameReady.GameReadyFragment
 import com.example.chatground2.view.Profile.ProfileFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView

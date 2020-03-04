@@ -24,14 +24,13 @@ class MainPresenter(
 
     init {
         //받을 브로드캐스트 리시버
-        intentFilter.addAction("onConnect")
         intentFilter.addAction("onMakeRoom")
     }
 
     private val receiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
-            if (intent?.action == "onConnect") {
-                println("피시방가자")
+            if (intent?.action == "onMakeRoom") {
+                println("피시방가자 onMakeRoom")
             }
         }
     }

@@ -21,7 +21,7 @@
 
     <ImageButton
             android:id="@+id/editcamera"
-            android:background="@drawable/writeforum_camera_icon"
+            android:background="@drawable/write_forum_camera_icon"
             android:scaleType="fitXY"
             android:layout_width="60dp"
             android:layout_height="60dp"

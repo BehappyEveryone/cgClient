@@ -27,7 +27,7 @@
         <ImageView
             android:id="@+id/TextCLprofile"
             android:layout_width="35dp"
-            android:src="@drawable/defaultprofile"
+            android:src="@drawable/default_profile"
             android:layout_height="35dp"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"

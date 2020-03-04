@@ -69,15 +69,15 @@
 //    override fun onResume() {
 //        super.onResume()
 //
-//        val currentID: Int = CurrentStatepref.getInt("lastfragment", R.id.gameItem)
+//        val currentID: Int = CurrentStatepref.getInt("lastfragment", R.idx.gameItem)
 //
 //        var transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
 //
 //        when (currentID) {
-//            R.id.gameItem -> transaction.replace(R.id.menu_frameLayout, gamereadyFragment).addToBackStack(null).commit()
-//            R.id.forumsItem -> transaction.replace(R.id.menu_frameLayout, forumsFragment).addToBackStack(null).commit()
-//            R.id.profileItem -> transaction.replace(
-//                R.id.menu_frameLayout,
+//            R.idx.gameItem -> transaction.replace(R.idx.menu_frameLayout, gamereadyFragment).addToBackStack(null).commit()
+//            R.idx.forumsItem -> transaction.replace(R.idx.menu_frameLayout, forumsFragment).addToBackStack(null).commit()
+//            R.idx.profileItem -> transaction.replace(
+//                R.idx.menu_frameLayout,
 //                profileFragment
 //            ).addToBackStack(null).commit()
 //        }
@@ -109,7 +109,7 @@
 //
 //        var transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
 //
-//        transaction.replace(R.id.menu_frameLayout, gamereadyFragment).addToBackStack(null).commit()
+//        transaction.replace(R.idx.menu_frameLayout, gamereadyFragment).addToBackStack(null).commit()
 //        menu_navigationView.setOnNavigationItemSelectedListener(ItemSelectedListener())
 //    }
 //
@@ -118,16 +118,16 @@
 //            var transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
 //
 //            when (menuItem.itemId) {
-//                R.id.gameItem -> {
-//                    transaction.replace(R.id.menu_frameLayout, gamereadyFragment).addToBackStack(null).commit()
+//                R.idx.gameItem -> {
+//                    transaction.replace(R.idx.menu_frameLayout, gamereadyFragment).addToBackStack(null).commit()
 //                    return true
 //                }
-//                R.id.forumsItem -> {
-//                    transaction.replace(R.id.menu_frameLayout, forumsFragment).addToBackStack(null).commit()
+//                R.idx.forumsItem -> {
+//                    transaction.replace(R.idx.menu_frameLayout, forumsFragment).addToBackStack(null).commit()
 //                    return true
 //                }
-//                R.id.profileItem -> {
-//                    transaction.replace(R.id.menu_frameLayout, profileFragment).addToBackStack(null).commit()
+//                R.idx.profileItem -> {
+//                    transaction.replace(R.idx.menu_frameLayout, profileFragment).addToBackStack(null).commit()
 //                    return true
 //                }
 //            }

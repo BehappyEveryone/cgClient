@@ -1,4 +1,4 @@
-package com.example.chatground2.view.Login
+package com.example.chatground2.view.login
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -48,6 +48,18 @@ class LoginActivity : AppCompatActivity(), LoginContract.ILoginView, View.OnClic
     override fun enterMainActivity() = startActivity(Intent(this, MainActivity::class.java))
 
     override fun enterSignUpActivity() = startActivity(Intent(this, SignUpActivity::class.java))
+
+    override fun setEmailText(text: String) = L_email.setText(text)
+
+    override fun setPasswordText(text: String) = L_password.setText(text)
+
+    override fun setEmailFocus(){
+        L_email.requestFocus()
+    }
+
+    override fun setPasswordFocus() {
+        L_password.requestFocus()
+    }
 
     override fun onClick(v: View?) {
         when (v?.id) {
