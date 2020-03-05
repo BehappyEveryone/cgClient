@@ -3,15 +3,21 @@ package com.example.chatground2.view.detailForum
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.chatground2.Model.Constants
 import com.example.chatground2.R
+import com.example.chatground2.adapter.CommentsAdapter
 import com.example.chatground2.view.writeForum.WriteForumActivity
 import com.example.chatground2.view.writeForum.WriteForumContract
 import com.example.chatground2.view.writeForum.WriteForumPresenter
@@ -27,23 +33,38 @@ class DetailForumActivity : AppCompatActivity(), DetailForumContract.IDetailForu
     View.OnClickListener {
 
     private var presenter: DetailForumPresenter? = null
+    private var commentsAdapter: CommentsAdapter? = null
+    private var lm: LinearLayoutManager? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_forum)
 
         initialize()
-        presenter?.detailForum(intent.getIntExtra("idx", -1))
+        presenter?.detailForum()
     }
 
     private fun initialize() {
-        presenter = DetailForumPresenter(this, this)
+        commentsAdapter = CommentsAdapter(this)
+        lm = LinearLayoutManager(this)
+
+        presenter = DetailForumPresenter(this, this).apply {
+            this.idx = intent.getIntExtra("idx", -1)
+            adapterModel = commentsAdapter
+            adapterView = commentsAdapter
+        }
+
+        DF_commentRecycle.run {
+            layoutManager = lm
+            adapter = commentsAdapter
+        }
 
         backButton.setOnClickListener(this)
         DF_camera.setOnClickListener(this)
         DF_deleteButton.setOnClickListener(this)
         DF_commentSend.setOnClickListener(this)
         DF_modifyButton.setOnClickListener(this)
+        DF_recommend.setOnClickListener(this)
     }
 
     override fun onDestroy() {
@@ -57,11 +78,14 @@ class DetailForumActivity : AppCompatActivity(), DetailForumContract.IDetailForu
 
             R.id.backButton -> onBackPressed()
             R.id.DF_camera -> presenter?.onCameraClick()
-            R.id.DF_commentSend -> onBackPressed()
-            R.id.DF_deleteButton -> presenter?.deleteForum(intent.getIntExtra("idx", -1))
-            R.id.DF_modifyButton -> presenter?.modifyForum(intent.getIntExtra("idx", -1))
+            R.id.DF_commentSend -> presenter?.onCommentSendClick()
+            R.id.DF_deleteButton -> presenter?.deleteForum()
+            R.id.DF_modifyButton -> presenter?.modifyForum()
+            R.id.DF_recommend -> presenter?.onRecommendClick()
         }
     }
+
+    override fun getCommentMessageText(): String = DF_commentMessage.text.toString()
 
     override fun setDateText(text: String) {
         DF_date.text = text
@@ -163,8 +187,24 @@ class DetailForumActivity : AppCompatActivity(), DetailForumContract.IDetailForu
         }
     }
 
-    override fun setCameraImage(path: String) {
-        Picasso.get().load(path).into(DF_camera)
+    override fun setCameraImage(path: String?) {
+        if (path.isNullOrEmpty()) {
+            DF_camera.setImageDrawable(
+                ContextCompat.getDrawable(
+                    this,
+                    R.drawable.write_forum_camera_icon
+                )
+            )
+//            Picasso.get().load(R.drawable.write_forum_camera_icon).fit().into(DF_camera)
+        } else {
+            setImageBitmap(DF_camera, path)
+//            Picasso.get().load(path).into(DF_camera)
+        }
+    }
+
+    private fun setImageBitmap(imageButton: ImageButton, path: String) {
+        val bitmap: Bitmap = BitmapFactory.decodeFile(path)
+        imageButton.setImageBitmap(bitmap)
     }
 
     override fun setDeleteForumVisible(boolean: Boolean) {
@@ -182,6 +222,8 @@ class DetailForumActivity : AppCompatActivity(), DetailForumContract.IDetailForu
             DF_modifyButton.visibility = View.GONE
         }
     }
+
+    override fun setCommentMessageText(text: String) = DF_commentMessage.setText(text)
 
     override fun deleteDialog() {
         val builder = AlertDialog.Builder(this)
@@ -214,7 +256,10 @@ class DetailForumActivity : AppCompatActivity(), DetailForumContract.IDetailForu
     }
 
     override fun enterModifyForum(idx: Int) {
-        startActivityForResult(Intent(this, WriteForumActivity::class.java).putExtra("idx",idx), Constants.MODIFY_FORUM)
+        startActivityForResult(
+            Intent(this, WriteForumActivity::class.java).putExtra("idx", idx),
+            Constants.MODIFY_FORUM
+        )
     }
 
     override fun onBackPressed() {
@@ -229,4 +274,29 @@ class DetailForumActivity : AppCompatActivity(), DetailForumContract.IDetailForu
 
     override fun toastMessage(text: String) = Toast.makeText(this, text, Toast.LENGTH_LONG).show()
 
+    override fun recommendDialog(boolean: Boolean) {
+        val message:String = if(boolean) {
+            "추천을 취소하시겠습니까?"
+        }else {
+            "해당 게시글을 추천 하시겠습니까?"
+        }
+
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("알림")
+        builder.setMessage(message)
+        builder.setNegativeButton("취소", null)
+        builder.setPositiveButton("확인") { _, _ ->
+            presenter?.recommendForum()
+        }
+        builder.show()
+    }
+
+    override fun setEnable(boolean: Boolean) {
+        DF_camera.isEnabled = boolean
+        DF_deleteButton.isEnabled = boolean
+        DF_commentSend.isEnabled = boolean
+        DF_modifyButton.isEnabled = boolean
+        DF_recommend.isEnabled = boolean
+        backButton.isEnabled = boolean
+    }
 }

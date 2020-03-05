@@ -14,11 +14,18 @@ import androidx.core.content.ContextCompat
 import com.example.chatground2.Api.IpAddress
 import com.example.chatground2.Model.Constants
 import com.example.chatground2.Model.DAO.Model
+import com.example.chatground2.Model.DTO.CommentDto
 import com.example.chatground2.Model.DTO.ForumDto
 import com.example.chatground2.Model.DTO.UserDto
 import com.example.chatground2.adapter.adapterContract.CommentsAdapterContract
 import com.google.gson.Gson
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import java.io.File
 import java.text.DateFormat
+import com.google.gson.reflect.TypeToken
+
 
 class DetailForumPresenter(
     private val context: Context,
@@ -26,8 +33,8 @@ class DetailForumPresenter(
 ) : DetailForumContract.IDetailForumPresenter, DetailForumContract.Listener {
 
     private var model: Model = Model(context)
-
     private var imagePath: String? = null
+    private var isRecommendExist:Boolean? = null//true면 이미 추천 false면 새로 추천
 
     private val sp: SharedPreferences =
         context.getSharedPreferences(Constants.SHARED_PREFERENCE, Context.MODE_PRIVATE)
@@ -35,18 +42,76 @@ class DetailForumPresenter(
 
     private var c: Cursor? = null
 
+    override var idx: Int? = null
     override var adapterModel: CommentsAdapterContract.Model? = null
     override var adapterView: CommentsAdapterContract.View? = null
         set(value) {//커스텀 접근자
             field = value
-            field?.onReplyCameraClick = { onPathCheck(it) }
-            field?.onReplySendClick = { position, content ->
-                onReplySendClick(position, content)
+            field?.onReplyClickFunc = { position,state ->
+                onReplyClick(position,state)
             }
         }
 
-    override fun onReplySendClick(position: Int, content: String) {
+    override fun onRecommendClick() {
+        isRecommendExist?.let {
+            if(it)
+            {
+                view.recommendDialog(it)
+            }else
+            {
+                view.recommendDialog(it)
+            }
+        }
+    }
 
+    override fun recommendForum() {
+        view.progressVisible(true)
+        view.setEnable(false)
+
+        val hashMap = HashMap<String, Any>()
+        idx?.let { hashMap["idx"] = it }
+        hashMap["user"] = getUser()._id
+        isRecommendExist?.let { hashMap["type"] = it }
+
+        model.recommendForum(hashMap, this)
+    }
+
+    private fun onReplyClick(position: Int,state: Boolean) {
+        adapterModel.let {
+            if(state)
+            {
+                it?.setReplyCommentId(null)
+            }else
+            {
+                it?.setReplyCommentId(it.getItem(position)._id)
+            }
+        }
+    }
+
+    override fun onCommentSendClick() {
+        view.progressVisible(true)
+        view.setEnable(false)
+
+        val hashMap = HashMap<String, RequestBody>()
+        hashMap["forumIdx"] = RequestBody.create(MediaType.parse("text/plain"), idx.toString())
+        hashMap["content"] =
+            RequestBody.create(MediaType.parse("text/plain"), view.getCommentMessageText())
+        hashMap["user"] = RequestBody.create(MediaType.parse("text/plain"), getUser()._id)
+        if(!adapterModel?.getReplyCommentId().isNullOrEmpty())
+        {
+            hashMap["replyCommentId"] = RequestBody.create(MediaType.parse("text/plain"), adapterModel?.getReplyCommentId().toString())
+        }
+
+        var imagePart: MultipartBody.Part? = null
+
+        if (!imagePath.isNullOrEmpty()) {
+            val file = File(imagePath)
+            val requestBody: RequestBody = RequestBody.create(MediaType.parse("image/*"), file)
+
+            imagePart = MultipartBody.Part.createFormData("img", file.name, requestBody)
+        }
+
+        model.writeComment(hashMap, imagePart, this)
     }
 
     override fun onCameraClick() {
@@ -69,8 +134,8 @@ class DetailForumPresenter(
     }
 
     override fun deleteImage() {
+        view.setCameraImage(null)
         imagePath = null
-        adapterModel?.setReplyImagePathString(null)
     }
 
     override fun checkCameraPermission() {
@@ -100,7 +165,6 @@ class DetailForumPresenter(
         if (!path.isNullOrEmpty()) {
             imagePath = path
             view.setCameraImage(path)
-            adapterModel?.setReplyImagePathString(path)
         }
     }
 
@@ -132,39 +196,44 @@ class DetailForumPresenter(
         )
     }
 
-    override fun detailForum(idx: Int) {
+    override fun detailForum() {
         view.progressVisible(true)
 
         val hashMap = HashMap<String, Any>()
-        hashMap["idx"] = idx
+        hashMap["idx"] = idx.toString()
         model.detailForum(hashMap, this)
     }
 
-    override fun deleteForum(idx: Int) {
+    override fun deleteForum() {
         view.progressVisible(true)
 
         val hashMap = HashMap<String, Any>()
-        hashMap["idx"] = idx
+        hashMap["idx"] = idx.toString()
         hashMap["userId"] = getUser()._id
         model.deleteForum(hashMap, this)
     }
 
-    override fun modifyForum(idx: Int) {
-        view.enterModifyForum(idx)
+    override fun modifyForum() {
+        idx?.let { view.enterModifyForum(it) }
     }
 
     override fun onDetailForumSuccess(forumDto: ForumDto?) {
+        adapterModel?.clearItems()
         forumDto?.let {
             if (it.user._id == getUser()._id) {
                 view.setDeleteForumVisible(true)
                 view.setModifyForumVisible(true)
             }
+
+            isRecommendExist = it.recommend?.contains(getUser()._id)
+
+
             view.setTitleText(it.title)
             view.setContentText(it.content)
             view.setDateText(DateFormat.getDateInstance(DateFormat.LONG).format(it.birth))
             view.setCommentNumText("댓글 : ${it.comments?.size.toString()} 개")
-            view.setRecommendText("추천 : ${it.recommend} 개")
-            view.setRecommendButtonText(it.recommend.toString())
+            view.setRecommendText("추천 : ${it.recommend?.size.toString()} 개")
+            view.setRecommendButtonText(it.recommend?.size.toString())
             it.user.profile?.let { it1 -> view.setProfileImage(it1) }
             view.setNicknameText(it.user.nickname)
 
@@ -178,6 +247,16 @@ class DetailForumPresenter(
                         4 -> view.setImage4(IpAddress.BaseURL + array[i])
                     }
                 }
+            }
+
+            it.comments?.let { it1 ->
+                val commentArray = gson.fromJson<ArrayList<CommentDto>>(
+                    gson.toJson(it1),
+                    object : TypeToken<ArrayList<CommentDto>>() {}.type
+                )
+
+                adapterModel?.addItems(commentArray)
+                adapterView?.notifyAdapter()
             }
         }
         view.progressVisible(false)
@@ -198,6 +277,53 @@ class DetailForumPresenter(
     override fun onDeleteForumFailure() {
         view.progressVisible(false)
         view.toastMessage("게시글 삭제 실패")
+    }
+
+    override fun onWriteCommentSuccess() {
+        view.progressVisible(false)
+        view.setEnable(true)
+        view.toastMessage("댓글 작성 완료")
+        view.setCommentMessageText("")
+
+        deleteImage()
+        detailForum()
+        adapterModel?.setReplyCommentId(null)
+    }
+
+    override fun onWriteCommentFailure() {
+        view.progressVisible(false)
+        view.setEnable(true)
+        view.toastMessage("댓글 작성 실패")
+    }
+
+    override fun onRecommendForumSuccess() {
+        view.progressVisible(false)
+        view.setEnable(true)
+        isRecommendExist?.let {
+            if(it)
+            {
+                view.toastMessage("추천취소 성공")
+            }else
+            {
+                view.toastMessage("추천 성공")
+            }
+        }
+        isRecommendExist = null
+        detailForum()
+    }
+
+    override fun onRecommendForumFailure() {
+        view.progressVisible(false)
+        view.setEnable(true)
+        isRecommendExist?.let {
+            if(it)
+            {
+                view.toastMessage("추천취소 실패")
+            }else
+            {
+                view.toastMessage("추천 실패")
+            }
+        }
     }
 
     override fun onFailure() {

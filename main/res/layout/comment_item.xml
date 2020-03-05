@@ -6,14 +6,16 @@
     android:id="@+id/CI_card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="3dp"
-    android:layout_marginLeft="3dp"
-    android:layout_marginEnd="3dp"
-    android:layout_marginRight="3dp"
-    android:layout_marginBottom="3dp"
-    app:cardElevation="6dp">
+    android:background="@color/white"
+    android:layout_marginStart="2dp"
+    android:layout_marginLeft="2dp"
+    android:layout_marginEnd="2dp"
+    android:layout_marginRight="2dp"
+    android:layout_marginBottom="1dp"
+    app:cardElevation="5dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="@null"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="10dp">
@@ -49,11 +51,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center|start"
-            android:paddingStart="10dp"
-            android:paddingTop="20dp"
-            android:paddingEnd="10dp"
-            android:paddingBottom="20dp"
-            android:singleLine="false"
+            android:padding="10dp"
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -92,42 +90,30 @@
             app:layout_constraintStart_toStartOf="@+id/CI_profile"
             app:layout_constraintTop_toBottomOf="@+id/CI_content" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/CI_bottom"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+        <Button
             android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@+id/CI_replyButton">
+            android:id="@+id/CI_modifyButton"
+            android:layout_width="35dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="5dp"
+            android:background="@drawable/tedury2"
+            android:text="수정"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toStartOf="@+id/CI_deleteButton"
+            app:layout_constraintTop_toBottomOf="@+id/CI_content" />
 
-            <ImageButton
-                android:id="@+id/CI_replyCamera"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:background="@drawable/write_forum_camera_icon"
-                android:scaleType="fitXY"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <EditText
-                android:id="@+id/CI_replyMessage"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:maxHeight="130dp"
-                android:scrollbars="vertical"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/CI_replySend"
-                app:layout_constraintStart_toEndOf="@id/CI_replyCamera" />
-
-            <ImageButton
-                android:id="@+id/CI_replySend"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:layout_marginEnd="5dp"
-                android:background="@drawable/sendicon"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            android:visibility="gone"
+            android:id="@+id/CI_deleteButton"
+            android:layout_width="35dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="2dp"
+            android:background="@drawable/tedury2"
+            android:text="삭제"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/CI_content" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

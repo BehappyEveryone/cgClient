@@ -13,6 +13,12 @@ import retrofit2.http.*
 interface Api {
 
     @FormUrlEncoded
+    @POST(IpAddress.Router.recommendForum)
+    fun recommendForum(
+        @FieldMap hashMap: HashMap<String,Any>
+    ): Call<DefaultResponse?>
+
+    @FormUrlEncoded
     @POST(IpAddress.Router.deleteForum)
     fun deleteForum(
         @FieldMap hashMap: HashMap<String,Any>
@@ -21,8 +27,8 @@ interface Api {
     @Multipart
     @POST(IpAddress.Router.writeComment)
     fun writeComment(
-        @PartMap hashMap: HashMap<String, Any>,
-        @Part file: MultipartBody.Part?
+        @PartMap hashMap: HashMap<String, RequestBody>,
+        @Part imagePart: MultipartBody.Part?
     ):Call<DefaultResponse>
 
     @Multipart

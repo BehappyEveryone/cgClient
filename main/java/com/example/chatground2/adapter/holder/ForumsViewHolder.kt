@@ -28,10 +28,10 @@ class ForumsViewHolder(
 
     fun onBind(items: ArrayList<ForumDto>, position: Int) {
         items[position].let {
-            subject.text = it.subject
+            subject.text = "[${it.subject}]"
             title.text = it.title
             commentNum.text = it.comments?.size.toString()
-            recommendText.text = it.recommend.toString()
+            recommendText.text = it.recommend?.size.toString()
             nickname.text = it.user.nickname
             dateText.text = DateFormat.getDateInstance(DateFormat.LONG).format(it.birth)
             if (it.imageUrl.isNullOrEmpty()) {

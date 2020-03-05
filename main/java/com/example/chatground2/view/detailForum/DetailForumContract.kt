@@ -10,22 +10,25 @@ import kotlinx.android.synthetic.main.activity_detail_forum.*
 
 interface DetailForumContract {
     interface IDetailForumPresenter{
+        var idx:Int?
         var adapterModel: CommentsAdapterContract.Model?
         var adapterView: CommentsAdapterContract.View?
-        fun detailForum(idx: Int)
-        fun onReplySendClick(position:Int,content:String)
+        fun detailForum()
+        fun onCommentSendClick()
         fun onPathCheck(imagePath: String?)
         fun galleryResult(data: Intent?)
         fun checkCameraPermission()
         fun deleteImage()
         fun onCameraClick()
         fun closeCursor()
-        fun deleteForum(idx: Int)
-        fun modifyForum(idx: Int)
+        fun deleteForum()
+        fun modifyForum()
+        fun onRecommendClick()
+        fun recommendForum()
     }
 
     interface IDetailForumView{
-        fun setCameraImage(path:String)
+        fun setCameraImage(path:String?)
         fun deleteDialog()
         fun createDialog()
         fun progressVisible(boolean: Boolean)
@@ -48,14 +51,22 @@ interface DetailForumContract {
         fun setDeleteForumVisible(boolean: Boolean)
         fun setModifyForumVisible(boolean: Boolean)
         fun enterModifyForum(idx: Int)
+        fun getCommentMessageText():String
+        fun setCommentMessageText(text: String)
+        fun recommendDialog(boolean: Boolean)
+        fun setEnable(boolean: Boolean)
     }
 
     interface Listener
     {
+        fun onWriteCommentSuccess()
+        fun onWriteCommentFailure()
         fun onDetailForumSuccess(forumDto: ForumDto?)
         fun onDetailForumFailure()
         fun onDeleteForumSuccess()
         fun onDeleteForumFailure()
+        fun onRecommendForumSuccess()
+        fun onRecommendForumFailure()
         fun onFailure()
     }
 }

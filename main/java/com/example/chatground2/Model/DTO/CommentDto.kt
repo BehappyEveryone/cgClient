@@ -4,11 +4,12 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 data class CommentDto(
-    var id: String,
-    var userId:Any,
+    var _id:String,
     var forumIdx:Int,
+    var replyCommentId:String?,
+    var user:UserDto,
     var content:String,
     var imageUrl:String?,
-    var reply:ArrayList<Any>?,
-    var date: Date?
+    var replies:ArrayList<Any>?,
+    var birth:Date
 )

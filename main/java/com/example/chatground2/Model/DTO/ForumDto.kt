@@ -13,6 +13,6 @@ data class ForumDto(
     var content:String,
     var imageUrl:ArrayList<String>?,
     var comments:ArrayList<Any>?,
-    var recommend:Int,
+    var recommend:ArrayList<String>?,
     var birth:Date
 )

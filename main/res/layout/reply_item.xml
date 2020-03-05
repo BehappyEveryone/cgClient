@@ -4,31 +4,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/RCI_card"
+    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="3dp"
-    android:layout_marginLeft="3dp"
-    android:layout_marginEnd="3dp"
-    android:layout_marginRight="3dp"
-    android:layout_marginBottom="3dp"
-    app:cardElevation="6dp">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="50dp"
-            android:background="@drawable/replycommenticon"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    android:layout_marginStart="2dp"
+    android:layout_marginLeft="2dp"
+    android:layout_marginEnd="2dp"
+    android:layout_marginRight="2dp"
+    android:layout_marginBottom="1dp"
+    app:cardElevation="5dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp">
+        android:paddingBottom="10dp">
+
+        <ImageView
+            android:id="@+id/RI_replyIcon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/reply_comment_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/RI_profile"
@@ -40,7 +37,7 @@
             android:background="@null"
             android:scaleType="fitXY"
             android:src="@drawable/default_profile"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@id/RI_replyIcon"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -61,11 +58,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center|start"
-            android:paddingStart="10dp"
-            android:paddingTop="20dp"
-            android:paddingEnd="10dp"
-            android:paddingBottom="20dp"
-            android:singleLine="false"
+            android:padding="10dp"
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -76,11 +69,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
             android:ellipsize="end"
             android:maxWidth="220dp"
             android:maxLines="1"
-            android:textSize="12dp"
+            android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -93,5 +86,30 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/RI_profile" />
 
+        <Button
+            android:visibility="invisible"
+            android:id="@+id/RI_modifyButton"
+            android:layout_width="35dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="5dp"
+            android:background="@drawable/tedury2"
+            android:text="수정"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toStartOf="@+id/RI_deleteButton"
+            app:layout_constraintTop_toBottomOf="@+id/RI_content" />
+
+        <Button
+            android:visibility="invisible"
+            android:id="@+id/RI_deleteButton"
+            android:layout_width="35dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="2dp"
+            android:background="@drawable/tedury2"
+            android:text="삭제"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/RI_content" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

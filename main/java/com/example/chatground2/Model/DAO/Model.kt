@@ -20,6 +20,32 @@ import java.lang.Exception
 class Model(context: Context) {
     private val serviceGenerator: ServiceGenerator = ServiceGenerator(context)
 
+    fun writeComment(
+        hashMap: HashMap<String, RequestBody>,
+        imagePart: MultipartBody.Part?,
+        listener: DetailForumContract.Listener
+    ) {
+        serviceGenerator.instance.writeComment(hashMap, imagePart).enqueue(object :
+            Callback<DefaultResponse> {
+            override fun onFailure(call: Call<DefaultResponse>, t: Throwable) {
+                println("writeComment 통신 에러 : $t")
+                listener.onFailure()
+            }
+
+            override fun onResponse(
+                call: Call<DefaultResponse>,
+                response: Response<DefaultResponse>
+            ) {
+                if (response.code() == 500) {
+                    println("writeComment 에러" + response.body()?.data)
+                    listener.onWriteCommentFailure()
+                } else {
+                    listener.onWriteCommentSuccess()
+                }
+            }
+        })
+    }
+
     fun deleteForum(
         hashMap: HashMap<String, Any>,
         listener: DetailForumContract.Listener
@@ -39,6 +65,30 @@ class Model(context: Context) {
                         listener.onDeleteForumFailure()
                     } else {
                         listener.onDeleteForumSuccess()
+                    }
+                }
+            })
+    }
+
+    fun recommendForum(
+        hashMap: HashMap<String, Any>,
+        listener: DetailForumContract.Listener
+    ) {
+        serviceGenerator.instance.recommendForum(hashMap)
+            .enqueue(object : Callback<DefaultResponse?> {
+                override fun onFailure(call: Call<DefaultResponse?>, t: Throwable) {
+                    listener.onFailure()
+                }
+
+                override fun onResponse(
+                    call: Call<DefaultResponse?>,
+                    response: Response<DefaultResponse?>
+                ) {
+                    if (response.code() == 401 || response.code() == 500) {
+                        println(response.body())
+                        listener.onRecommendForumFailure()
+                    } else {
+                        listener.onRecommendForumSuccess()
                     }
                 }
             })
