@@ -165,5 +165,5 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-<!--    <include layout="@layout/menu_chat_drawer" />-->
+    <include layout="@layout/menu_chat_drawer" />
 </androidx.drawerlayout.widget.DrawerLayout>
