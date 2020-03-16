@@ -2,10 +2,9 @@ package com.example.chatground2.view.login
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.example.chatground2.Model.Constants
-import com.example.chatground2.Model.Constants.SHARED_PREFERENCE
-import com.example.chatground2.Model.DAO.Model
-import com.example.chatground2.Model.DTO.UserDto
+import com.example.chatground2.model.Constants.SHARED_PREFERENCE
+import com.example.chatground2.model.DAO.Model
+import com.example.chatground2.model.DTO.UserDto
 import com.google.gson.Gson
 
 
@@ -54,6 +53,7 @@ class LoginPresenter(
 
     override fun onLoginSuccess(userDto: UserDto) {//로그인 할 때 유저 저장
         spEdit.remove("User")//기존 유저 데이터 삭제
+        spEdit.remove("message")//기존 유저 데이터 삭제
         val userJson = gson.toJson(userDto)
         println("json : $userJson")
         spEdit.putString("User", userJson)

@@ -1,5 +1,6 @@
 package com.example.chatground2.view.mainActivity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -8,7 +9,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import androidx.fragment.app.Fragment
 import com.example.chatground2.view.forums.ForumsFragment
 import com.example.chatground2.view.gameReady.GameReadyFragment
-import com.example.chatground2.view.Profile.ProfileFragment
+import com.example.chatground2.view.profile.ProfileFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity(),MainContract.IMainView,View.OnClickListener {
@@ -51,18 +52,6 @@ class MainActivity : AppCompatActivity(),MainContract.IMainView,View.OnClickList
         presenter = MainPresenter(this,this)
 
         bottomNavigationView.setOnNavigationItemSelectedListener(navListener)
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        presenter?.setBroadCastReceiver()
-    }
-
-    override fun onPause() {
-        super.onPause()
-
-        presenter?.removeBroadCastReceiver()
     }
 
     override fun onClick(v: View?) {

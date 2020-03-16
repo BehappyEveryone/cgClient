@@ -1,12 +1,8 @@
 package com.example.chatground2.view.detailForum
 
 import android.content.Intent
-import com.example.chatground2.Model.DTO.ForumDto
-import com.example.chatground2.Model.DTO.UserDto
+import com.example.chatground2.model.DTO.ForumDto
 import com.example.chatground2.adapter.adapterContract.CommentsAdapterContract
-import com.example.chatground2.adapter.adapterContract.ForumsAdapterContract
-import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_detail_forum.*
 
 interface DetailForumContract {
     interface IDetailForumPresenter{
@@ -29,13 +25,15 @@ interface DetailForumContract {
 
     interface IDetailForumView{
         fun setCameraImage(path:String?)
-        fun deleteDialog()
-        fun createDialog()
+        fun deleteCommentImageDialog()
+        fun createCommentImageDialog()
+        fun modifyCommentDialog()
         fun progressVisible(boolean: Boolean)
         fun toastMessage(text:String)
         fun finishActivity()
         fun openGallery()
         fun setDateText(text: String)
+        fun setSubjectText(text: String)
         fun setTitleText(text: String)
         fun setContentText(text: String)
         fun setProfileImage(path: String)
@@ -43,6 +41,7 @@ interface DetailForumContract {
         fun setCommentNumText(text: String)
         fun setRecommendText(text: String)
         fun setRecommendButtonText(text: String)
+        fun setRecommendButtonBackground(int:Int)
         fun setImage0(path: String)
         fun setImage1(path: String)
         fun setImage2(path: String)
@@ -50,10 +49,12 @@ interface DetailForumContract {
         fun setImage4(path: String)
         fun setDeleteForumVisible(boolean: Boolean)
         fun setModifyForumVisible(boolean: Boolean)
-        fun enterModifyForum(idx: Int)
+        fun enterModifyForum(intent: Intent)
+        fun enterModifyComment(intent: Intent)
         fun getCommentMessageText():String
         fun setCommentMessageText(text: String)
         fun recommendDialog(boolean: Boolean)
+        fun deleteForumDialog()
         fun setEnable(boolean: Boolean)
     }
 

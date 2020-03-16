@@ -1,6 +1,6 @@
 package com.example.chatground2.view.login
 
-import com.example.chatground2.Model.DTO.UserDto
+import com.example.chatground2.model.DTO.UserDto
 
 interface LoginContract {
     interface ILoginPresenter{

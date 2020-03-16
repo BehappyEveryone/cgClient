@@ -6,22 +6,23 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatground2.Api.IpAddress
-import com.example.chatground2.Model.Constants
-import com.example.chatground2.Model.DTO.CommentDto
-import com.example.chatground2.Model.DTO.UserDto
+import com.example.chatground2.model.Constants
+import com.example.chatground2.model.DTO.CommentDto
+import com.example.chatground2.model.DTO.UserDto
 import com.example.chatground2.R
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.comment_item.view.*
+import kotlinx.android.synthetic.main.item_comment.view.*
 import java.lang.Exception
 import java.text.DateFormat
 
 class CommentsViewHolder(
     val context: Context,
     itemView: View,
-    private val onReplyClickFunc: ((Int, Boolean) -> Unit)?
+    private val onReplyClickFunc: ((Int, Boolean) -> Unit)?,
+    private val onModifyCommentFunc: ((Int) -> Unit)?,
+    private val onDeleteCommentFunc: ((Int) -> Unit)?
 ) : RecyclerView.ViewHolder(itemView) {
 
     private val sp: SharedPreferences =
@@ -37,26 +38,27 @@ class CommentsViewHolder(
     private val modifyButton = itemView.CI_modifyButton
     private val deleteButton = itemView.CI_deleteButton
 
+    private var position: Int? = null
+
     fun onBind(
         items: ArrayList<CommentDto>,
         position: Int,
-        replyCommentId:String?
+        replyCommentId: String?
     ) {
+        this.position = position
+
         items[position].let {
-            if(it.user._id == getUser()._id)
-            {
+            if (it.user._id == getUser()._id) {
                 modifyButton.visibility = View.VISIBLE
                 deleteButton.visibility = View.VISIBLE
             }
-            if(replyCommentId == it._id)
-            {
-                itemView.background = ContextCompat.getDrawable(context,R.color.Blue2)
+            if (replyCommentId == it._id) {
+                itemView.background = ContextCompat.getDrawable(context, R.color.Blue2)
                 replyButton.background = ContextCompat.getDrawable(context, R.drawable.tedury3)
                 modifyButton.background = ContextCompat.getDrawable(context, R.drawable.tedury3)
                 deleteButton.background = ContextCompat.getDrawable(context, R.drawable.tedury3)
-            }else
-            {
-                itemView.background = ContextCompat.getDrawable(context,R.color.white)
+            } else {
+                itemView.background = ContextCompat.getDrawable(context, R.color.white)
                 replyButton.background = ContextCompat.getDrawable(context, R.drawable.tedury2)
                 modifyButton.background = ContextCompat.getDrawable(context, R.drawable.tedury2)
                 deleteButton.background = ContextCompat.getDrawable(context, R.drawable.tedury2)
@@ -97,17 +99,24 @@ class CommentsViewHolder(
                     })
             }
 
-            replyButton.setOnClickListener {view ->
-                if(replyCommentId == it._id)
-                {
-                    onReplyClickFunc?.invoke(position,true)
-                }else
-                {
-                    onReplyClickFunc?.invoke(position,false)
+            replyButton.setOnClickListener { view ->
+                if (replyCommentId == it._id) {
+                    onReplyClickFunc?.invoke(position, true)
+                } else {
+                    onReplyClickFunc?.invoke(position, false)
                 }
+            }
+
+            modifyButton.setOnClickListener { view ->
+                onModifyCommentFunc?.invoke(position)
+            }
+
+            deleteButton.setOnClickListener { view ->
+                onDeleteCommentFunc?.invoke(position)
             }
         }
     }
+
     private fun getUser(): UserDto {
         val json = sp.getString("User", "")
         return gson.fromJson(json, UserDto::class.java)

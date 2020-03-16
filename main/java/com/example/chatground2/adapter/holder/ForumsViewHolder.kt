@@ -1,16 +1,12 @@
 package com.example.chatground2.adapter.holder
 
 import android.content.Context
-import android.graphics.drawable.GradientDrawable
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.example.chatground2.Model.DTO.ForumDto
-import com.example.chatground2.Model.DTO.UserDto
-import kotlinx.android.synthetic.main.forums_item.view.*
+import com.example.chatground2.model.DTO.ForumDto
+import kotlinx.android.synthetic.main.item_forums.view.*
 import java.text.DateFormat
 
 class ForumsViewHolder(

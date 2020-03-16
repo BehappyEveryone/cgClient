@@ -30,14 +30,12 @@ class GameReadyPresenter(
 
     override fun isSocketConnect(): Boolean? = socketService?.isConnect()
 
-    override fun bindService()
-    {
+    override fun bindService() {
         val intent = Intent(context, SocketService::class.java)
         context.bindService(intent, mConnection, Context.BIND_AUTO_CREATE)
     }
 
-    override fun unbindService()
-    {
+    override fun unbindService() {
         context.unbindService(mConnection)
     }
 
@@ -52,19 +50,19 @@ class GameReadyPresenter(
     private val receiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (intent?.action == "onConnect") {
-                println("피시방가자")
+                view.setMatching()
             }
         }
     }
 
     private val mConnection: ServiceConnection = object : ServiceConnection {
         override fun onServiceDisconnected(name: ComponentName?) {
-            println("서비스 끊김")
+            println("GameReady 서비스 끊김")
             socketService = null
         }
 
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-            println("서비스 연결")
+            println("GameReady 서비스 연결")
 
             val mBinder = service as SocketService.SocketBinder
             socketService = mBinder.getService()

@@ -14,19 +14,23 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".view.detailForum.DetailForumActivity"></activity>
+        <activity android:name=".view.chatGround.ChatGroundActivity"></activity>
+        <activity
+            android:name=".view.dialog.CommentModifyActivity"
+            android:theme="@android:style/Theme.Holo.Dialog"></activity>
+        <activity android:name=".view.modifyForum.ModifyForumActivity" />
+        <activity android:name=".view.detailForum.DetailForumActivity" />
         <activity android:name=".view.writeForum.WriteForumActivity" />
-        <activity android:name=".view.SignUp.SignUpActivity" />
+        <activity android:name=".view.signUp.SignUpActivity" />
         <activity android:name=".view.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-<!--        <activity-->
-<!--            android:name=".commentedit"-->
-<!--            android:theme="@android:style/Theme.Dialog" /> &lt;!&ndash; <activity android:name=".modifyforum" /> &ndash;&gt;-->
+        </activity> <!-- <activity -->
+        <!-- android:name=".commentedit" -->
+        <!-- android:theme="@android:style/Theme.Dialog" /> &lt;!&ndash; <activity android:name=".modifyforum" /> &ndash;&gt; -->
         <!-- <activity android:name=".readforum" />&ndash;&gt; -->
         <!-- <activity android:name=".writeforum" /> -->
         <provider
@@ -38,11 +42,11 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider> <!-- <activity android:name=".menu" /> -->
-<!--        <activity android:name=".view.chat" /> &lt;!&ndash; <activity &ndash;&gt;-->
+        <!-- <activity android:name=".view.chat" /> &lt;!&ndash; <activity &ndash;&gt; -->
         <!-- android:name=".view.register" -->
         <!-- android:label="@string/title_activity_register" -->
         <!-- android:theme="@style/AppTheme.NoActionBar" /> -->
-        <activity android:name=".view.mainActivity.MainActivity"/>
+        <activity android:name=".view.mainActivity.MainActivity" />
 
         <service android:name=".service.SocketService" />
     </application>

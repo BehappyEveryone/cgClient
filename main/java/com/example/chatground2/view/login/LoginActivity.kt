@@ -7,7 +7,7 @@ import android.view.View
 import android.widget.Toast
 import com.example.chatground2.R
 import com.example.chatground2.view.mainActivity.MainActivity
-import com.example.chatground2.view.SignUp.SignUpActivity
+import com.example.chatground2.view.signUp.SignUpActivity
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity(), LoginContract.ILoginView, View.OnClickListener {

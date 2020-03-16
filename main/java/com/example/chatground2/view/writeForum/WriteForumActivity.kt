@@ -12,9 +12,8 @@ import android.widget.ArrayAdapter
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import com.example.chatground2.Model.Constants.OPEN_GALLERY
+import com.example.chatground2.model.Constants.OPEN_GALLERY
 import com.example.chatground2.R
-import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_write_forum.*
 
 class WriteForumActivity : AppCompatActivity(), WriteForumContract.IWriteForumView,
@@ -112,39 +111,39 @@ class WriteForumActivity : AppCompatActivity(), WriteForumContract.IWriteForumVi
     override fun setImage(imagePathList: ArrayList<String>) {
         when {
             imagePathList.size == 0 -> {
-                WF_showImage1.visibility = View.GONE
-                WF_showImage2.visibility = View.GONE
-                WF_showImage3.visibility = View.GONE
-                WF_showImage4.visibility = View.GONE
-                WF_showImage5.visibility = View.GONE
+                WF_showImage1.visibility = View.INVISIBLE
+                WF_showImage2.visibility = View.INVISIBLE
+                WF_showImage3.visibility = View.INVISIBLE
+                WF_showImage4.visibility = View.INVISIBLE
+                WF_showImage5.visibility = View.INVISIBLE
             }
             imagePathList.size == 1 -> {
                 setImageBitmap(WF_showImage1, imagePathList[0])
-                WF_showImage2.visibility = View.GONE
-                WF_showImage3.visibility = View.GONE
-                WF_showImage4.visibility = View.GONE
-                WF_showImage5.visibility = View.GONE
+                WF_showImage2.visibility = View.INVISIBLE
+                WF_showImage3.visibility = View.INVISIBLE
+                WF_showImage4.visibility = View.INVISIBLE
+                WF_showImage5.visibility = View.INVISIBLE
             }
             imagePathList.size == 2 -> {
                 setImageBitmap(WF_showImage1, imagePathList[0])
                 setImageBitmap(WF_showImage2, imagePathList[1])
-                WF_showImage3.visibility = View.GONE
-                WF_showImage4.visibility = View.GONE
-                WF_showImage5.visibility = View.GONE
+                WF_showImage3.visibility = View.INVISIBLE
+                WF_showImage4.visibility = View.INVISIBLE
+                WF_showImage5.visibility = View.INVISIBLE
             }
             imagePathList.size == 3 -> {
                 setImageBitmap(WF_showImage1, imagePathList[0])
                 setImageBitmap(WF_showImage2, imagePathList[1])
                 setImageBitmap(WF_showImage3, imagePathList[2])
-                WF_showImage4.visibility = View.GONE
-                WF_showImage5.visibility = View.GONE
+                WF_showImage4.visibility = View.INVISIBLE
+                WF_showImage5.visibility = View.INVISIBLE
             }
             imagePathList.size == 4 -> {
                 setImageBitmap(WF_showImage1, imagePathList[0])
                 setImageBitmap(WF_showImage2, imagePathList[1])
                 setImageBitmap(WF_showImage3, imagePathList[2])
                 setImageBitmap(WF_showImage4, imagePathList[3])
-                WF_showImage5.visibility = View.GONE
+                WF_showImage5.visibility = View.INVISIBLE
             }
             imagePathList.size == 5 -> {
                 setImageBitmap(WF_showImage1, imagePathList[0])
@@ -170,9 +169,9 @@ class WriteForumActivity : AppCompatActivity(), WriteForumContract.IWriteForumVi
 
     override fun progressVisible(boolean: Boolean) {
         if (boolean) {
-            L_progressbar.visibility = View.VISIBLE
+            WF_progressbar.visibility = View.VISIBLE
         } else {
-            L_progressbar.visibility = View.INVISIBLE
+            WF_progressbar.visibility = View.INVISIBLE
         }
     }
 
@@ -213,8 +212,13 @@ class WriteForumActivity : AppCompatActivity(), WriteForumContract.IWriteForumVi
     override fun getContentText():String = WF_content.text.toString()
     override fun getTitleText():String = WF_title.text.toString()
 
-    override fun saveButtonEnable(boolean: Boolean)
-    {
+    override fun setEnable(boolean: Boolean) {
         WF_saveButton.isEnabled = boolean
+        WF_cameraButton.isEnabled = boolean
+        WF_showImage1.isEnabled = boolean
+        WF_showImage2.isEnabled = boolean
+        WF_showImage3.isEnabled = boolean
+        WF_showImage4.isEnabled = boolean
+        WF_showImage5.isEnabled = boolean
     }
 }

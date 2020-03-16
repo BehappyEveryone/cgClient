@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.chatground2.Model.DTO.CommentDto
+import com.example.chatground2.model.DTO.CommentDto
 import com.example.chatground2.R
 import com.example.chatground2.adapter.adapterContract.CommentsAdapterContract
 import com.example.chatground2.adapter.holder.CommentsViewHolder
@@ -18,6 +18,8 @@ class CommentsAdapter(val context: Context) : RecyclerView.Adapter<RecyclerView.
     override fun getItem(position: Int): CommentDto = items[position]
 
     override var onReplyClickFunc: ((Int, Boolean) -> Unit)? = null
+    override var onDeleteCommentFunc: ((Int) -> Unit)? = null
+    override var onModifyCommentFunc: ((Int) -> Unit)? = null
 
     override fun getItemSize(): Int = itemCount
 
@@ -45,12 +47,12 @@ class CommentsAdapter(val context: Context) : RecyclerView.Adapter<RecyclerView.
         return when (viewType) {
             0 -> {
                 val view: View = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.comment_item, parent, false)
-                CommentsViewHolder(context, view, onReplyClickFunc)
+                    .inflate(R.layout.item_comment, parent, false)
+                CommentsViewHolder(context, view, onReplyClickFunc,onModifyCommentFunc,onDeleteCommentFunc)
             }
             1 -> {
                 val view: View = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.reply_item, parent, false)
+                    .inflate(R.layout.item_reply, parent, false)
                 ReplyViewHolder(context, view)
             }
             else -> throw RuntimeException("알 수 없는 뷰 타입 에러")

@@ -11,9 +11,9 @@ import android.net.Uri
 import android.provider.MediaStore
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.example.chatground2.Model.Constants.SHARED_PREFERENCE
-import com.example.chatground2.Model.DAO.Model
-import com.example.chatground2.Model.DTO.UserDto
+import com.example.chatground2.model.Constants.SHARED_PREFERENCE
+import com.example.chatground2.model.DAO.Model
+import com.example.chatground2.model.DTO.UserDto
 import com.google.gson.Gson
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -37,7 +37,11 @@ class WriteForumPresenter(
     private var imagePathList: ArrayList<String> = ArrayList()
 
     override fun cameraClick() {
-        view.createDialog()
+        if (imagePathList.size >= 5) {
+            view.toastMessage("사진은 5개까지 가능합니다.")
+        } else {
+            view.createDialog()
+        }
     }
 
     override fun showImageClick(imageNum: Int) {
@@ -123,18 +127,21 @@ class WriteForumPresenter(
 
 
     override fun onSuccess() {
+        view.progressVisible(false)
         view.toastMessage("생성 완료")
         view.finishActivity()
     }
 
     override fun onFailure() {
+        view.progressVisible(false)
         view.toastMessage("실패. 다시 시도해주세요")
-        view.saveButtonEnable(true)
+        view.setEnable(true)
     }
 
     override fun saveClick() {
         if (!view.isTitleEmpty() && !view.isContentEmpty()) {
-            view.saveButtonEnable(false)
+            view.setEnable(false)
+            view.progressVisible(true)
             val hashMap = HashMap<String, RequestBody>()
             hashMap["user"] = RequestBody.create(MediaType.parse("text/plain"),getUser()._id)
             hashMap["subject"] = RequestBody.create(MediaType.parse("text/plain"),view.getSelectSubject())

@@ -9,12 +9,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.chatground2.Api.SocketIo
 
 import com.example.chatground2.R
 import com.example.chatground2.service.SocketService
 import io.socket.client.Socket
+import kotlinx.android.synthetic.main.fragment_game_ready.*
 import kotlinx.android.synthetic.main.fragment_game_ready.view.*
 
 class GameReadyFragment : Fragment(), View.OnClickListener, GameReadyContract.IGameReadyView {
@@ -29,7 +31,7 @@ class GameReadyFragment : Fragment(), View.OnClickListener, GameReadyContract.IG
     }
 
     private fun initialize() {
-        presenter = context?.let { GameReadyPresenter(it,this) }
+        presenter = context?.let { GameReadyPresenter(it, this) }
     }
 
     override fun onCreateView(
@@ -66,6 +68,16 @@ class GameReadyFragment : Fragment(), View.OnClickListener, GameReadyContract.IG
         super.onDestroy()
 
         presenter?.unbindService()
+    }
+
+    override fun setMatching() {
+        GR_ready.background = ContextCompat.getDrawable(activity!!, R.drawable.button4)
+        GR_ready.text = "게임 검색 중"
+    }
+
+    override fun setReady() {
+        GR_ready.background = ContextCompat.getDrawable(activity!!, R.drawable.button3)
+        GR_ready.text = "게임 준비"
     }
 
     override fun onClick(v: View?) {

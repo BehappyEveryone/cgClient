@@ -10,7 +10,7 @@ import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.chatground2.Model.chatitemdata
+import com.example.chatground2.model.chatitemdata
 import kotlinx.android.synthetic.main.activity_chatimageitem.view.*
 import kotlinx.android.synthetic.main.activity_chattextitem.view.*
 import kotlinx.android.synthetic.main.activity_chatvideoitem.view.*
@@ -76,14 +76,14 @@ class chatAdapter(val context: Context,List: ArrayList<chatitemdata>,sharedPrefe
 
     inner class TextTypeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val TCsystembox = itemView.TextCsystembox
-        val TCleftitem = itemView.TextCleftitem
-        val TCrightitem = itemView.TextCrightitem
-        val TCLdate = itemView.TextCLdate
-        val TCLinbox = itemView.TextCLinbox
-        val TCLnickname = itemView.TextCLnickname
-        val TCLprofile = itemView.TextCLprofile
-        val TCRdate = itemView.TextCRdate
-        val TCRoutbox = itemView.TextCRoutbox
+        val TCleftitem = itemView.CTL_item
+        val TCrightitem = itemView.CTR_item
+        val TCLdate = itemView.CTL_date
+        val TCLinbox = itemView.CTL_content
+        val TCLnickname = itemView.CTL_nickname
+        val TCLprofile = itemView.CTL_profile
+        val TCRdate = itemView.CTR_date
+        val TCRoutbox = itemView.CTR_content
     }
 
     inner class ImageTypeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

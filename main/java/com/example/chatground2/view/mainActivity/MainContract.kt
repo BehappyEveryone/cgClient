@@ -1,12 +1,13 @@
 package com.example.chatground2.view.mainActivity
 
+import android.content.Intent
+
 interface MainContract {
-    interface IMainPresenter{
-        fun setBroadCastReceiver()
-        fun removeBroadCastReceiver()
+    interface IMainPresenter {
+
     }
 
-    interface IMainView{
+    interface IMainView {
 
     }
 }

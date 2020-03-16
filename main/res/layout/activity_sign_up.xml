@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.SignUp.SignUpActivity">
+    tools:context=".view.signUp.SignUpActivity">
 
     <ImageButton
-        android:id="@+id/backbutton"
+        android:id="@+id/backButton"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:background="@drawable/ic_arrow_back_black"
@@ -30,7 +30,7 @@
         android:layout_height="0.5dp"
         android:background="@color/black"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/backbutton" />
+        app:layout_constraintTop_toBottomOf="@+id/backButton" />
 
     <TextView
         android:layout_marginStart="10dp"

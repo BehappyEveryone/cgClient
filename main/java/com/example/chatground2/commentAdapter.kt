@@ -1,37 +1,5 @@
 package com.example.chatground2
 
-import android.Manifest
-import android.app.Activity
-import android.content.Context
-import androidx.recyclerview.widget.RecyclerView
-import android.content.Intent
-import android.content.SharedPreferences
-import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.appcompat.app.AlertDialog
-import androidx.cardview.widget.CardView
-import android.view.*
-import android.widget.Toast
-import com.example.chatground2.Model.DefaultResponse
-import com.example.chatground2.Model.commentitemdata
-import kotlinx.android.synthetic.main.comment_item.view.*
-import kotlinx.android.synthetic.main.reply_item.view.*
-import kotlinx.coroutines.*
-import okhttp3.MediaType
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.io.File
-import java.io.FileNotFoundException
-import java.io.InputStream
-import java.net.HttpURLConnection
-import java.net.URL
-
 
 class commentAdapter()
 //    val context: Context,
@@ -48,11 +16,11 @@ class commentAdapter()
 //        val view: View?
 //        return when (viewType) {
 //            0 -> {
-//                view = LayoutInflater.from(context).inflate(R.layout.comment_item, parent, false)
+//                view = LayoutInflater.from(context).inflate(R.layout.item_comment, parent, false)
 //                commentViewHolder(view)
 //            }
 //            1 -> {
-//                view = LayoutInflater.from(parent.context).inflate(R.layout.reply_item, parent, false)
+//                view = LayoutInflater.from(parent.context).inflate(R.layout.item_reply, parent, false)
 //                recommentViewHolder(view)
 //            }
 //            else -> throw RuntimeException("알 수 없는 뷰 타입 에러")

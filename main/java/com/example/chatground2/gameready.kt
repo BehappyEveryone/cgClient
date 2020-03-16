@@ -1,21 +1,5 @@
 package com.example.chatground2
 
-import android.content.Context
-import android.content.Intent
-import android.content.SharedPreferences
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.core.content.ContextCompat
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import io.socket.client.Socket
-import io.socket.emitter.Emitter
-import kotlinx.android.synthetic.main.fragment_gameready.*
-import kotlinx.android.synthetic.main.fragment_gameready.view.*
-import android.app.Activity.RESULT_OK
-
-
 //class gameready : Fragment() {
 
 class gameready {

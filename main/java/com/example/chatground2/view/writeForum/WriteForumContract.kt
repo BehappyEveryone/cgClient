@@ -26,7 +26,7 @@ interface WriteForumContract {
         fun getTitleText():String
         fun getContentText():String
         fun getSelectSubject():String
-        fun saveButtonEnable(boolean: Boolean)
+        fun setEnable(boolean: Boolean)
     }
 
     interface Listener

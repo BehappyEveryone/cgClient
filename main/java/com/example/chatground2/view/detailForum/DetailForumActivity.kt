@@ -8,25 +8,18 @@ import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.ArrayAdapter
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.chatground2.Model.Constants
+import com.example.chatground2.model.Constants
 import com.example.chatground2.R
 import com.example.chatground2.adapter.CommentsAdapter
-import com.example.chatground2.view.writeForum.WriteForumActivity
-import com.example.chatground2.view.writeForum.WriteForumContract
-import com.example.chatground2.view.writeForum.WriteForumPresenter
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_detail_forum.*
 import kotlinx.android.synthetic.main.activity_detail_forum.DF_camera
 import kotlinx.android.synthetic.main.activity_detail_forum.DF_deleteButton
-import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.activity_write_forum.*
 import kotlinx.android.synthetic.main.activity_write_forum.backButton
 
 class DetailForumActivity : AppCompatActivity(), DetailForumContract.IDetailForumView,
@@ -91,6 +84,10 @@ class DetailForumActivity : AppCompatActivity(), DetailForumContract.IDetailForu
         DF_date.text = text
     }
 
+    override fun setSubjectText(text: String) {
+        DF_subject.text = text
+    }
+
     override fun setTitleText(text: String) {
         DF_title.text = text
     }
@@ -117,6 +114,10 @@ class DetailForumActivity : AppCompatActivity(), DetailForumContract.IDetailForu
 
     override fun setRecommendButtonText(text: String) {
         DF_recommend.text = text
+    }
+
+    override fun setRecommendButtonBackground(int: Int) {
+        DF_recommend.background = ContextCompat.getDrawable(this,int)
     }
 
     override fun setImage0(path: String) {
@@ -158,7 +159,7 @@ class DetailForumActivity : AppCompatActivity(), DetailForumContract.IDetailForu
         startActivityForResult(intent, Constants.OPEN_GALLERY)
     }
 
-    override fun createDialog() {
+    override fun createCommentImageDialog() {
         val items = arrayOf("이미지")
         val dialog =
             AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Light_Dialog_Alert)
@@ -181,9 +182,12 @@ class DetailForumActivity : AppCompatActivity(), DetailForumContract.IDetailForu
                 Constants.OPEN_GALLERY -> {
                     presenter?.galleryResult(data)
                 }
+                Constants.MODIFY_FORUM -> {
+                    presenter?.detailForum()
+                }
             }
         } else {
-            Toast.makeText(this, "취소 되었습니다.", Toast.LENGTH_LONG).show();
+            toastMessage("취소 되었습니다.")
         }
     }
 
@@ -225,7 +229,7 @@ class DetailForumActivity : AppCompatActivity(), DetailForumContract.IDetailForu
 
     override fun setCommentMessageText(text: String) = DF_commentMessage.setText(text)
 
-    override fun deleteDialog() {
+    override fun deleteCommentImageDialog() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("알림")
         builder.setMessage("이미지를 지우시겠습니까?")
@@ -234,6 +238,9 @@ class DetailForumActivity : AppCompatActivity(), DetailForumContract.IDetailForu
             presenter?.deleteImage()
         }
         builder.show()
+    }
+
+    override fun modifyCommentDialog() {
     }
 
     override fun onRequestPermissionsResult(
@@ -255,11 +262,12 @@ class DetailForumActivity : AppCompatActivity(), DetailForumContract.IDetailForu
         }
     }
 
-    override fun enterModifyForum(idx: Int) {
-        startActivityForResult(
-            Intent(this, WriteForumActivity::class.java).putExtra("idx", idx),
-            Constants.MODIFY_FORUM
-        )
+    override fun enterModifyForum(intent: Intent) {
+        startActivityForResult(intent, Constants.MODIFY_FORUM)
+    }
+
+    override fun enterModifyComment(intent: Intent) {
+        startActivityForResult(intent, Constants.MODIFY_COMMENT)
     }
 
     override fun onBackPressed() {
@@ -275,9 +283,9 @@ class DetailForumActivity : AppCompatActivity(), DetailForumContract.IDetailForu
     override fun toastMessage(text: String) = Toast.makeText(this, text, Toast.LENGTH_LONG).show()
 
     override fun recommendDialog(boolean: Boolean) {
-        val message:String = if(boolean) {
+        val message: String = if (boolean) {
             "추천을 취소하시겠습니까?"
-        }else {
+        } else {
             "해당 게시글을 추천 하시겠습니까?"
         }
 
@@ -287,6 +295,17 @@ class DetailForumActivity : AppCompatActivity(), DetailForumContract.IDetailForu
         builder.setNegativeButton("취소", null)
         builder.setPositiveButton("확인") { _, _ ->
             presenter?.recommendForum()
+        }
+        builder.show()
+    }
+
+    override fun deleteForumDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("알림")
+        builder.setMessage("해당 글을 삭제하시겠습니까?")
+        builder.setNegativeButton("취소", null)
+        builder.setPositiveButton("확인") { _, _ ->
+            presenter?.deleteForum()
         }
         builder.show()
     }

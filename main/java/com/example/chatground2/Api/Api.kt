@@ -1,16 +1,21 @@
 package com.example.chatground2.Api
 
-import com.example.chatground2.Model.DTO.ForumDto
-import com.example.chatground2.Model.DTO.UserDto
-import com.example.chatground2.Model.DefaultResponse
-import com.example.chatground2.Model.DefaultResponse2
-import com.example.chatground2.Model.loginResponse
+import com.example.chatground2.model.DTO.ForumDto
+import com.example.chatground2.model.DTO.UserDto
+import com.example.chatground2.model.DTO.DefaultResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.*
 
 interface Api {
+
+    @Multipart
+    @POST(IpAddress.Router.modifyForum)
+    fun modifyForum(
+        @PartMap hashMap: HashMap<String, RequestBody>,
+        @Part imagePart: Array<MultipartBody.Part?>
+    ):Call<DefaultResponse>
 
     @FormUrlEncoded
     @POST(IpAddress.Router.recommendForum)
@@ -73,88 +78,4 @@ interface Api {
     fun nicknameOverlap(
         @FieldMap hashMap: HashMap<String,Any>
     ): Call<DefaultResponse>
-
-    @FormUrlEncoded
-    @POST("/signup")
-    fun createuser(
-        @Field("Email") email:String,
-        @Field("Password") password:String,
-        @Field("Nickname") nickname:String,
-        @Field("PhoneNum") phoneNum:String
-    ):Call<DefaultResponse>
-
-    @FormUrlEncoded
-    @POST("/login")
-    fun loginuser(
-        @Field("Email") email:String,
-        @Field("Password") password:String
-    ):Call<loginResponse>
-
-    @Multipart
-    @POST("/uploadprofile")
-    fun uploadprofile(
-        @Part("Email") Email:String,
-        @Part file: MultipartBody.Part
-    ):Call<DefaultResponse>
-
-    @Multipart
-    @POST("/writeforum")
-    fun uploadforum(
-        @Part("Email") Email:String,
-        @Part("Nickname") Nickname:String,
-        @Part("Title") Title:String,
-        @Part("Subject") Subject:String,
-        @Part("Content") Content:String,
-        @Part("ImageNum") ImageNum:Int,
-        @Part file1: MultipartBody.Part?,
-        @Part file2: MultipartBody.Part?,
-        @Part file3: MultipartBody.Part?,
-        @Part file4: MultipartBody.Part?,
-        @Part file5: MultipartBody.Part?
-    ):Call<DefaultResponse>
-
-    @Multipart
-    @POST("/modifyforum")
-    fun modifyforum(
-        @Part("idx") idx:Int,
-        @Part("Title") Title:String,
-        @Part("Subject") Subject:String,
-        @Part("Content") Content:String,
-        @Part("ImageNum") ImageNum:Int,
-        @Part file1: MultipartBody.Part?,
-        @Part file2: MultipartBody.Part?,
-        @Part file3: MultipartBody.Part?,
-        @Part file4: MultipartBody.Part?,
-        @Part file5: MultipartBody.Part?
-    ):Call<DefaultResponse>
-
-    @Multipart
-    @POST("/writecomment")
-    fun uploadcomment(
-        @Part("ForumIdx") ForumIdx:Int,
-        @Part("Email") Email:String,
-        @Part("Nickname") Nickname:String,
-        @Part("Content") Content:String,
-        @Part("IsImage") IsImage:Boolean,
-        @Part file: MultipartBody.Part?
-    ):Call<DefaultResponse>
-
-    @Multipart
-    @POST("/writerecomment")
-    fun uploadrecomment(
-        @Part("ForumIdx") ForumIdx:Int,
-        @Part("CommentUid") CommentUid:String,
-        @Part("Email") Email:String,
-        @Part("Nickname") Nickname:String,
-        @Part("Content") Content:String,
-        @Part("IsImage") IsImage:Boolean,
-        @Part file: MultipartBody.Part?
-    ):Call<DefaultResponse>
-
-    @FormUrlEncoded
-    @POST("/requestforums")
-    fun requestforums(
-        @Field("CurrentPage") CurrentPage:Int,
-        @Field("Bestforums") Bestforums:Boolean
-    ):Call<DefaultResponse2>
 }

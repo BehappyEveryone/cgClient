@@ -8,7 +8,7 @@
 //import android.app.Activity
 //import android.content.Intent
 //import com.example.chatground2.Model.forumitemdata
-//import kotlinx.android.synthetic.main.forums_item.view.*
+//import kotlinx.android.synthetic.main.item_forums.view.*
 //
 //
 class forumAdapter()
@@ -20,7 +20,7 @@ class forumAdapter()
 //        val view: View?
 //        return when (viewType) {
 //            0 -> {
-//                view = LayoutInflater.from(context).inflate(R.layout.forums_item, parent, false)
+//                view = LayoutInflater.from(context).inflate(R.layout.item_forums, parent, false)
 //                ViewHolder(view)
 //            }
 //            else -> throw RuntimeException("알 수 없는 뷰 타입 에러")

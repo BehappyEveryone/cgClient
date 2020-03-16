@@ -1,6 +1,6 @@
 package com.example.chatground2.adapter.adapterContract
 
-import com.example.chatground2.Model.DTO.ForumDto
+import com.example.chatground2.model.DTO.ForumDto
 
 interface ForumsAdapterContract {
     interface View {

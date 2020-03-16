@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.chatground2.Model.DTO.ForumDto
+import com.example.chatground2.model.DTO.ForumDto
 import com.example.chatground2.R
 import com.example.chatground2.adapter.adapterContract.ForumsAdapterContract
 import com.example.chatground2.adapter.holder.ForumsViewHolder
@@ -28,7 +28,7 @@ class ForumsAdapter(val context: Context) : RecyclerView.Adapter<RecyclerView.Vi
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view: View =
-            LayoutInflater.from(parent.context).inflate(R.layout.forums_item, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_forums, parent, false)
         return ForumsViewHolder(context, onClickFunc, view)
     }
 

@@ -1,9 +1,11 @@
 package com.example.chatground2.adapter.adapterContract
 
-import com.example.chatground2.Model.DTO.CommentDto
+import com.example.chatground2.model.DTO.CommentDto
 
 interface CommentsAdapterContract {
     interface View {
+        var onModifyCommentFunc: ((Int) -> Unit)?
+        var onDeleteCommentFunc: ((Int) -> Unit)?
         var onReplyClickFunc : ((Int,Boolean) -> Unit)?//1급객체
         fun notifyAdapter()
     }

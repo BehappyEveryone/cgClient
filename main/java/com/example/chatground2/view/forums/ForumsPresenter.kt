@@ -1,8 +1,8 @@
 package com.example.chatground2.view.forums
 
 import android.content.Context
-import com.example.chatground2.Model.DAO.Model
-import com.example.chatground2.Model.DTO.ForumDto
+import com.example.chatground2.model.DAO.Model
+import com.example.chatground2.model.DTO.ForumDto
 import com.example.chatground2.R
 import com.example.chatground2.adapter.adapterContract.ForumsAdapterContract
 import kotlin.collections.ArrayList

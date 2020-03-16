@@ -3,19 +3,16 @@ package com.example.chatground2.adapter.holder
 import android.content.Context
 import android.content.SharedPreferences
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatground2.Api.IpAddress
-import com.example.chatground2.Model.Constants
-import com.example.chatground2.Model.DTO.CommentDto
-import com.example.chatground2.Model.DTO.UserDto
+import com.example.chatground2.model.Constants
+import com.example.chatground2.model.DTO.CommentDto
+import com.example.chatground2.model.DTO.UserDto
 import com.example.chatground2.R
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.comment_item.view.*
-import kotlinx.android.synthetic.main.reply_item.view.*
+import kotlinx.android.synthetic.main.item_reply.view.*
 import java.lang.Exception
 import java.text.DateFormat
 

@@ -27,6 +27,7 @@
         android:id="@+id/DF_modifyButton"
         android:layout_width="45dp"
         android:layout_height="45dp"
+        android:visibility="gone"
         android:background="@drawable/ic_mode_edit_black"
         app:layout_constraintEnd_toStartOf="@id/DF_deleteButton"
         app:layout_constraintTop_toTopOf="parent" />
@@ -35,7 +36,8 @@
         android:id="@+id/DF_subject"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="게시글"
+        android:text="주제"
+        android:textColor="@color/Blue"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/view"
         app:layout_constraintEnd_toEndOf="parent"
@@ -288,7 +290,7 @@
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_marginEnd="5dp"
-            android:background="@drawable/sendicon"
+            android:background="@drawable/send_icon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
