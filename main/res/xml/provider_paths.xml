@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <paths>
-    <cache-path name="video" path="/" /> <!-- getCacheDir(). -->
+    <external-path name="storage/emulated" path="."/>
 </paths>

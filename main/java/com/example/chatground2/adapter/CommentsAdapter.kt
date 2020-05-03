@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.chatground2.model.DTO.CommentDto
+import com.example.chatground2.model.dto.CommentDto
 import com.example.chatground2.R
 import com.example.chatground2.adapter.adapterContract.CommentsAdapterContract
 import com.example.chatground2.adapter.holder.CommentsViewHolder

@@ -1,4 +1,4 @@
-package com.example.chatground2.Api
+package com.example.chatground2.api
 
 import android.content.Context
 import com.google.gson.GsonBuilder

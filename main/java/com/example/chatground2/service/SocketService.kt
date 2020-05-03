@@ -6,32 +6,22 @@ import android.content.Intent
 import android.os.Binder
 import android.os.IBinder
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import com.example.chatground2.Api.SocketIo
+import com.example.chatground2.api.SocketIo
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
 import org.json.JSONObject
 import java.net.URISyntaxException
-import android.preference.PreferenceManager
 import android.content.SharedPreferences
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import com.example.chatground2.model.Constants
-import com.example.chatground2.model.DTO.UserDto
+import com.example.chatground2.model.dto.UserDto
 import com.example.chatground2.view.chatGround.ChatGroundActivity
 import com.google.gson.Gson
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-import com.example.chatground2.model.DTO.ChatDto
-import com.example.chatground2.model.DTO.ChatUserDto
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import org.json.JSONArray
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import android.os.Environment
+import android.util.Base64
 
 
 class SocketService : Service() {
@@ -67,6 +57,9 @@ class SocketService : Service() {
         SocketIo.mSocket.on("message", onMessage)
         SocketIo.mSocket.on("roomInfoChange", onRoomInfoChange)
         SocketIo.mSocket.on("offerSubject", onOfferSubject)
+        SocketIo.mSocket.on("presentationOrder", onPresentationOrder)
+        SocketIo.mSocket.on("reVoting", reVoting)
+        SocketIo.mSocket.on("result", result)
     }
 
     private fun initialize() {
@@ -84,6 +77,9 @@ class SocketService : Service() {
         SocketIo.mSocket.off("message", onMessage)
         SocketIo.mSocket.off("roomInfoChange", onRoomInfoChange)
         SocketIo.mSocket.off("offerSubject", onOfferSubject)
+        SocketIo.mSocket.off("presentationOrder", onPresentationOrder)
+        SocketIo.mSocket.off("reVoting", reVoting)
+        SocketIo.mSocket.off("result", result)
     }
 
     fun isConnect(): Boolean = SocketIo.mSocket.connected()
@@ -125,19 +121,32 @@ class SocketService : Service() {
     private val onRoomInfoChange = Emitter.Listener {
         val receivedData = it[0] as JSONObject
 
+        val intent: Intent = Intent("onRoomInfoChange")
+        intent.putExtra("onRoomInfoChangeValue", receivedData.toString())
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
     }
 
     private val onMessage = Emitter.Listener {
         val editor: SharedPreferences.Editor? = preferences?.edit()
         val receivedData = it[0] as JSONObject
 
+        if(receivedData["type"] == "image"){
+            val binaryData = Base64.decode(receivedData["binaryData"].toString(),Base64.DEFAULT)
+            val path = makeDirAndSaveFile(binaryData,0)
+            receivedData.put("content", "file://$path")
+        }
+        if(receivedData["type"] == "video"){
+            val binaryData = Base64.decode(receivedData["binaryData"].toString(),Base64.DEFAULT)
+            val path = makeDirAndSaveFile(binaryData,1)
+            receivedData.put("content", "$path")
+        }
+
         if (preferences?.getString("message", null) != null) {
-            println("message is not null")
             val jsonArray = JSONArray(preferences?.getString("message", null))
             jsonArray.put(receivedData)
             editor?.putString("message", jsonArray.toString())
+            println("receivedData : $receivedData")
         } else {
-            println("message is null")
             editor?.putString("message", JSONArray().put(receivedData).toString())
         }
         editor?.commit()
@@ -150,30 +159,37 @@ class SocketService : Service() {
     private val onOfferSubject = Emitter.Listener {
         val receivedData = it[0] as JSONObject
 
-        val subject = receivedData.get("subject").toString()
-        val time = receivedData.get("time").toString()
-
         val intent: Intent = Intent("onOfferSubject")
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        intent.putExtra("onOfferSubjectValue", receivedData.toString())
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
+    }
 
-        CoroutineScope(Dispatchers.Main).launch {
-            for (i: Int in 0..subject.length) {
-                intent.putExtra("subject", subject.substring(0, i))
-                LocalBroadcastManager.getInstance(this@SocketService).sendBroadcast(intent)
-                delay(100)
-            }
+    private val onPresentationOrder = Emitter.Listener {
+        val receivedData = it[0] as JSONObject
 
-            for (i: Int in time.toInt() / 1000 downTo 0) {
-                intent.putExtra("time", i)
-                LocalBroadcastManager.getInstance(this@SocketService).sendBroadcast(intent)
-                delay(1000)//1000
+        val intent: Intent = Intent("onPresentationOrder")
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        intent.putExtra("onPresentationOrderValue", receivedData.toString())
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
+    }
 
-                if (i == 0) {
-                    val data: JSONObject =
-                        JSONObject().put("user", getUser()._id).put("opinion", Constants.opinion)
-                    socketEmit("AgreeOrOppose", data)
-                }
-            }
-        }
+    private val reVoting = Emitter.Listener {
+        val receivedData = it[0] as JSONObject
+
+        val intent: Intent = Intent("reVoting")
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        intent.putExtra("reVotingValue", receivedData.toString())
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
+    }
+
+    private val result = Emitter.Listener {
+        val receivedData = it[0] as JSONObject
+
+        val intent: Intent = Intent("result")
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        intent.putExtra("resultValue", receivedData.toString())
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
     }
 
     private val onConnect = Emitter.Listener {
@@ -188,8 +204,43 @@ class SocketService : Service() {
         return gson.fromJson(json, UserDto::class.java)
     }
 
+    private fun makeDirAndSaveFile(binaryData: ByteArray,type:Int): String? {
+        val direct = File(Environment.getExternalStorageDirectory().toString() + "/ChatGround")
+
+        if (!direct.exists()) {
+            val wallpaperDirectory =
+                File(Environment.getExternalStorageDirectory().toString() + "/ChatGround")
+            wallpaperDirectory.mkdirs()
+        }
+
+        val file = when(type){
+            0 -> File("${Environment.getExternalStorageDirectory()}/ChatGround/${System.currentTimeMillis()}.png")
+            1 -> File("${Environment.getExternalStorageDirectory()}/ChatGround/${System.currentTimeMillis()}.mp4")
+            else -> null
+        }
+
+        var fos: FileOutputStream? = null
+
+        try {
+            fos = FileOutputStream(file)
+        } catch (e: FileNotFoundException) {
+            e.printStackTrace();
+        }
+
+        fos.use { output ->
+            output?.write(binaryData)
+            output?.flush()
+            output?.close()
+        }
+
+        return file?.path
+    }
+
     fun socketEmit(name: String, value: JSONObject) {
         SocketIo.mSocket.emit(name, value)
-        println("emit : $name")
+    }
+
+    fun socketEmit(name: String, value: JSONObject, binaryData: ByteArray) {
+        SocketIo.mSocket.emit(name, value, binaryData)
     }
 }

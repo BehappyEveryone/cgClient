@@ -1,14 +1,21 @@
-package com.example.chatground2.Api
+package com.example.chatground2.api
 
-import com.example.chatground2.model.DTO.ForumDto
-import com.example.chatground2.model.DTO.UserDto
-import com.example.chatground2.model.DTO.DefaultResponse
+import com.example.chatground2.model.dto.ForumDto
+import com.example.chatground2.model.dto.UserDto
+import com.example.chatground2.model.dto.DefaultResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.*
 
 interface Api {
+
+    @Multipart
+    @POST(IpAddress.Router.modifyProfile)
+    fun modifyProfile(
+        @PartMap hashMap: HashMap<String, RequestBody>,
+        @Part imagePart: MultipartBody.Part?
+    ):Call<UserDto?>
 
     @Multipart
     @POST(IpAddress.Router.modifyForum)

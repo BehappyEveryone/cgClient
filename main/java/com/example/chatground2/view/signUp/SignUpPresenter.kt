@@ -1,8 +1,8 @@
 package com.example.chatground2.view.signUp
 
 import android.content.Context
-import com.example.chatground2.model.DAO.Model
-import com.example.chatground2.model.DTO.UserDto
+import com.example.chatground2.model.dao.Model
+import com.example.chatground2.model.dto.UserDto
 import java.util.regex.Pattern
 
 class SignUpPresenter(

@@ -1,4 +1,4 @@
-package com.example.chatground2.model.DTO
+package com.example.chatground2.model.dto
 
 import java.util.*
 

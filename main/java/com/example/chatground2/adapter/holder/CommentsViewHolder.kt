@@ -5,10 +5,10 @@ import android.content.SharedPreferences
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.example.chatground2.Api.IpAddress
+import com.example.chatground2.api.IpAddress
 import com.example.chatground2.model.Constants
-import com.example.chatground2.model.DTO.CommentDto
-import com.example.chatground2.model.DTO.UserDto
+import com.example.chatground2.model.dto.CommentDto
+import com.example.chatground2.model.dto.UserDto
 import com.example.chatground2.R
 import com.google.gson.Gson
 import com.squareup.picasso.Callback
@@ -53,7 +53,7 @@ class CommentsViewHolder(
                 deleteButton.visibility = View.VISIBLE
             }
             if (replyCommentId == it._id) {
-                itemView.background = ContextCompat.getDrawable(context, R.color.Blue2)
+                itemView.background = ContextCompat.getDrawable(context, R.color.blue2)
                 replyButton.background = ContextCompat.getDrawable(context, R.drawable.tedury3)
                 modifyButton.background = ContextCompat.getDrawable(context, R.drawable.tedury3)
                 deleteButton.background = ContextCompat.getDrawable(context, R.drawable.tedury3)
@@ -87,7 +87,7 @@ class CommentsViewHolder(
             if (!it.user.profile.isNullOrEmpty()) {
                 Picasso.get()
                     .load(IpAddress.BaseURL + it.user.profile)
-                    .into(image, object : Callback {
+                    .into(profile, object : Callback {
                         override fun onSuccess() {
 
                         }

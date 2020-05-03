@@ -4,10 +4,10 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.example.chatground2.Api.IpAddress
+import com.example.chatground2.api.IpAddress
 import com.example.chatground2.model.Constants
-import com.example.chatground2.model.DTO.CommentDto
-import com.example.chatground2.model.DTO.UserDto
+import com.example.chatground2.model.dto.CommentDto
+import com.example.chatground2.model.dto.UserDto
 import com.example.chatground2.R
 import com.google.gson.Gson
 import com.squareup.picasso.Callback
@@ -67,7 +67,7 @@ class ReplyViewHolder (
             if (!it.user.profile.isNullOrEmpty()) {
                 Picasso.get()
                     .load(IpAddress.BaseURL + it.user.profile)
-                    .into(image, object : Callback {
+                    .into(profile, object : Callback {
                         override fun onSuccess() {
 
                         }

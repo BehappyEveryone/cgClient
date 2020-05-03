@@ -1,7 +1,7 @@
 package com.example.chatground2.view.detailForum
 
 import android.content.Intent
-import com.example.chatground2.model.DTO.ForumDto
+import com.example.chatground2.model.dto.ForumDto
 import com.example.chatground2.adapter.adapterContract.CommentsAdapterContract
 
 interface DetailForumContract {

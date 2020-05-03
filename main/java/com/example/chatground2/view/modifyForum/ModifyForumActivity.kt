@@ -10,7 +10,7 @@ import android.widget.ArrayAdapter
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import com.example.chatground2.Api.IpAddress
+import com.example.chatground2.api.IpAddress
 import com.example.chatground2.model.Constants
 import com.example.chatground2.R
 import com.squareup.picasso.Picasso

@@ -7,10 +7,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatground2.R
 import com.example.chatground2.adapter.adapterContract.ChatUserAdapterContract
-import com.example.chatground2.adapter.holder.ChatSystemViewHolder
 import com.example.chatground2.adapter.holder.ChatUserViewHolder
-import com.example.chatground2.adapter.holder.ForumsViewHolder
-import com.example.chatground2.model.DTO.ChatUserDto
+import com.example.chatground2.model.dto.ChatUserDto
 
 class ChatUserAdapter(val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
     ChatUserAdapterContract.Model, ChatUserAdapterContract.View {

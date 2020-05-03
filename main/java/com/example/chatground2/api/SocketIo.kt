@@ -1,4 +1,4 @@
-package com.example.chatground2.Api
+package com.example.chatground2.api
 
 import io.socket.client.IO
 import io.socket.client.Socket

@@ -1,15 +1,16 @@
-package com.example.chatground2.model.DAO
+package com.example.chatground2.model.dao
 
 import android.content.Context
-import com.example.chatground2.Api.ServiceGenerator
-import com.example.chatground2.model.DTO.ForumDto
-import com.example.chatground2.model.DTO.UserDto
-import com.example.chatground2.model.DTO.DefaultResponse
+import com.example.chatground2.api.ServiceGenerator
+import com.example.chatground2.model.dto.ForumDto
+import com.example.chatground2.model.dto.UserDto
+import com.example.chatground2.model.dto.DefaultResponse
 import com.example.chatground2.view.login.LoginContract
 import com.example.chatground2.view.signUp.SignUpContract
 import com.example.chatground2.view.detailForum.DetailForumContract
 import com.example.chatground2.view.forums.ForumsContract
 import com.example.chatground2.view.modifyForum.ModifyForumContract
+import com.example.chatground2.view.profile.ProfileContract
 import com.example.chatground2.view.writeForum.WriteForumContract
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -20,6 +21,28 @@ import java.lang.Exception
 
 class Model(context: Context) {
     private val serviceGenerator: ServiceGenerator = ServiceGenerator(context)
+
+    fun modifyProfile(
+        hashMap: HashMap<String, RequestBody>,
+        imagePart: MultipartBody.Part?,
+        listener: ProfileContract.Listener
+    ) {
+        serviceGenerator.instance.modifyProfile(hashMap, imagePart).enqueue(object :
+            Callback<UserDto?> {
+            override fun onFailure(call: Call<UserDto?>, t: Throwable) {
+                t.printStackTrace()
+                listener.onFailure()
+            }
+
+            override fun onResponse(call: Call<UserDto?>, response: Response<UserDto?>) {
+                if (response.code() == 401 || response.code() == 500) {
+                    println("modifyProfile 에러" + response.body())
+                } else {
+                    response.body()?.let { listener.onSaveSuccess(it) }
+                }
+            }
+        })
+    }
 
     fun modifyForum(
         hashMap: HashMap<String, RequestBody>,

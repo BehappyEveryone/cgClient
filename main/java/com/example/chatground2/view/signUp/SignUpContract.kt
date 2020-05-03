@@ -1,6 +1,6 @@
 package com.example.chatground2.view.signUp
 
-import com.example.chatground2.model.DTO.UserDto
+import com.example.chatground2.model.dto.UserDto
 
 interface SignUpContract {
     interface ISignUpPresenter{

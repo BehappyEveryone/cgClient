@@ -12,8 +12,8 @@ import android.provider.MediaStore
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.chatground2.model.Constants.SHARED_PREFERENCE
-import com.example.chatground2.model.DAO.Model
-import com.example.chatground2.model.DTO.UserDto
+import com.example.chatground2.model.dao.Model
+import com.example.chatground2.model.dto.UserDto
 import com.google.gson.Gson
 import okhttp3.MediaType
 import okhttp3.MultipartBody

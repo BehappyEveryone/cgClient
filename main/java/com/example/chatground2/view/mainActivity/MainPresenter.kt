@@ -1,13 +1,9 @@
 package com.example.chatground2.view.mainActivity
 
 import android.content.*
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import com.example.chatground2.Api.SocketIo
 import com.example.chatground2.model.Constants
-import com.example.chatground2.model.DTO.UserDto
-import com.example.chatground2.view.chatGround.ChatGroundActivity
+import com.example.chatground2.model.dto.UserDto
 import com.google.gson.Gson
-import org.json.JSONObject
 
 class MainPresenter(
     private val context: Context,

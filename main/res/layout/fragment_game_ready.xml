@@ -6,15 +6,34 @@
     android:layout_height="match_parent"
     tools:context=".view.gameReady.GameReadyFragment">
 
-    <Button
-        android:id="@+id/GR_ready"
-        android:layout_width="350dp"
-        android:layout_height="250dp"
-        android:background="@drawable/button3"
-        android:text="게임 시작"
-        android:textSize="50dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <TextView
+        android:textSize="17sp"
+        android:gravity="center"
+        android:text="@string/gameExplanation"
+        android:padding="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/GR_ready"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/GR_ready"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/button3"
+        android:gravity="center"
+        android:text="READY"
+        app:layout_constraintVertical_bias="0.5"
+        android:textColor="@color/white"
+        app:autoSizeMaxTextSize="50sp"
+        app:autoSizeMinTextSize="16sp"
+        app:autoSizeStepGranularity="1sp"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.6" />
 </androidx.constraintlayout.widget.ConstraintLayout>

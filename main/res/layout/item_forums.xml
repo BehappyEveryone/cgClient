@@ -14,48 +14,44 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp">
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="10dp"
+        android:paddingStart="10dp"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/FI_date"
+            android:textSize="12sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
         <TextView
             android:id="@+id/FI_subject"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="10dp"
+            android:layout_marginTop="3dp"
             android:text="[주제]"
-            android:textColor="@color/Blue"
+            android:textColor="@color/blue"
             android:textSize="17sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/FI_date"/>
 
         <TextView
             android:id="@+id/FI_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:layout_marginEnd="20dp"
             android:ellipsize="end"
             android:gravity="start"
             android:maxLines="2"
             android:text="제목"
             android:textSize="16sp"
-            app:layout_constraintEnd_toStartOf="@id/FI_commentNum"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/FI_subject"
             app:layout_constraintTop_toTopOf="@+id/FI_subject" />
-
-        <TextView
-            android:id="@+id/FI_commentNum"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginBottom="15dp"
-            android:background="@drawable/forumsitem_comment_icon"
-            android:gravity="center"
-            android:paddingBottom="5dp"
-            android:textSize="15sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/FI_nickname"
@@ -71,34 +67,33 @@
             app:layout_constraintTop_toBottomOf="@id/FI_title" />
 
         <ImageView
-            android:id="@+id/FI_dateicon"
+            android:id="@+id/FI_commentIcon"
             android:layout_width="15dp"
             android:layout_height="15dp"
-            android:background="@drawable/forumsitem_date"
+            android:background="@drawable/ic_comment_black_24dp"
             app:layout_constraintBottom_toBottomOf="@id/FI_nickname"
-            app:layout_constraintEnd_toStartOf="@id/FI_dateText"
+            app:layout_constraintEnd_toStartOf="@id/FI_commentNum"
             app:layout_constraintTop_toTopOf="@id/FI_nickname" />
 
         <TextView
-            android:id="@+id/FI_dateText"
+            android:id="@+id/FI_commentNum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:text="2019년 10월 25일"
+            android:text="1개"
             android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="@id/FI_dateicon"
+            app:layout_constraintBottom_toBottomOf="@id/FI_commentIcon"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/FI_dateicon" />
+            app:layout_constraintTop_toTopOf="@id/FI_commentIcon" />
 
         <View
             android:id="@+id/view"
             android:layout_width="0.5dp"
             android:layout_height="10dp"
-            android:layout_marginEnd="3dp"
+            android:layout_marginEnd="5dp"
             android:background="@color/black"
-            app:layout_constraintBottom_toBottomOf="@+id/FI_dateicon"
-            app:layout_constraintEnd_toStartOf="@id/FI_dateicon"
-            app:layout_constraintTop_toTopOf="@id/FI_dateicon" />
+            app:layout_constraintBottom_toBottomOf="@+id/FI_commentIcon"
+            app:layout_constraintEnd_toStartOf="@id/FI_commentIcon"
+            app:layout_constraintTop_toTopOf="@id/FI_commentIcon" />
 
         <ImageView
             android:id="@+id/FI_recommendicon"
@@ -124,12 +119,12 @@
             android:id="@+id/FI_recommendtext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="3dp"
+            android:layout_marginEnd="5dp"
             android:text="1개"
             android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="@id/FI_dateicon"
+            app:layout_constraintBottom_toBottomOf="@id/FI_commentIcon"
             app:layout_constraintEnd_toStartOf="@id/view"
-            app:layout_constraintTop_toTopOf="@id/FI_dateicon" />
+            app:layout_constraintTop_toTopOf="@id/FI_commentIcon" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

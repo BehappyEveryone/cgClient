@@ -7,12 +7,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatground2.R
 import com.example.chatground2.adapter.adapterContract.ChatAdapterContract
-import com.example.chatground2.adapter.holder.ChatSystemViewHolder
-import com.example.chatground2.adapter.holder.ChatTextLeftViewHolder
-import com.example.chatground2.adapter.holder.ChatTextRightViewHolder
+import com.example.chatground2.adapter.holder.*
 import com.example.chatground2.model.Constants
-import com.example.chatground2.model.DTO.ChatDto
-import com.example.chatground2.model.DTO.UserDto
+import com.example.chatground2.model.dto.ChatDto
+import com.example.chatground2.model.dto.UserDto
 import com.google.gson.Gson
 
 class ChatAdapter(val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
@@ -40,6 +38,27 @@ class ChatAdapter(val context: Context) : RecyclerView.Adapter<RecyclerView.View
                     2//left
                 }
             }
+            "strategic" -> {
+                if (items[position].user?._id == getUser()._id) {
+                    3//right
+                } else {
+                    4//left
+                }
+            }
+            "image" -> {
+                if (items[position].user?._id == getUser()._id) {
+                    5//right
+                } else {
+                    6//left
+                }
+            }
+            "video" -> {
+                if (items[position].user?._id == getUser()._id) {
+                    7//right
+                } else {
+                    8//left
+                }
+            }
             else -> -1
         }
     }
@@ -61,6 +80,36 @@ class ChatAdapter(val context: Context) : RecyclerView.Adapter<RecyclerView.View
                     .inflate(R.layout.item_chat_text_left, parent, false)
                 ChatTextLeftViewHolder(context, view)
             }
+            3 -> {
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_chat_strategic_right, parent, false)
+                ChatStrategicRightViewHolder(context, view)
+            }
+            4 -> {
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_chat_strategic_left, parent, false)
+                ChatStrategicLeftViewHolder(context, view)
+            }
+            5 -> {
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_chat_image_right, parent, false)
+                ChatImageRightViewHolder(context, view)
+            }
+            6 -> {
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_chat_image_left, parent, false)
+                ChatImageLeftViewHolder(context, view)
+            }
+            7 -> {
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_chat_video_right, parent, false)
+                ChatVideoRightViewHolder(context, view)
+            }
+            8 -> {
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_chat_video_left, parent, false)
+                ChatVideoLeftViewHolder(context, view)
+            }
             else -> throw RuntimeException("알 수 없는 뷰 타입 에러")
         }
     }
@@ -73,12 +122,37 @@ class ChatAdapter(val context: Context) : RecyclerView.Adapter<RecyclerView.View
             }
             "text" -> {
                 if (items[position].user?._id == getUser()._id) {
-                    1//right
                     (holder as ChatTextRightViewHolder)
                     holder.onBind(items, position)
                 } else {
-                    2//left
                     (holder as ChatTextLeftViewHolder)
+                    holder.onBind(items, position)
+                }
+            }
+            "strategic" -> {
+                if (items[position].user?._id == getUser()._id) {
+                    (holder as ChatStrategicRightViewHolder)
+                    holder.onBind(items, position)
+                } else {
+                    (holder as ChatStrategicLeftViewHolder)
+                    holder.onBind(items, position)
+                }
+            }
+            "image" -> {
+                if (items[position].user?._id == getUser()._id) {
+                    (holder as ChatImageRightViewHolder)
+                    holder.onBind(items, position)
+                } else {
+                    (holder as ChatImageLeftViewHolder)
+                    holder.onBind(items, position)
+                }
+            }
+            "video" -> {
+                if (items[position].user?._id == getUser()._id) {
+                    (holder as ChatVideoRightViewHolder)
+                    holder.onBind(items, position)
+                } else {
+                    (holder as ChatVideoLeftViewHolder)
                     holder.onBind(items, position)
                 }
             }

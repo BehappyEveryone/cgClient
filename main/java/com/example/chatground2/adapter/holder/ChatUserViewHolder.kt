@@ -2,20 +2,15 @@ package com.example.chatground2.adapter.holder
 
 import android.content.Context
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.example.chatground2.Api.IpAddress
+import com.example.chatground2.api.IpAddress
 import com.example.chatground2.R
-import com.example.chatground2.model.DTO.ChatUserDto
-import com.example.chatground2.model.DTO.ForumDto
+import com.example.chatground2.model.dto.ChatUserDto
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_chat_drawer.view.*
-import kotlinx.android.synthetic.main.item_forums.view.*
 import java.lang.Exception
-import java.text.DateFormat
 
 class ChatUserViewHolder(
     val context: Context, private val listenerFunc: ((Int) -> Unit)?,
@@ -31,7 +26,7 @@ class ChatUserViewHolder(
             nickname.text = it.nickname
 
             if (it.profile.isNullOrEmpty()) {
-                profile.background = ContextCompat.getDrawable(context, R.drawable.profile_icon)
+                profile.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.profile_icon))
             } else {
                 Picasso.get()
                     .load(IpAddress.BaseURL + it.profile)
@@ -42,8 +37,7 @@ class ChatUserViewHolder(
 
                         override fun onError(e: Exception?) {
                             println("이미지 로드 에러 : $e")
-                            profile.background =
-                                ContextCompat.getDrawable(context, R.drawable.profile_icon)
+                            profile.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.profile_icon))
                         }
                     })
             }
@@ -52,15 +46,23 @@ class ChatUserViewHolder(
                 opinion.visibility = View.INVISIBLE
             } else {
                 opinion.visibility = View.VISIBLE
-                it.opinion?.let { boolean ->
-                    if (boolean) {
-                        opinion.text = "찬"
-                        opinion.background =
-                            ContextCompat.getDrawable(context, R.drawable.chat_drawer_agree)
-                    } else {
-                        opinion.text = "반"
-                        opinion.background =
-                            ContextCompat.getDrawable(context, R.drawable.chat_drawer_oppose)
+                it.opinion?.let { op ->
+                    when (op) {
+                        "agree" -> {
+                            opinion.text = "찬"
+                            opinion.background =
+                                ContextCompat.getDrawable(context, R.drawable.chat_drawer_agree)
+                        }
+                        "oppose" -> {
+                            opinion.text = "반"
+                            opinion.background =
+                                ContextCompat.getDrawable(context, R.drawable.chat_drawer_oppose)
+                        }
+                        "neutrality" -> {
+                            opinion.text = "중"
+                            opinion.background =
+                                ContextCompat.getDrawable(context, R.drawable.chat_drawer_neutrality)
+                        }
                     }
                 }
             }

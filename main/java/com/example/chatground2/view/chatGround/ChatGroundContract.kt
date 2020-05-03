@@ -20,20 +20,32 @@ interface ChatGroundContract {
         fun getMessages()
         fun removeMessages()
         fun setOpinion(boolean: Boolean)
+        fun plusClick()
+        fun checkCameraPermission(num:Int)
+        fun imageGalleryResult(data: Intent?)
+        fun videoGalleryResult(data: Intent?)
+        fun closeCursor()
+        fun leave()
     }
 
     interface IChatGroundView{
         fun openDrawer()
         fun toastMessage(text:String)
+        fun finishActivity()
         fun setMessageClear()
         fun setChatScrollPosition(position:Int)
         fun setEnable(boolean: Boolean)
         fun setSubjectText(text: String)
         fun setTimeText(text: String)
         fun setOpinionVisible(boolean: Boolean)
-        fun setAgreeButtonPressed(boolean: Boolean)
-        fun getAgreeButtonPressed():Boolean
-        fun setOpposeButtonPressed(boolean: Boolean)
-        fun getOpposeButtonPressed():Boolean
+        fun setAgreeButtonSelected(boolean: Boolean)
+        fun getAgreeButtonSelected():Boolean
+        fun setOpposeButtonSelected(boolean: Boolean)
+        fun getOpposeButtonSelected():Boolean
+        fun setResultText(text: String)
+        fun plusDialog()
+        fun leaveDialog()
+        fun openGallery()
+        fun openVideo()
     }
 }

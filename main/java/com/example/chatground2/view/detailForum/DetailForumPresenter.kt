@@ -11,13 +11,13 @@ import android.net.Uri
 import android.provider.MediaStore
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.example.chatground2.Api.IpAddress
+import com.example.chatground2.api.IpAddress
 import com.example.chatground2.R
 import com.example.chatground2.model.Constants
-import com.example.chatground2.model.DAO.Model
-import com.example.chatground2.model.DTO.CommentDto
-import com.example.chatground2.model.DTO.ForumDto
-import com.example.chatground2.model.DTO.UserDto
+import com.example.chatground2.model.dao.Model
+import com.example.chatground2.model.dto.CommentDto
+import com.example.chatground2.model.dto.ForumDto
+import com.example.chatground2.model.dto.UserDto
 import com.example.chatground2.adapter.adapterContract.CommentsAdapterContract
 import com.example.chatground2.view.dialog.CommentModifyActivity
 import com.example.chatground2.view.modifyForum.ModifyForumActivity
@@ -228,7 +228,7 @@ class DetailForumPresenter(
             view.setCommentNumText("댓글 : ${it.comments?.size.toString()} 개")
             view.setRecommendText("추천 : ${it.recommend?.size.toString()} 개")
             view.setRecommendButtonText(it.recommend?.size.toString())
-            it.user.profile?.let { it1 -> view.setProfileImage(it1) }
+            it.user.profile?.let { it1 -> view.setProfileImage(IpAddress.BaseURL + it1) }
             view.setNicknameText(it.user.nickname)
 
             setImage(imagePathArray)

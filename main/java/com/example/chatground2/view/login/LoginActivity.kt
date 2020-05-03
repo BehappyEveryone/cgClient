@@ -8,7 +8,10 @@ import android.widget.Toast
 import com.example.chatground2.R
 import com.example.chatground2.view.mainActivity.MainActivity
 import com.example.chatground2.view.signUp.SignUpActivity
+import kotlinx.android.synthetic.main.activity_detail_forum.*
+import kotlinx.android.synthetic.main.activity_detail_forum.backButton
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.activity_write_forum.*
 
 class LoginActivity : AppCompatActivity(), LoginContract.ILoginView, View.OnClickListener {
 
@@ -19,6 +22,7 @@ class LoginActivity : AppCompatActivity(), LoginContract.ILoginView, View.OnClic
         setContentView(R.layout.activity_login)
 
         initialize()
+        presenter?.autoLogin()
     }
 
     private fun initialize()
@@ -37,6 +41,16 @@ class LoginActivity : AppCompatActivity(), LoginContract.ILoginView, View.OnClic
         }
     }
 
+    override fun setEnable(boolean: Boolean) {
+        L_signIn.isEnabled = boolean
+        L_signUp.isEnabled = boolean
+        L_password.isEnabled = boolean
+        L_email.isEnabled = boolean
+        L_autoLogin.isEnabled = boolean
+    }
+
+    override fun isAutoLogin(): Boolean = L_autoLogin.isChecked
+
     override fun finishActivity() = finish()
 
     override fun toastMessage(text: String) = Toast.makeText(this, text, Toast.LENGTH_LONG).show()
@@ -49,9 +63,11 @@ class LoginActivity : AppCompatActivity(), LoginContract.ILoginView, View.OnClic
 
     override fun enterSignUpActivity() = startActivity(Intent(this, SignUpActivity::class.java))
 
-    override fun setEmailText(text: String) = L_email.setText(text)
+    override fun setEmailText(text: String?) = L_email.setText(text)
 
-    override fun setPasswordText(text: String) = L_password.setText(text)
+    override fun setPasswordText(text: String?) = L_password.setText(text)
+
+    override fun clickSignIn():Boolean = L_signIn.callOnClick()
 
     override fun setEmailFocus(){
         L_email.requestFocus()

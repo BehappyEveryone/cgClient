@@ -3,8 +3,8 @@ package com.example.chatground2.view.login
 import android.content.Context
 import android.content.SharedPreferences
 import com.example.chatground2.model.Constants.SHARED_PREFERENCE
-import com.example.chatground2.model.DAO.Model
-import com.example.chatground2.model.DTO.UserDto
+import com.example.chatground2.model.dao.Model
+import com.example.chatground2.model.dto.UserDto
 import com.google.gson.Gson
 
 
@@ -18,6 +18,14 @@ class LoginPresenter(
         context.getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE)
     private val spEdit: SharedPreferences.Editor = sp.edit()
     private val gson = Gson()
+
+    override fun autoLogin() {
+        if(sp.getBoolean("Auto",false)){
+            view.setEmailText(sp.getString("AutoEmail",null))
+            view.setPasswordText(sp.getString("AutoPassword",null))
+            view.clickSignIn()
+        }
+    }
 
     override fun signUpButtonClick() {
         view.enterSignUpActivity()
@@ -48,22 +56,28 @@ class LoginPresenter(
         hashMap["email"] = email
         hashMap["password"] = password
 
+        view.setEnable(false)
         model.signIn(hashMap, this)
     }
 
     override fun onLoginSuccess(userDto: UserDto) {//로그인 할 때 유저 저장
-        spEdit.remove("User")//기존 유저 데이터 삭제
-        spEdit.remove("message")//기존 유저 데이터 삭제
         val userJson = gson.toJson(userDto)
-        println("json : $userJson")
+        spEdit.clear()
         spEdit.putString("User", userJson)
+        if(view.isAutoLogin()) {
+            spEdit.putBoolean("Auto", true)
+            spEdit.putString("AutoEmail",view.getEmailText())
+            spEdit.putString("AutoPassword",view.getPasswordText())
+        }
         spEdit.commit()
+        view.setEnable(true)
         view.toastMessage("로그인 성공")
         view.finishActivity()
         view.enterMainActivity()
     }
 
     override fun onLoginFailure() {
+        view.setEnable(false)
         view.toastMessage("아이디 또는 패스워드가 일치하지 않습니다.")
         view.setEmailText("")
         view.setPasswordText("")
@@ -71,6 +85,7 @@ class LoginPresenter(
     }
 
     override fun onFailure() {
+        view.setEnable(false)
         view.toastMessage("로그인 실패")
     }
 }
