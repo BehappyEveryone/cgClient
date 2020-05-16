@@ -18,6 +18,7 @@ class GameReadyPresenter(
     init {
         //받을 브로드캐스트 리시버
         intentFilter.addAction("onConnect")
+        intentFilter.addAction("onDisconnect")
     }
 
     override fun disconnectSocket() {
@@ -51,6 +52,9 @@ class GameReadyPresenter(
         override fun onReceive(context: Context?, intent: Intent?) {
             if (intent?.action == "onConnect") {
                 view.setMatching()
+            }
+            if (intent?.action == "onDisconnect") {
+                view.setReady()
             }
         }
     }

@@ -209,10 +209,10 @@ class DetailForumPresenter(
             isRecommendExist = it.recommend?.contains(getUser()._id).apply {
                 if(this == null || this == false)
                 {
-                    view.setRecommendButtonBackground(R.drawable.recommend_button_fit2)
+                    view.setRecommendButtonBackground(R.drawable.recommend_button_fit)
                 }else
                 {
-                    view.setRecommendButtonBackground(R.drawable.recommend_button_fit)
+                    view.setRecommendButtonBackground(R.drawable.recommend_button_fit2)
                 }
             }
 

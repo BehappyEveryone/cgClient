@@ -26,6 +26,7 @@ interface ChatGroundContract {
         fun videoGalleryResult(data: Intent?)
         fun closeCursor()
         fun leave()
+        fun leaveDialog()
     }
 
     interface IChatGroundView{

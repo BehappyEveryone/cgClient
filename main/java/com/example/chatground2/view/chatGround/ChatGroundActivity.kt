@@ -76,9 +76,13 @@ class ChatGroundActivity : AppCompatActivity(), ChatGroundContract.IChatGroundVi
             R.id.CG_agree -> presenter?.setOpinion(true)
             R.id.CG_oppose -> presenter?.setOpinion(false)
             R.id.CG_plus -> presenter?.plusClick()
-            R.id.CD_exit -> presenter?.leave()
-            R.id.CD_exitText -> presenter?.leave()
+            R.id.CD_exit -> presenter?.leaveDialog()
+            R.id.CD_exitText -> presenter?.leaveDialog()
         }
+    }
+
+    override fun onBackPressed() {
+        presenter?.leaveDialog()
     }
 
     override fun toastMessage(text: String) = Toast.makeText(this, text, Toast.LENGTH_LONG).show()
@@ -120,8 +124,6 @@ class ChatGroundActivity : AppCompatActivity(), ChatGroundContract.IChatGroundVi
         CG_message.isEnabled = boolean
         CG_plus.isEnabled = boolean
         CG_sendButton.isEnabled = boolean
-        CD_exit.isEnabled = boolean
-        CD_exitText.isEnabled = boolean
     }
 
     override fun setSubjectText(text: String) {

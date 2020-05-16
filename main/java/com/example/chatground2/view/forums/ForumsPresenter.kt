@@ -13,6 +13,7 @@ class ForumsPresenter(private val context: Context, val view: ForumsContract.IFo
     private var model: Model = Model(context)
 
     private var isBestForum = false
+    private var isSearch = false
     private var pageNum = 0
     private var isRefresh = false//콜백받을 때 clear 유무
 
@@ -31,6 +32,21 @@ class ForumsPresenter(private val context: Context, val view: ForumsContract.IFo
         val hashMap = HashMap<String, Any>()
         hashMap["page"] = pageNum
         hashMap["isBestForum"] = isBestForum
+        hashMap["isSearch"] = false
+        model.callForums(hashMap, this)
+    }
+
+    override fun callForums(searchSpinner: String, searchText: String) {
+        view.isLoading(false)
+        view.progressVisible(true)
+        pageNum++
+
+        val hashMap = HashMap<String, Any>()
+        hashMap["page"] = pageNum
+        hashMap["isBestForum"] = isBestForum
+        hashMap["isSearch"] = true
+        hashMap["searchSpinner"] = searchSpinner
+        hashMap["searchText"] = searchText
         model.callForums(hashMap, this)
     }
 
@@ -46,12 +62,10 @@ class ForumsPresenter(private val context: Context, val view: ForumsContract.IFo
     }
 
     override fun bestForumsClick() {
-        if(isBestForum)
-        {
+        if (isBestForum) {
             isBestForum = false
             view.setBestForumBackground(R.drawable.forums_bestforums_icon)
-        }else
-        {
+        } else {
             isBestForum = true
             view.setBestForumBackground(R.drawable.forumsitem_recommend)
         }
@@ -61,15 +75,21 @@ class ForumsPresenter(private val context: Context, val view: ForumsContract.IFo
     }
 
     override fun searchClick() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun searchCancelClick() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        if (isSearch) {
+            isSearch = false
+            view.searchVisible(isSearch)
+            view.setSearchBackground(R.drawable.forums_search_icon)
+        } else {
+            isSearch = true
+            view.searchVisible(isSearch)
+            view.setSearchBackground(R.drawable.forums_search_red_icon)
+        }
     }
 
     override fun searching(text: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        pageNum = 0
+        isRefresh = true
+        callForums(view.getSearchSpinner(),text)
     }
 
     private fun clickForum(position: Int) {

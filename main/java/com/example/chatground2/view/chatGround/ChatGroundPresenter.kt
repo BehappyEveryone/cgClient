@@ -211,6 +211,10 @@ class ChatGroundPresenter(
         reset()
     }
 
+    override fun leaveDialog() {
+        view.leaveDialog()
+    }
+
     private fun reset() {
         Constants.opinion = "neutrality"
         Constants.room = null
@@ -350,7 +354,7 @@ class ChatGroundPresenter(
                                 else -> view.setTimeText("$min:$sec")
                             }
                         }
-                        delay(50)
+                        delay(1000)
                     }
                 }
             }

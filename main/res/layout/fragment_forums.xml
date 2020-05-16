@@ -1,131 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-        android:layout_height="match_parent">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <TextView
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:textSize="20dp"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="게시판"
-            app:layout_constraintBottom_toBottomOf="@+id/view" android:id="@+id/textView3"/>
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="게시판"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <View
-            android:layout_marginTop="45dp"
-            android:background="@color/black"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp" android:id="@+id/view"/>
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="45dp"
+        android:background="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-            android:background="@drawable/forums_serarch_icon"
-            android:id="@+id/F_searchButton"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="@+id/view"
-            app:layout_constraintEnd_toEndOf="parent"/>
+        android:id="@+id/F_searchButton"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:background="@drawable/forums_search_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <View
-            android:background="@color/black"
-            app:layout_constraintTop_toTopOf="@id/F_searchButton"
-            app:layout_constraintBottom_toBottomOf="@id/F_searchButton"
-            app:layout_constraintStart_toEndOf="@id/F_writeButton"
-            app:layout_constraintEnd_toStartOf="@id/F_searchButton"
-            android:layout_width="0.5dp"
-            android:layout_height="28dp" android:id="@+id/view2"/>
+        android:id="@+id/view2"
+        android:layout_width="0.5dp"
+        android:layout_height="28dp"
+        android:background="@color/black"
+        app:layout_constraintBottom_toBottomOf="@id/F_searchButton"
+        app:layout_constraintEnd_toStartOf="@id/F_searchButton"
+        app:layout_constraintStart_toEndOf="@id/F_writeButton"
+        app:layout_constraintTop_toTopOf="@id/F_searchButton" />
 
     <View
-            android:background="@color/black"
-            app:layout_constraintTop_toTopOf="@id/F_searchButton"
-            app:layout_constraintBottom_toBottomOf="@id/F_searchButton"
-            app:layout_constraintStart_toEndOf="@id/F_bestForumsButton"
-            app:layout_constraintEnd_toStartOf="@id/F_writeButton"
-            android:layout_width="0.5dp"
-            android:layout_height="28dp" android:id="@+id/view3"/>
+        android:id="@+id/view3"
+        android:layout_width="0.5dp"
+        android:layout_height="28dp"
+        android:background="@color/black"
+        app:layout_constraintBottom_toBottomOf="@id/F_searchButton"
+        app:layout_constraintEnd_toStartOf="@id/F_writeButton"
+        app:layout_constraintStart_toEndOf="@id/F_bestForumsButton"
+        app:layout_constraintTop_toTopOf="@id/F_searchButton" />
 
     <ImageButton
-            android:layout_marginEnd="5dp"
-            android:background="@drawable/forums_write_icon"
-            android:id="@+id/F_writeButton"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="@+id/view"
-            app:layout_constraintEnd_toStartOf="@id/F_searchButton"/>
+        android:id="@+id/F_writeButton"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginEnd="5dp"
+        android:background="@drawable/forums_write_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/view"
+        app:layout_constraintEnd_toStartOf="@id/F_searchButton"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-            android:layout_marginRight="5dp"
-            android:background="@drawable/forums_bestforums_icon"
-            android:id="@+id/F_bestForumsButton"
-            android:layout_width="27dp"
-            android:layout_height="32dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="@+id/view"
-            app:layout_constraintEnd_toStartOf="@id/F_writeButton"/>
+        android:id="@+id/F_bestForumsButton"
+        android:layout_width="27dp"
+        android:layout_height="32dp"
+        android:layout_marginEnd="5dp"
+        android:background="@drawable/forums_bestforums_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/view"
+        app:layout_constraintEnd_toStartOf="@id/F_writeButton"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-            app:layout_constraintTop_toTopOf="@+id/view"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:visibility="gone"
-            android:id = "@+id/F_root"
-            android:orientation="horizontal">
+        android:id="@+id/F_root"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="@+id/view">
 
         <Spinner
-                app:layout_constraintStart_toStartOf="parent"
-                android:id="@+id/F_searchSpinner"
-                android:layout_width="100dp"
-                android:layout_height="match_parent"
-                android:entries="@array/data_search"/>
+            android:id="@+id/F_searchSpinner"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:entries="@array/data_search"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <EditText
-                app:layout_constraintStart_toEndOf="@id/F_searchSpinner"
-                app:layout_constraintEnd_toStartOf="@id/F_searchCancel"
-                android:id="@+id/F_searchEdit"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:scrollbars="horizontal"
-                android:scrollHorizontally="true"
-                android:singleLine="true"/>
-
-        <ImageButton
-                app:layout_constraintEnd_toEndOf="parent"
-                android:id="@+id/F_searchCancel"
-                android:layout_width="45dp"
-                android:layout_height="match_parent"
-                android:background="@drawable/ic_cancel_black"/>
+            android:layout_marginEnd="20dp"
+            android:id="@+id/F_searchEdit"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:scrollbars="horizontal"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/F_searchSpinner" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-    android:id="@+id/F_swipeRefresh"
-    app:layout_constraintTop_toBottomOf="@+id/F_root"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    android:layout_height="0dp"
-    android:layout_width="0dp">
-    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/F_swipeRefresh"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/F_root">
+
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/F_forumRecycle"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-    </androidx.recyclerview.widget.RecyclerView>
+        </androidx.recyclerview.widget.RecyclerView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <ProgressBar
-            android:visibility="invisible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:theme="@style/Widget.AppCompat.ProgressBar"
-            style="@style/Widget.AppCompat.ProgressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/F_progressBar"/>
+        android:id="@+id/F_progressBar"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:theme="@style/Widget.AppCompat.ProgressBar"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

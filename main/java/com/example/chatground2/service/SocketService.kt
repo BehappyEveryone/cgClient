@@ -52,6 +52,7 @@ class SocketService : Service() {
         initialize()
 
         SocketIo.mSocket.on(Socket.EVENT_CONNECT, onConnect)
+        SocketIo.mSocket.on(Socket.EVENT_DISCONNECT,onDisconnect)
         SocketIo.mSocket.on("makeRoom", onMakeRoom)
         SocketIo.mSocket.on("matchMaking", onMatchMaking)
         SocketIo.mSocket.on("message", onMessage)
@@ -72,6 +73,7 @@ class SocketService : Service() {
         super.onDestroy()
 
         SocketIo.mSocket.off(Socket.EVENT_CONNECT, onConnect)
+        SocketIo.mSocket.off(Socket.EVENT_DISCONNECT,onDisconnect)
         SocketIo.mSocket.off("makeRoom", onMakeRoom)
         SocketIo.mSocket.off("matchMaking", onMatchMaking)
         SocketIo.mSocket.off("message", onMessage)
@@ -195,7 +197,11 @@ class SocketService : Service() {
     private val onConnect = Emitter.Listener {
         //커넥트
         val intent: Intent = Intent("onConnect")
-        intent.putExtra("onConnectValue", it)
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
+    }
+
+    private val onDisconnect = Emitter.Listener {
+        val intent: Intent = Intent("onDisconnect")
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
     }
 

@@ -77,7 +77,7 @@ class LoginPresenter(
     }
 
     override fun onLoginFailure() {
-        view.setEnable(false)
+        view.setEnable(true)
         view.toastMessage("아이디 또는 패스워드가 일치하지 않습니다.")
         view.setEmailText("")
         view.setPasswordText("")
@@ -85,7 +85,7 @@ class LoginPresenter(
     }
 
     override fun onFailure() {
-        view.setEnable(false)
+        view.setEnable(true)
         view.toastMessage("로그인 실패")
     }
 }

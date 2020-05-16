@@ -12,7 +12,7 @@ import com.example.chatground2.view.gameReady.GameReadyFragment
 import com.example.chatground2.view.profile.ProfileFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class MainActivity : AppCompatActivity(),MainContract.IMainView,View.OnClickListener {
+class MainActivity : AppCompatActivity(),MainContract.IMainView {
 
     private var presenter: MainPresenter? = null
 
@@ -52,11 +52,5 @@ class MainActivity : AppCompatActivity(),MainContract.IMainView,View.OnClickList
         presenter = MainPresenter(this,this)
 
         bottomNavigationView.setOnNavigationItemSelectedListener(navListener)
-    }
-
-    override fun onClick(v: View?) {
-        when (v?.id) {
-
-        }
     }
 }

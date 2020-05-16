@@ -8,10 +8,10 @@ interface ForumsContract {
         var adapterModel: ForumsAdapterContract.Model?
         var adapterView: ForumsAdapterContract.View?
         fun callForums()
+        fun callForums(searchSpinner:String,searchText:String)
         fun refresh()
         fun writeClick()
         fun searchClick()
-        fun searchCancelClick()
         fun bestForumsClick()
         fun searching(text:String)
     }
@@ -21,9 +21,12 @@ interface ForumsContract {
         fun progressVisible(boolean: Boolean)
         fun isRefreshing(boolean: Boolean)
         fun isLoading(boolean: Boolean)
+        fun searchVisible(boolean: Boolean)
         fun enterWriteForum()
         fun enterDetailForum(idx:Int?)
         fun setBestForumBackground(int:Int)
+        fun setSearchBackground(int: Int)
+        fun getSearchSpinner():String
     }
 
     interface Listener
