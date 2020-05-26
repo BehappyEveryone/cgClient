@@ -61,7 +61,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="5dp"
         android:background="@drawable/button1"
-        android:text="인증하기"
+        android:text="중복확인"
         android:textColor="@color/button1color"
         app:layout_constraintBottom_toBottomOf="@+id/SU_email"
         app:layout_constraintEnd_toStartOf="@+id/SU_emailCheck"

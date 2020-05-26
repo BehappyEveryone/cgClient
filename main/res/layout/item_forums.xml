@@ -2,31 +2,32 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/forumcard"
+    android:id="@+id/forumCard"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="2dp"
     android:layout_marginLeft="2dp"
+    android:layout_marginBottom="1dp"
     android:layout_marginEnd="2dp"
     android:layout_marginRight="2dp"
-    android:layout_marginBottom="1dp"
+    app:cardCornerRadius="5dp"
     app:cardElevation="5dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:paddingBottom="8dp"
+        android:layout_height="match_parent"
+        android:paddingStart="10dp"
         android:paddingTop="8dp"
         android:paddingEnd="10dp"
-        android:paddingStart="10dp"
-        android:layout_height="wrap_content">
+        android:paddingBottom="8dp">
 
         <TextView
             android:id="@+id/FI_date"
-            android:textSize="12sp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/FI_subject"
@@ -37,7 +38,7 @@
             android:textColor="@color/blue"
             android:textSize="17sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/FI_date"/>
+            app:layout_constraintTop_toBottomOf="@+id/FI_date" />
 
         <TextView
             android:id="@+id/FI_title"
