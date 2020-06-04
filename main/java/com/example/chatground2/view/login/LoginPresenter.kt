@@ -84,8 +84,9 @@ class LoginPresenter(
         view.setEmailFocus()
     }
 
-    override fun onFailure() {
+    override fun onError(t:Throwable) {
+        t.printStackTrace()
         view.setEnable(true)
-        view.toastMessage("로그인 실패")
+        view.toastMessage("통신 실패")
     }
 }

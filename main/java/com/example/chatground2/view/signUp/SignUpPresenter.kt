@@ -147,14 +147,9 @@ class SignUpPresenter(
         view.setNicknameCheckAlpha(0.4f)
     }
 
-    override fun onSignUpSuccess(userDto: UserDto) {
+    override fun onSignUpSuccess() {
         view.toastMessage("가입 성공")
         view.finishActivity()
-    }
-
-    override fun onFail(e: String) {
-        println("통신에러 : $e")
-        view.toastMessage("잠시 후 다시 시도해주세요")
     }
 
     override fun onSignUpFailure() {
@@ -164,5 +159,10 @@ class SignUpPresenter(
         passPasswordConfirm = false
         view.toastMessage("가입 실패")
         view.allClear()
+    }
+
+    override fun onError(t: Throwable) {
+        t.printStackTrace()
+        view.toastMessage("통신 실패")
     }
 }

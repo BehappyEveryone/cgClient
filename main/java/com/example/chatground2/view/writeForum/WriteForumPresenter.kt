@@ -97,47 +97,6 @@ class WriteForumPresenter(
         view.setImage(imagePathList)
     }
 
-    private fun getPath(uri: Uri): String? {
-        val pro: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
-        c = context.contentResolver.query(uri, pro, null, null, null)
-        val index = c?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-        c?.moveToFirst()
-        return index?.let { c?.getString(it) }
-    }
-
-    private fun setupPermissions() {
-        //스토리지 읽기 퍼미션을 permission 변수에 담는다
-        val permission = ContextCompat.checkSelfPermission(
-            context,
-            Manifest.permission.READ_EXTERNAL_STORAGE
-        )
-
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            makeRequest()
-        }
-    }
-
-    private fun makeRequest() {
-        ActivityCompat.requestPermissions(
-            context as Activity,
-            arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-            100
-        )
-    }
-
-
-    override fun onSuccess() {
-        view.progressVisible(false)
-        view.toastMessage("생성 완료")
-        view.finishActivity()
-    }
-
-    override fun onFailure() {
-        view.progressVisible(false)
-        view.toastMessage("실패. 다시 시도해주세요")
-        view.setEnable(true)
-    }
-
     override fun saveClick() {
         if (!view.isTitleEmpty() && !view.isContentEmpty()) {
             view.setEnable(false)
@@ -168,8 +127,55 @@ class WriteForumPresenter(
         }
     }
 
+    override fun onSuccess() {
+        view.progressVisible(false)
+        view.toastMessage("생성 완료")
+        view.finishActivity()
+    }
+
+    override fun onFailure() {
+        view.progressVisible(false)
+        view.toastMessage("잠시 후 다시 시도해주세요")
+        view.setEnable(true)
+    }
+
+    override fun onError(t: Throwable) {
+        t.printStackTrace()
+        view.progressVisible(false)
+        view.toastMessage("통신 실패")
+        view.setEnable(true)
+    }
+
     private fun getUser(): UserDto {
         val json = sp.getString("User", "")
         return gson.fromJson(json, UserDto::class.java)
+    }
+
+    private fun getPath(uri: Uri): String? {
+        val pro: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
+        c = context.contentResolver.query(uri, pro, null, null, null)
+        val index = c?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+        c?.moveToFirst()
+        return index?.let { c?.getString(it) }
+    }
+
+    private fun setupPermissions() {
+        //스토리지 읽기 퍼미션을 permission 변수에 담는다
+        val permission = ContextCompat.checkSelfPermission(
+            context,
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        )
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            makeRequest()
+        }
+    }
+
+    private fun makeRequest() {
+        ActivityCompat.requestPermissions(
+            context as Activity,
+            arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+            100
+        )
     }
 }

@@ -86,7 +86,14 @@ class ForumsFragment : Fragment(), View.OnClickListener, ForumsContract.IForumsV
                             if (isLoading) {
                                 if ((visibleItemCounter + firstVisibleItemPosition) >= totalItemCount) {
                                     isLoading = false
-                                    presenter?.callForums()
+                                    presenter?.let {
+                                        if(it.isSearching()){
+                                            presenter?.callForums(this@ForumsFragment.F_searchEdit.text.toString())
+                                        }else
+                                        {
+                                            presenter?.callForums()
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -184,6 +191,8 @@ class ForumsFragment : Fragment(), View.OnClickListener, ForumsContract.IForumsV
     }
 
     override fun getSearchSpinner(): String = F_searchSpinner.selectedItem.toString()
+
+    override fun getSearchKeyword(): String = F_searchEdit.text.toString()
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

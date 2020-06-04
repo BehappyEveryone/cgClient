@@ -30,6 +30,6 @@ interface LoginContract {
     {
         fun onLoginSuccess(userDto: UserDto)
         fun onLoginFailure()
-        fun onFailure()
+        fun onError(t:Throwable)
     }
 }

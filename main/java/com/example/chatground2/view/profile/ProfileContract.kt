@@ -6,6 +6,7 @@ import com.example.chatground2.model.dto.UserDto
 interface ProfileContract {
     interface IProfilePresenter{
         fun saveProfile()
+        fun callUser()
         fun logout()
         fun logoutClick()
         fun profileImageClick()
@@ -34,8 +35,10 @@ interface ProfileContract {
 
     interface Listener
     {
-        fun onSaveSuccess(userDto:UserDto)
+        fun onCallUserSuccess(user:UserDto)
+        fun onCallUserFailure()
+        fun onSaveSuccess()
         fun onSaveFailure()
-        fun onFailure()
+        fun onError(t:Throwable)
     }
 }

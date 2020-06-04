@@ -8,12 +8,13 @@ interface ForumsContract {
         var adapterModel: ForumsAdapterContract.Model?
         var adapterView: ForumsAdapterContract.View?
         fun callForums()
-        fun callForums(searchSpinner:String,searchText:String)
+        fun callForums(keyword: String)
         fun refresh()
         fun writeClick()
         fun searchClick()
+        fun searching(keyword: String)
         fun bestForumsClick()
-        fun searching(text:String)
+        fun isSearching():Boolean
     }
 
     interface IForumsView{
@@ -27,12 +28,13 @@ interface ForumsContract {
         fun setBestForumBackground(int:Int)
         fun setSearchBackground(int: Int)
         fun getSearchSpinner():String
+        fun getSearchKeyword():String
     }
 
     interface Listener
     {
         fun onCallForumsSuccess(result:ArrayList<ForumDto>?)
         fun onCallForumsFailure()
-        fun onFailure()
+        fun onError(t:Throwable)
     }
 }

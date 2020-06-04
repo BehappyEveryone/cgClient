@@ -31,22 +31,24 @@ class ForumsPresenter(private val context: Context, val view: ForumsContract.IFo
 
         val hashMap = HashMap<String, Any>()
         hashMap["page"] = pageNum
-        hashMap["isBestForum"] = isBestForum
-        hashMap["isSearch"] = false
+        hashMap["best"] = isBestForum
+        hashMap["search"] = false
+
         model.callForums(hashMap, this)
     }
 
-    override fun callForums(searchSpinner: String, searchText: String) {
+    override fun callForums(keyword: String) {
         view.isLoading(false)
         view.progressVisible(true)
         pageNum++
 
         val hashMap = HashMap<String, Any>()
         hashMap["page"] = pageNum
-        hashMap["isBestForum"] = isBestForum
-        hashMap["isSearch"] = true
-        hashMap["searchSpinner"] = searchSpinner
-        hashMap["searchText"] = searchText
+        hashMap["best"] = isBestForum
+        hashMap["search"] = true
+        hashMap["kind"] = view.getSearchSpinner()
+        hashMap["keyword"] = keyword
+
         model.callForums(hashMap, this)
     }
 
@@ -86,10 +88,10 @@ class ForumsPresenter(private val context: Context, val view: ForumsContract.IFo
         }
     }
 
-    override fun searching(text: String) {
+    override fun searching(keyword: String) {
         pageNum = 0
         isRefresh = true
-        callForums(view.getSearchSpinner(),text)
+        callForums(keyword)
     }
 
     private fun clickForum(position: Int) {
@@ -117,9 +119,12 @@ class ForumsPresenter(private val context: Context, val view: ForumsContract.IFo
         view.isRefreshing(false)
     }
 
-    override fun onFailure() {
+    override fun onError(t:Throwable) {
+        t.printStackTrace()
         view.progressVisible(false)
         view.isRefreshing(false)
-        view.toastMessage("실패. 다시 시도해주세요")
+        view.toastMessage("통신 실패")
     }
+
+    override fun isSearching():Boolean = isSearch
 }

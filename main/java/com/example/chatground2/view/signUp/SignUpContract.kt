@@ -36,8 +36,8 @@ interface SignUpContract {
         fun onEmailOverlapFailure()
         fun onNicknameOverlapSuccess()
         fun onNicknameOverlapFailure()
-        fun onSignUpSuccess(userDto: UserDto)
+        fun onSignUpSuccess()
         fun onSignUpFailure()
-        fun onFail(e:String)
+        fun onError(t:Throwable)
     }
 }

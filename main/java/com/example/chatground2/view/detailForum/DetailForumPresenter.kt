@@ -81,11 +81,10 @@ class DetailForumPresenter(
         view.setEnable(false)
 
         val hashMap = HashMap<String, Any>()
-        idx?.let { hashMap["idx"] = it }
         hashMap["user"] = getUser()._id
         isRecommendExist?.let { hashMap["type"] = it }
 
-        model.recommendForum(hashMap, this)
+        model.recommendForum(idx.toString(), hashMap, this)
     }
 
     override fun onCommentSendClick() {
@@ -93,7 +92,6 @@ class DetailForumPresenter(
         view.setEnable(false)
 
         val hashMap = HashMap<String, RequestBody>()
-        hashMap["forumIdx"] = RequestBody.create(MediaType.parse("text/plain"), idx.toString())
         hashMap["content"] =
             RequestBody.create(MediaType.parse("text/plain"), view.getCommentMessageText())
         hashMap["user"] = RequestBody.create(MediaType.parse("text/plain"), getUser()._id)
@@ -113,7 +111,7 @@ class DetailForumPresenter(
             imagePart = MultipartBody.Part.createFormData("img", file.name, requestBody)
         }
 
-        model.writeComment(hashMap, imagePart, this)
+        model.writeComment(idx.toString(), hashMap, imagePart, this)
     }
 
     override fun onCameraClick() {
@@ -172,20 +170,16 @@ class DetailForumPresenter(
 
     override fun detailForum() {
         view.progressVisible(true)
+        view.setEnable(false)
 
-        val hashMap = HashMap<String, Any>()
-        hashMap["idx"] = idx.toString()
-        model.detailForum(hashMap, this)
+        model.detailForum(idx.toString(), this)
     }
 
     override fun deleteForum() {
         view.progressVisible(true)
         view.setEnable(false)
 
-        val hashMap = HashMap<String, Any>()
-        hashMap["idx"] = idx.toString()
-        hashMap["userId"] = getUser()._id
-        model.deleteForum(hashMap, this)
+        model.deleteForum(idx.toString(), this)
     }
 
     override fun modifyForum() {
@@ -198,6 +192,14 @@ class DetailForumPresenter(
         view.enterModifyForum(intent)
     }
 
+    override fun deleteComment(position: Int) {
+        view.progressVisible(true)
+        view.setEnable(false)
+        adapterModel?.let {
+            model.deleteComment(idx.toString(), it.getItem(position)._id, this)
+        }
+    }
+
     override fun onDetailForumSuccess(forumDto: ForumDto?) {
         adapterModel?.clearItems()
         forumDto?.let {
@@ -207,11 +209,9 @@ class DetailForumPresenter(
             }
 
             isRecommendExist = it.recommend?.contains(getUser()._id).apply {
-                if(this == null || this == false)
-                {
+                if (this == null || this == false) {
                     view.setRecommendButtonBackground(R.drawable.recommend_button_fit)
-                }else
-                {
+                } else {
                     view.setRecommendButtonBackground(R.drawable.recommend_button_fit2)
                 }
             }
@@ -244,22 +244,26 @@ class DetailForumPresenter(
             }
         }
         view.progressVisible(false)
+        view.setEnable(true)
     }
 
     override fun onDetailForumFailure() {
         view.progressVisible(false)
+        view.setEnable(true)
         view.toastMessage("해당 글을 찾을 수 없습니다.")
         view.finishActivity()
     }
 
     override fun onDeleteForumSuccess() {
         view.progressVisible(false)
+        view.setEnable(true)
         view.toastMessage("게시글 삭제 성공")
         view.finishActivity()
     }
 
     override fun onDeleteForumFailure() {
         view.progressVisible(false)
+        view.setEnable(true)
         view.toastMessage("게시글 삭제 실패")
     }
 
@@ -278,6 +282,20 @@ class DetailForumPresenter(
         view.progressVisible(false)
         view.setEnable(true)
         view.toastMessage("댓글 작성 실패")
+    }
+
+    override fun onDeleteCommentSuccess() {
+        view.progressVisible(false)
+        view.setEnable(true)
+        view.toastMessage("댓글 삭제 성공")
+        detailForum()
+    }
+
+    override fun onDeleteCommentFailure() {
+        view.progressVisible(false)
+        view.setEnable(true)
+        view.toastMessage("댓글 삭제 실패")
+        detailForum()
     }
 
     override fun onRecommendForumSuccess() {
@@ -306,7 +324,8 @@ class DetailForumPresenter(
         }
     }
 
-    override fun onFailure() {
+    override fun onError(t: Throwable) {
+        t.printStackTrace()
         view.progressVisible(false)
         view.toastMessage("통신 에러")
     }
@@ -338,7 +357,7 @@ class DetailForumPresenter(
     }
 
     private fun onDeleteCommentClick(position: Int) {
-
+        view.deleteCommentDialog(position)
     }
 
     private fun getPath(uri: Uri): String? {

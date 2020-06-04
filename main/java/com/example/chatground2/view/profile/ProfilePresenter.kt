@@ -68,7 +68,6 @@ class ProfilePresenter(private val context: Context, val view: ProfileContract.I
         view.setEnable(false)
         view.progressVisible(true)
         val hashMap = HashMap<String, RequestBody>()
-        hashMap["user"] = RequestBody.create(MediaType.parse("text/plain"), getUser()._id)
         hashMap["introduce"] =
             RequestBody.create(MediaType.parse("text/plain"), view.getIntroduce())
 
@@ -84,7 +83,14 @@ class ProfilePresenter(private val context: Context, val view: ProfileContract.I
             }
         }
 
-        model.modifyProfile(hashMap, imagePart, this)
+        model.modifyProfile(getUser().email,hashMap, imagePart, this)
+    }
+
+    override fun callUser() {
+        view.setEnable(false)
+        view.progressVisible(true)
+
+        model.callUser(getUser().email,this)
     }
 
     override fun checkCameraPermission() {
@@ -148,20 +154,33 @@ class ProfilePresenter(private val context: Context, val view: ProfileContract.I
         )
     }
 
-    override fun onSaveSuccess(userDto: UserDto) {
+    override fun onCallUserSuccess(user: UserDto) {
         spEdit.remove("User")//기존 유저 데이터 삭제
-        val userJson = gson.toJson(userDto)
+        val userJson = gson.toJson(user)
         spEdit.putString("User", userJson)
         spEdit.commit()
-        userDto.introduce?.let { view.setIntroduce(it) }
-        if (userDto.profile != null) {
-            view.setProfileImage(IpAddress.BaseURL + userDto.profile)
+        user.introduce?.let { view.setIntroduce(it) }
+        if (user.profile != null) {
+            view.setProfileImage(IpAddress.BaseURL + user.profile)
         } else {
-            view.setProfileImage(userDto.profile)
+            view.setProfileImage(user.profile)
         }
         view.setEnable(true)
         view.progressVisible(false)
+    }
+
+    override fun onCallUserFailure() {
+        view.setEnable(true)
+        view.progressVisible(false)
+        view.toastMessage("불러오기 실패")
+    }
+
+    override fun onSaveSuccess() {
+        view.setEnable(true)
+        view.progressVisible(false)
         view.toastMessage("저장 완료")
+
+        callUser()
     }
 
     override fun onSaveFailure() {
@@ -170,7 +189,8 @@ class ProfilePresenter(private val context: Context, val view: ProfileContract.I
         view.toastMessage("저장 실패")
     }
 
-    override fun onFailure() {
+    override fun onError(t:Throwable) {
+        t.printStackTrace()
         view.setEnable(true)
         view.progressVisible(false)
         view.toastMessage("통신 실패")

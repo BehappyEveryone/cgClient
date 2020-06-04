@@ -21,6 +21,7 @@ interface DetailForumContract {
         fun modifyForum()
         fun onRecommendClick()
         fun recommendForum()
+        fun deleteComment(position: Int)
     }
 
     interface IDetailForumView{
@@ -55,6 +56,7 @@ interface DetailForumContract {
         fun setCommentMessageText(text: String)
         fun recommendDialog(boolean: Boolean)
         fun deleteForumDialog()
+        fun deleteCommentDialog(position:Int)
         fun setEnable(boolean: Boolean)
     }
 
@@ -62,12 +64,14 @@ interface DetailForumContract {
     {
         fun onWriteCommentSuccess()
         fun onWriteCommentFailure()
+        fun onDeleteCommentSuccess()
+        fun onDeleteCommentFailure()
         fun onDetailForumSuccess(forumDto: ForumDto?)
         fun onDetailForumFailure()
         fun onDeleteForumSuccess()
         fun onDeleteForumFailure()
         fun onRecommendForumSuccess()
         fun onRecommendForumFailure()
-        fun onFailure()
+        fun onError(t:Throwable)
     }
 }

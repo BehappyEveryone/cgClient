@@ -14,6 +14,7 @@ import com.example.chatground2.view.profile.ProfileContract
 import com.example.chatground2.view.writeForum.WriteForumContract
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -22,178 +23,94 @@ import java.lang.Exception
 class Model(context: Context) {
     private val serviceGenerator: ServiceGenerator = ServiceGenerator(context)
 
-    fun modifyProfile(
-        hashMap: HashMap<String, RequestBody>,
-        imagePart: MultipartBody.Part?,
-        listener: ProfileContract.Listener
-    ) {
-        serviceGenerator.instance.modifyProfile(hashMap, imagePart).enqueue(object :
-            Callback<UserDto?> {
-            override fun onFailure(call: Call<UserDto?>, t: Throwable) {
-                t.printStackTrace()
-                listener.onFailure()
-            }
-
-            override fun onResponse(call: Call<UserDto?>, response: Response<UserDto?>) {
-                if (response.code() == 401 || response.code() == 500) {
-                    println("modifyProfile 에러" + response.body())
-                } else {
-                    response.body()?.let { listener.onSaveSuccess(it) }
-                }
-            }
-        })
-    }
-
-    fun modifyForum(
-        hashMap: HashMap<String, RequestBody>,
-        imagePart: Array<MultipartBody.Part?>,
-        listener: ModifyForumContract.Listener
-    ) {
-        serviceGenerator.instance.modifyForum(hashMap, imagePart).enqueue(object :
-            Callback<DefaultResponse> {
-            override fun onFailure(call: Call<DefaultResponse>, t: Throwable) {
-                println("modifyForum 통신 에러 : $t")
-                listener.onFailure()
-            }
-
-            override fun onResponse(
-                call: Call<DefaultResponse>,
-                response: Response<DefaultResponse>
-            ) {
-                if (response.code() == 500) {
-                    println("modifyForum 에러" + response.body()?.data)
-                    listener.onModifyFailure()
-                } else {
-                    listener.onModifySuccess()
-                }
-            }
-        })
-    }
-
-    fun writeComment(
-        hashMap: HashMap<String, RequestBody>,
-        imagePart: MultipartBody.Part?,
-        listener: DetailForumContract.Listener
-    ) {
-        serviceGenerator.instance.writeComment(hashMap, imagePart).enqueue(object :
-            Callback<DefaultResponse> {
-            override fun onFailure(call: Call<DefaultResponse>, t: Throwable) {
-                println("writeComment 통신 에러 : $t")
-                listener.onFailure()
-            }
-
-            override fun onResponse(
-                call: Call<DefaultResponse>,
-                response: Response<DefaultResponse>
-            ) {
-                if (response.code() == 500) {
-                    println("writeComment 에러" + response.body()?.data)
-                    listener.onWriteCommentFailure()
-                } else {
-                    listener.onWriteCommentSuccess()
-                }
-            }
-        })
-    }
-
-    fun deleteForum(
+    //이메일 중복체크
+    fun emailOverlap(
         hashMap: HashMap<String, Any>,
-        listener: DetailForumContract.Listener
+        listener: SignUpContract.Listener
     ) {
-        serviceGenerator.instance.deleteForum(hashMap)
-            .enqueue(object : Callback<DefaultResponse?> {
-                override fun onFailure(call: Call<DefaultResponse?>, t: Throwable) {
-                    listener.onFailure()
+        serviceGenerator.instance.emailOverlap(hashMap).enqueue(object : Callback<ResponseBody> {
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                listener.onError(t)
+            }
+
+            override fun onResponse(
+                call: Call<ResponseBody>,
+                response: Response<ResponseBody>
+            ) {
+                if (response.isSuccessful) {
+                    listener.onEmailOverlapSuccess()
+                } else {
+                    listener.onEmailOverlapFailure()
+                }
+            }
+        })
+    }
+
+    //닉네임 중복 체크
+    fun nicknameOverlap(
+        hashMap: HashMap<String, Any>,
+        listener: SignUpContract.Listener
+    ) {
+        serviceGenerator.instance.nicknameOverlap(hashMap)
+            .enqueue(object : Callback<ResponseBody> {
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    listener.onError(t)
                 }
 
                 override fun onResponse(
-                    call: Call<DefaultResponse?>,
-                    response: Response<DefaultResponse?>
+                    call: Call<ResponseBody>,
+                    response: Response<ResponseBody>
                 ) {
-                    if (response.code() == 401 || response.code() == 500) {
-                        println(response.body())
-                        listener.onDeleteForumFailure()
+                    if (response.isSuccessful) {
+                        listener.onNicknameOverlapSuccess()
                     } else {
-                        listener.onDeleteForumSuccess()
+                        listener.onNicknameOverlapFailure()
                     }
                 }
             })
     }
 
-    fun recommendForum(
+    //회원가입
+    fun signUp(
         hashMap: HashMap<String, Any>,
-        listener: DetailForumContract.Listener
+        listener: SignUpContract.Listener
     ) {
-        serviceGenerator.instance.recommendForum(hashMap)
-            .enqueue(object : Callback<DefaultResponse?> {
-                override fun onFailure(call: Call<DefaultResponse?>, t: Throwable) {
-                    listener.onFailure()
-                }
-
-                override fun onResponse(
-                    call: Call<DefaultResponse?>,
-                    response: Response<DefaultResponse?>
-                ) {
-                    if (response.code() == 401 || response.code() == 500) {
-                        println(response.body())
-                        listener.onRecommendForumFailure()
-                    } else {
-                        listener.onRecommendForumSuccess()
-                    }
-                }
-            })
-    }
-
-    fun detailForum(
-        hashMap: HashMap<String, Any>,
-        listener: DetailForumContract.Listener
-    ) {
-        serviceGenerator.instance.detailForum(hashMap)
-            .enqueue(object : Callback<ForumDto?> {
-                override fun onFailure(call: Call<ForumDto?>, t: Throwable) {
-                    listener.onFailure()
-                }
-
-                override fun onResponse(
-                    call: Call<ForumDto?>,
-                    response: Response<ForumDto?>
-                ) {
-                    if (response.code() == 401 || response.code() == 500) {
-                        println(response.body())
-                        listener.onDetailForumFailure()
-                    } else {
-                        listener.onDetailForumSuccess(response.body())
-                    }
-                }
-            })
-    }
-
-    fun writeForum(
-        hashMap: HashMap<String, RequestBody>,
-        imagePart: Array<MultipartBody.Part?>,
-        listener: WriteForumContract.Listener
-    ) {
-        serviceGenerator.instance.writeForum(hashMap, imagePart).enqueue(object :
-            Callback<DefaultResponse> {
-            override fun onFailure(call: Call<DefaultResponse>, t: Throwable) {
-                println("writeForum 통신 에러 : $t")
-                listener.onFailure()
+        serviceGenerator.instance.signUp(hashMap).enqueue(object : Callback<ResponseBody> {
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                listener.onError(t)
             }
 
-            override fun onResponse(
-                call: Call<DefaultResponse>,
-                response: Response<DefaultResponse>
-            ) {
-                if (response.code() == 500) {
-                    println("writeForum 에러" + response.body()?.data)
-                    listener.onFailure()
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                if (response.isSuccessful) {
+                    listener.onSignUpSuccess()
                 } else {
-                    listener.onSuccess()
+                    listener.onSignUpFailure()
                 }
             }
         })
     }
 
+    //로그인
+    fun signIn(
+        hashMap: HashMap<String, Any>,
+        listener: LoginContract.Listener
+    ) {
+        serviceGenerator.instance.signIn(hashMap).enqueue(object : Callback<UserDto> {
+            override fun onFailure(call: Call<UserDto>, t: Throwable) {
+                listener.onError(t)
+            }
+
+            override fun onResponse(call: Call<UserDto>, response: Response<UserDto>) {
+                if (response.isSuccessful) {
+                    response.body()?.let { listener.onLoginSuccess(it) }
+                } else {
+                    listener.onLoginFailure()
+                }
+            }
+        })
+    }
+
+    //포럼 목록
     fun callForums(
         hashMap: HashMap<String, Any>,
         listener: ForumsContract.Listener
@@ -201,108 +118,241 @@ class Model(context: Context) {
         serviceGenerator.instance.callForums(hashMap)
             .enqueue(object : Callback<ArrayList<ForumDto>?> {
                 override fun onFailure(call: Call<ArrayList<ForumDto>?>, t: Throwable) {
-                    println("callForums 통신 에러 : $t")
-                    listener.onFailure()
+                    listener.onError(t)
                 }
 
                 override fun onResponse(
                     call: Call<ArrayList<ForumDto>?>,
                     response: Response<ArrayList<ForumDto>?>
                 ) {
-                    if (response.code() == 401 || response.code() == 500) {
-                        println("callForums 에러")
-                        listener.onCallForumsFailure()
-                    } else {
+                    if (response.isSuccessful) {
                         listener.onCallForumsSuccess(response.body())
+                    } else {
+                        listener.onCallForumsFailure()
                     }
                 }
             })
     }
 
-    fun signIn(
-        hashMap: HashMap<String, Any>,
-        listener: LoginContract.Listener
+    //포럼 자세히보기
+    fun detailForum(
+        idx: String,
+        listener: DetailForumContract.Listener
     ) {
-        serviceGenerator.instance.signIn(hashMap).enqueue(object : Callback<UserDto> {
-            override fun onFailure(call: Call<UserDto>, t: Throwable) {
-                println("signIn 에러 : $t")
-                listener.onFailure()
-            }
-
-            override fun onResponse(call: Call<UserDto>, response: Response<UserDto>) {
-                if (response.code() == 401) {
-                    listener.onLoginFailure()
-                } else {
-                    response.body()?.let { listener.onLoginSuccess(it) }
-                }
-            }
-        })
-    }
-
-    fun signUp(
-        hashMap: HashMap<String, Any>,
-        listener: SignUpContract.Listener
-    ) {
-        serviceGenerator.instance.signUp(hashMap).enqueue(object : Callback<UserDto> {
-            override fun onFailure(call: Call<UserDto>, t: Throwable) {
-                listener.onFail(t.toString())
-            }
-
-            override fun onResponse(call: Call<UserDto>, response: Response<UserDto>) {
-                try {
-                    response.body()?.let { listener.onSignUpSuccess(it) }
-                } catch (e: Exception) {
-                    println("가입실패 : $e")
-                    listener.onSignUpFailure()
-                }
-            }
-        })
-    }
-
-    fun emailOverlap(
-        hashMap: HashMap<String, Any>,
-        listener: SignUpContract.Listener
-    ) {
-        serviceGenerator.instance.emailOverlap(hashMap).enqueue(object : Callback<DefaultResponse> {
-            override fun onFailure(call: Call<DefaultResponse>, t: Throwable) {
-                listener.onFail(t.toString())
-            }
-
-            override fun onResponse(
-                call: Call<DefaultResponse>,
-                response: Response<DefaultResponse>
-            ) {
-                if (response.body()?.type!!) {
-                    listener.onEmailOverlapSuccess()
-                } else {
-                    listener.onEmailOverlapFailure()
-                    println("이메일중복 : " + response.body()?.data)
-                }
-            }
-        })
-    }
-
-    fun nicknameOverlap(
-        hashMap: HashMap<String, Any>,
-        listener: SignUpContract.Listener
-    ) {
-        serviceGenerator.instance.nicknameOverlap(hashMap)
-            .enqueue(object : Callback<DefaultResponse> {
-                override fun onFailure(call: Call<DefaultResponse>, t: Throwable) {
-                    listener.onFail(t.toString())
+        serviceGenerator.instance.detailForum(idx)
+            .enqueue(object : Callback<ForumDto?> {
+                override fun onFailure(call: Call<ForumDto?>, t: Throwable) {
+                    listener.onError(t)
                 }
 
                 override fun onResponse(
-                    call: Call<DefaultResponse>,
-                    response: Response<DefaultResponse>
+                    call: Call<ForumDto?>,
+                    response: Response<ForumDto?>
                 ) {
-                    if (response.body()?.type!!) {
-                        listener.onNicknameOverlapSuccess()
+                    if (response.isSuccessful) {
+                        listener.onDetailForumSuccess(response.body())
                     } else {
-                        listener.onNicknameOverlapFailure()
-                        println("닉네임중복 : " + response.body()?.data)
+                        listener.onDetailForumFailure()
                     }
                 }
             })
+    }
+
+    //포럼 쓰기
+    fun writeForum(
+        hashMap: HashMap<String, RequestBody>,
+        imagePart: Array<MultipartBody.Part?>,
+        listener: WriteForumContract.Listener
+    ) {
+        serviceGenerator.instance.writeForum(hashMap, imagePart).enqueue(object :
+            Callback<ResponseBody> {
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                listener.onError(t)
+            }
+
+            override fun onResponse(
+                call: Call<ResponseBody>,
+                response: Response<ResponseBody>
+            ) {
+                if (response.isSuccessful) {
+                    listener.onSuccess()
+                } else {
+                    listener.onFailure()
+                }
+            }
+        })
+    }
+
+    //포럼 삭제
+    fun deleteForum(
+        idx: String,
+        listener: DetailForumContract.Listener
+    ) {
+        serviceGenerator.instance.deleteForum(idx)
+            .enqueue(object : Callback<ResponseBody> {
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    listener.onError(t)
+                }
+
+                override fun onResponse(
+                    call: Call<ResponseBody>,
+                    response: Response<ResponseBody>
+                ) {
+                    if (response.isSuccessful) {
+                        listener.onDeleteForumSuccess()
+                    } else {
+                        listener.onDeleteForumFailure()
+                    }
+                }
+            })
+    }
+
+    //포럼 수정
+    fun modifyForum(
+        idx: String,
+        hashMap: HashMap<String, RequestBody>,
+        imagePart: Array<MultipartBody.Part?>,
+        listener: ModifyForumContract.Listener
+    ) {
+        serviceGenerator.instance.modifyForum(idx, hashMap, imagePart).enqueue(object :
+            Callback<ResponseBody> {
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                listener.onError(t)
+            }
+
+            override fun onResponse(
+                call: Call<ResponseBody>,
+                response: Response<ResponseBody>
+            ) {
+                if (response.isSuccessful) {
+                    listener.onModifySuccess()
+                } else {
+                    listener.onModifyFailure()
+                }
+            }
+        })
+    }
+
+    //포럼 추천
+    fun recommendForum(
+        idx: String,
+        hashMap: HashMap<String, Any>,
+        listener: DetailForumContract.Listener
+    ) {
+        serviceGenerator.instance.recommendForum(idx,hashMap)
+            .enqueue(object : Callback<ResponseBody> {
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    listener.onError(t)
+                }
+
+                override fun onResponse(
+                    call: Call<ResponseBody>,
+                    response: Response<ResponseBody>
+                ) {
+                    if (response.isSuccessful) {
+                        listener.onRecommendForumSuccess()
+                    } else {
+                        listener.onRecommendForumFailure()
+                    }
+                }
+            })
+    }
+
+    //댓글 쓰기
+    fun writeComment(
+        idx: String,
+        hashMap: HashMap<String, RequestBody>,
+        imagePart: MultipartBody.Part?,
+        listener: DetailForumContract.Listener
+    ) {
+        serviceGenerator.instance.writeComment(idx,hashMap, imagePart).enqueue(object :
+            Callback<ResponseBody> {
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                listener.onError(t)
+            }
+
+            override fun onResponse(
+                call: Call<ResponseBody>,
+                response: Response<ResponseBody>
+            ) {
+                if (response.isSuccessful) {
+                    listener.onWriteCommentSuccess()
+                } else {
+                    listener.onWriteCommentFailure()
+                }
+            }
+        })
+    }
+
+    //댓글 삭제
+    fun deleteComment(
+        idx: String,
+        commentId:String,
+        listener: DetailForumContract.Listener
+    ) {
+        serviceGenerator.instance.deleteComment(idx,commentId).enqueue(object :
+            Callback<ResponseBody> {
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                listener.onError(t)
+            }
+
+            override fun onResponse(
+                call: Call<ResponseBody>,
+                response: Response<ResponseBody>
+            ) {
+                if (response.isSuccessful) {
+                    listener.onDeleteCommentSuccess()
+                } else {
+                    listener.onDeleteCommentFailure()
+                }
+            }
+        })
+    }
+
+    //유저 조회
+    fun callUser(
+        email: String,
+        listener: ProfileContract.Listener
+    ) {
+        serviceGenerator.instance.callUser(email)
+            .enqueue(object : Callback<UserDto> {
+                override fun onFailure(call: Call<UserDto>, t: Throwable) {
+                    listener.onError(t)
+                }
+
+                override fun onResponse(
+                    call: Call<UserDto>,
+                    response: Response<UserDto>
+                ) {
+                    if (response.isSuccessful) {
+                        response.body()?.let { listener.onCallUserSuccess(it) }
+                    } else {
+                        listener.onCallUserFailure()
+                    }
+                }
+            })
+    }
+
+    //프로필 수정
+    fun modifyProfile(
+        email:String,
+        hashMap: HashMap<String, RequestBody>,
+        imagePart: MultipartBody.Part?,
+        listener: ProfileContract.Listener
+    ) {
+        serviceGenerator.instance.modifyProfile(email,hashMap, imagePart).enqueue(object :
+            Callback<ResponseBody> {
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                listener.onError(t)
+            }
+
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                if (response.isSuccessful) {
+                    listener.onSaveSuccess()
+                } else {
+                    listener.onSaveFailure()
+                }
+            }
+        })
     }
 }

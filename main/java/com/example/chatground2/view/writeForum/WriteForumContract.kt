@@ -33,5 +33,6 @@ interface WriteForumContract {
     {
         fun onSuccess()
         fun onFailure()
+        fun onError(t:Throwable)
     }
 }

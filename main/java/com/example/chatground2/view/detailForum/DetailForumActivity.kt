@@ -72,7 +72,7 @@ class DetailForumActivity : AppCompatActivity(), DetailForumContract.IDetailForu
             R.id.backButton -> onBackPressed()
             R.id.DF_camera -> presenter?.onCameraClick()
             R.id.DF_commentSend -> presenter?.onCommentSendClick()
-            R.id.DF_deleteButton -> presenter?.deleteForum()
+            R.id.DF_deleteButton -> deleteForumDialog()
             R.id.DF_modifyButton -> presenter?.modifyForum()
             R.id.DF_recommend -> presenter?.onRecommendClick()
         }
@@ -306,6 +306,17 @@ class DetailForumActivity : AppCompatActivity(), DetailForumContract.IDetailForu
         builder.setNegativeButton("취소", null)
         builder.setPositiveButton("확인") { _, _ ->
             presenter?.deleteForum()
+        }
+        builder.show()
+    }
+
+    override fun deleteCommentDialog(position:Int) {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("알림")
+        builder.setMessage("해당 댓글을 삭제하시겠습니까?")
+        builder.setNegativeButton("취소", null)
+        builder.setPositiveButton("확인") { _, _ ->
+            presenter?.deleteComment(position)
         }
         builder.show()
     }

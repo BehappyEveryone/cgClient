@@ -5,84 +5,109 @@ import com.example.chatground2.model.dto.UserDto
 import com.example.chatground2.model.dto.DefaultResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
 
 interface Api {
 
-    @Multipart
-    @POST(IpAddress.Router.modifyProfile)
-    fun modifyProfile(
-        @PartMap hashMap: HashMap<String, RequestBody>,
-        @Part imagePart: MultipartBody.Part?
-    ):Call<UserDto?>
+    //이메일 중복 체크
+    @GET("/auth/email")
+    fun emailOverlap(
+        @QueryMap hashMap: HashMap<String, Any>
+    ): Call<ResponseBody>
 
-    @Multipart
-    @POST(IpAddress.Router.modifyForum)
-    fun modifyForum(
-        @PartMap hashMap: HashMap<String, RequestBody>,
-        @Part imagePart: Array<MultipartBody.Part?>
-    ):Call<DefaultResponse>
+    //이메일 중복 체크
+    @GET("/auth/nickname")
+    fun nicknameOverlap(
+        @QueryMap hashMap: HashMap<String, Any>
+    ): Call<ResponseBody>
 
+    //회원가입
     @FormUrlEncoded
-    @POST(IpAddress.Router.recommendForum)
-    fun recommendForum(
-        @FieldMap hashMap: HashMap<String,Any>
-    ): Call<DefaultResponse?>
+    @POST("/users")
+    fun signUp(
+        @FieldMap hashMap: HashMap<String, Any>
+    ): Call<ResponseBody>
 
+    //로그인
     @FormUrlEncoded
-    @POST(IpAddress.Router.deleteForum)
-    fun deleteForum(
-        @FieldMap hashMap: HashMap<String,Any>
-    ): Call<DefaultResponse?>
+    @POST("/auth/login")
+    fun signIn(
+        @FieldMap hashMap: HashMap<String, Any>
+    ): Call<UserDto>
 
-    @Multipart
-    @POST(IpAddress.Router.writeComment)
-    fun writeComment(
-        @PartMap hashMap: HashMap<String, RequestBody>,
-        @Part imagePart: MultipartBody.Part?
-    ):Call<DefaultResponse>
+    //포럼 불러오기
+    @GET("/forums")
+    fun callForums(
+        @QueryMap hashMap: HashMap<String, Any>
+    ): Call<ArrayList<ForumDto>?>
 
+    //포럼 자세히 보기
+    @GET("/forums/{idx}")
+    fun detailForum(
+        @Path("idx") idx: String
+    ): Call<ForumDto?>
+
+    //포럼 만들기
     @Multipart
-    @POST(IpAddress.Router.writeForum)
+    @POST("/forums")
     fun writeForum(
         @PartMap hashMap: HashMap<String, RequestBody>,
         @Part imagePart: Array<MultipartBody.Part?>
-    ):Call<DefaultResponse>
+    ): Call<ResponseBody>
 
-    @FormUrlEncoded
-    @POST(IpAddress.Router.callForums)
-    fun callForums(
-        @FieldMap hashMap: HashMap<String,Any>
-    ): Call<ArrayList<ForumDto>?>
+    //포럼 지우기
+    @DELETE("/forums/{idx}")
+    fun deleteForum(
+        @Path("idx") idx: String
+    ): Call<ResponseBody>
 
-    @FormUrlEncoded
-    @POST(IpAddress.Router.detailForum)
-    fun detailForum(
-        @FieldMap hashMap: HashMap<String,Any>
-    ): Call<ForumDto?>
+    //포럼 수정
+    @Multipart
+    @PATCH("/forums/{idx}")
+    fun modifyForum(
+        @Path("idx") idx: String,
+        @PartMap hashMap: HashMap<String, RequestBody>,
+        @Part imagePart: Array<MultipartBody.Part?>
+    ):Call<ResponseBody>
 
+    //댓글 쓰기
+    @Multipart
+    @POST("/forums/{idx}/comments")
+    fun writeComment(
+        @Path("idx") idx: String,
+        @PartMap hashMap: HashMap<String, RequestBody>,
+        @Part imagePart: MultipartBody.Part?
+    ): Call<ResponseBody>
+
+    //댓글 지우기
+    @DELETE("/forums/{idx}/comments/{id}")
+    fun deleteComment(
+        @Path("idx") idx: String,
+        @Path("id") commentId: String
+    ): Call<ResponseBody>
+
+    //추천하기
     @FormUrlEncoded
-    @POST(IpAddress.Router.signIn)
-    fun signIn(
-        @FieldMap hashMap: HashMap<String,Any>
+    @POST("/forums/{idx}/recommend")
+    fun recommendForum(
+        @Path("idx") idx: String,
+        @FieldMap hashMap: HashMap<String, Any>
+    ): Call<ResponseBody>
+
+    //유저 조회
+    @GET("/users/{email}")
+    fun callUser(
+        @Path("email") email: String
     ): Call<UserDto>
 
-    @FormUrlEncoded
-    @POST(IpAddress.Router.signUp)
-    fun signUp(
-        @FieldMap hashMap: HashMap<String,Any>
-    ): Call<UserDto>
-
-    @FormUrlEncoded
-    @POST(IpAddress.Router.emailOverlap)
-    fun emailOverlap(
-        @FieldMap hashMap: HashMap<String,Any>
-    ): Call<DefaultResponse>
-
-    @FormUrlEncoded
-    @POST(IpAddress.Router.nicknameOverlap)
-    fun nicknameOverlap(
-        @FieldMap hashMap: HashMap<String,Any>
-    ): Call<DefaultResponse>
+    //프로필 수정
+    @Multipart
+    @PATCH("/users/{email}")
+    fun modifyProfile(
+        @Path("email") email: String,
+        @PartMap hashMap: HashMap<String, RequestBody>,
+        @Part imagePart: MultipartBody.Part?
+    ): Call<ResponseBody>
 }

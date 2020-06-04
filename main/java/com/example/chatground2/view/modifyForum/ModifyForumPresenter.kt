@@ -135,7 +135,8 @@ class ModifyForumPresenter(
         )
     }
 
-    override fun onFailure() {
+    override fun onError(t:Throwable) {
+        t.printStackTrace()
         view.setEnable(true)
         view.progressVisible(false)
         view.toastMessage("통신 실패")
@@ -147,7 +148,6 @@ class ModifyForumPresenter(
             view.progressVisible(true)
 
             val hashMap = HashMap<String, RequestBody>()
-            hashMap["idx"] = RequestBody.create(MediaType.parse("text/plain"), idx.toString())
             hashMap["user"] = RequestBody.create(MediaType.parse("text/plain"), getUser()._id)
             hashMap["subject"] =
                 RequestBody.create(MediaType.parse("text/plain"), view.getSelectSubject())
@@ -168,7 +168,7 @@ class ModifyForumPresenter(
                 }
             }
 
-            model.modifyForum(hashMap, imagePart, this)
+            model.modifyForum(idx.toString(),hashMap, imagePart, this)
         } else {
             if (view.isTitleEmpty()) {
                 view.toastMessage("제목을 입력해주세요.")

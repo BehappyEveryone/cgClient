@@ -36,6 +36,6 @@ interface ModifyForumContract {
     {
         fun onModifySuccess()
         fun onModifyFailure()
-        fun onFailure()
+        fun onError(e:Throwable)
     }
 }
